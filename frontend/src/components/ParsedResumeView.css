@@ -163,6 +163,8 @@
   font-weight: 400;
   color: #111;
   flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Candidate Summary bullet list */
@@ -193,10 +195,10 @@
 
 .matches-subtext {
   font-family: var(--font-inter);
-  font-size: 14px;
+  font-size: 16px;
   color: #999;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 /* Matches Card */
@@ -294,18 +296,18 @@
 
 .job-leads-ranking-badge {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 2px 8px;
   border-radius: 6px;
   width: fit-content;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: -0.1px;
 }
 
 .ranking-highly_recommended {
   background: #ecfdf5;
-  color: #059669;
-  border: 1px solid #a7f3d0;
+  color: #18af53;
+  border: 1px solid #18af53;
 }
 
 .ranking-good_fit {
@@ -366,6 +368,7 @@
   right: 20px;
   flex-shrink: 0;
   transition: all 0.2s ease;
+  display: none;
 }
 
 /* Match Insights Section */
@@ -376,10 +379,9 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 240px;
-  min-width: 240px;
-  flex-shrink: 0;
-  align-self: center;
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
 }
 
 .job-leads-match-insight-item {
