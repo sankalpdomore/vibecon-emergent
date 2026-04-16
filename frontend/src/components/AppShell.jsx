@@ -5,13 +5,13 @@ import { Header } from './Header';
 export const AppShell = ({ children }) => {
   return (
     <div className="app-page-container">
-      <div style={{ display: 'flex', height: '100%', overflow: 'hidden', gap: 0 }}>
+      <Header />
+      <div className="app-page-main-wrapper with-feature-nav">
         <Sidebar />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-          <Header />
-          <main style={{ flex: 1, overflow: 'hidden' }}>
+        <div className="app-page-feature-content">
+          <div className="feature-content-container map-container map-container-with-header">
             {children}
-          </main>
+          </div>
         </div>
       </div>
     </div>
