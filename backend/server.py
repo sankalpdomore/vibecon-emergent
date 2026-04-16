@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 import tempfile
 import json
 import asyncio
-from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContentWithMimeType
+from openai import AsyncOpenAI
 
 # Import utilities
 import sys
@@ -34,19 +34,20 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# LLM Retry Logic Helper
-async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
+# LLM Retry Logic Helper for OpenAI
+async def call_openai_with_retry(client, messages, model, max_retries=2, timeout=30):
     """
-    Call LLM with timeout and retry logic
+    Call OpenAI with timeout and retry logic
     
     Args:
-        chat: LlmChat instance
-        message: UserMessage to send
+        client: AsyncOpenAI client instance
+        messages: List of message dicts for chat completion
+        model: Model name (e.g., 'gpt-4o-mini')
         max_retries: Maximum number of retry attempts
         timeout: Timeout in seconds for each attempt
         
     Returns:
-        Response string from LLM
+        Response content string from OpenAI
         
     Raises:
         Exception if all retries fail
@@ -54,15 +55,19 @@ async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
     for attempt in range(max_retries):
         try:
             response = await asyncio.wait_for(
-                chat.send_message(message),
+                client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    response_format={"type": "json_object"}
+                ),
                 timeout=timeout
             )
-            return response
+            return response.choices[0].message.content
         except (asyncio.TimeoutError, Exception) as e:
             if attempt == max_retries - 1:
-                logger.error(f"LLM call failed after {max_retries} attempts: {e}")
+                logger.error(f"OpenAI call failed after {max_retries} attempts: {e}")
                 raise e
-            logger.warning(f"LLM attempt {attempt + 1} failed: {e}, retrying...")
+            logger.warning(f"OpenAI attempt {attempt + 1} failed: {e}, retrying...")
             await asyncio.sleep(1)
 
 # MongoDB connection
@@ -180,64 +185,58 @@ async def parse_resume(
             os.unlink(temp_file_path)
             raise HTTPException(status_code=400, detail="Failed to read PDF file")
         
-        # Initialize LLM chat with selected model
-        chat = LlmChat(
-            api_key=api_key,
-            session_id=f"resume-parse-{uuid.uuid4()}",
-            system_message="You are a resume parsing assistant. Extract structured information from resumes accurately."
-        ).with_model(model_provider, model_name)
+        # Initialize OpenAI client
+        client = AsyncOpenAI(api_key=api_key)
         
-        # Create parsing prompt
-        parsing_prompt = f"""
-        Please analyze this resume text and extract the following information in JSON format:
+        # Create parsing prompt - ensure JSON-only response
+        system_message = "You are a resume parsing assistant. Extract structured information from resumes accurately. Always respond with valid JSON only, no markdown or additional text."
+        
+        user_prompt = f"""
+Please analyze this resume text and extract the following information in JSON format:
+{{
+    "name": "Full name of the candidate",
+    "email": "Email address",
+    "phone": "Phone number",
+    "summary": "Professional summary or objective (2-3 sentences)",
+    "skills": ["skill1", "skill2", "skill3", ...],
+    "experience": [
         {{
-            "name": "Full name of the candidate",
-            "email": "Email address",
-            "phone": "Phone number",
-            "summary": "Professional summary or objective (2-3 sentences)",
-            "skills": ["skill1", "skill2", "skill3", ...],
-            "experience": [
-                {{
-                    "company": "Company name",
-                    "role": "Job title",
-                    "duration": "Time period (e.g., Jan 2020 - Dec 2022)",
-                    "description": "Brief description of responsibilities"
-                }}
-            ],
-            "education": [
-                {{
-                    "institution": "School/University name",
-                    "degree": "Degree name",
-                    "year": "Graduation year or period",
-                    "field": "Field of study"
-                }}
-            ]
+            "company": "Company name",
+            "role": "Job title",
+            "duration": "Time period (e.g., Jan 2020 - Dec 2022)",
+            "description": "Brief description of responsibilities"
         }}
+    ],
+    "education": [
+        {{
+            "institution": "School/University name",
+            "degree": "Degree name",
+            "year": "Graduation year or period",
+            "field": "Field of study"
+        }}
+    ]
+}}
+
+Resume text:
+{pdf_text}
+
+Return ONLY the JSON object.
+"""
         
-        Resume text:
-        {pdf_text}
-        
-        Return ONLY the JSON object, no additional text or markdown formatting.
-        """
+        messages = [
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_prompt}
+        ]
         
         # Send message with retry logic
-        user_message = UserMessage(text=parsing_prompt)
-        
-        response = await call_llm_with_retry(chat, user_message, timeout=30)
+        response = await call_openai_with_retry(client, messages, model_name, timeout=30)
         
         # Clean up temporary file
         os.unlink(temp_file_path)
         
-        # Parse the JSON response
+        # Parse the JSON response (response_format ensures valid JSON)
         try:
-            response_text = response.strip()
-            
-            # Extract JSON from any wrapper format (markdown fences, leading text, etc.)
-            json_match = re.search(r'\{[\s\S]*\}', response_text)
-            if json_match:
-                response_text = json_match.group()
-            
-            parsed_data = json.loads(response_text)
+            parsed_data = json.loads(response)
             
             # Add raw text to response
             parsed_data['raw_text'] = pdf_text
@@ -247,8 +246,8 @@ async def parse_resume(
                 "data": parsed_data
             }
         except json.JSONDecodeError as e:
-            logging.error(f"Failed to parse LLM response as JSON: {e}")
-            logging.error(f"Response was: {response}")
+            logger.error(f"Failed to parse OpenAI response as JSON: {e}")
+            logger.error(f"Response was: {response}")
             return {
                 "success": True,
                 "data": {

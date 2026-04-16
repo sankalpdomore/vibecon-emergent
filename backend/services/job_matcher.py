@@ -9,24 +9,25 @@ import json
 import re
 import asyncio
 from typing import List, Dict
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
 
 
-# LLM Retry Logic Helper
-async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
+# LLM Retry Logic Helper for OpenAI
+async def call_openai_with_retry(client, messages, model, max_retries=2, timeout=30):
     """
-    Call LLM with timeout and retry logic
+    Call OpenAI with timeout and retry logic
     
     Args:
-        chat: LlmChat instance
-        message: UserMessage to send
+        client: AsyncOpenAI client instance
+        messages: List of message dicts for chat completion
+        model: Model name (e.g., 'gpt-4o-mini')
         max_retries: Maximum number of retry attempts
         timeout: Timeout in seconds for each attempt
         
     Returns:
-        Response string from LLM
+        Response content string from OpenAI
         
     Raises:
         Exception if all retries fail
@@ -34,15 +35,19 @@ async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
     for attempt in range(max_retries):
         try:
             response = await asyncio.wait_for(
-                chat.send_message(message),
+                client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    response_format={"type": "json_object"}
+                ),
                 timeout=timeout
             )
-            return response
+            return response.choices[0].message.content
         except (asyncio.TimeoutError, Exception) as e:
             if attempt == max_retries - 1:
-                logger.error(f"LLM call failed after {max_retries} attempts: {e}")
+                logger.error(f"OpenAI call failed after {max_retries} attempts: {e}")
                 raise e
-            logger.warning(f"LLM attempt {attempt + 1} failed: {e}, retrying...")
+            logger.warning(f"OpenAI attempt {attempt + 1} failed: {e}, retrying...")
             await asyncio.sleep(1)
 
 # Scoring weights for Technology:Individual Contributor framework
@@ -100,7 +105,7 @@ In the end, attach a 2-3 line summary of all the category scoring reasons withou
 
 # Output Format
 
-Return ONLY a JSON object (no markdown):
+Return ONLY a JSON object:
 {
   "scores": [
     {"category": "Spark Factor", "score": 85, "reason": "IIT graduate, worked at Flipkart and Google — strong pedigree signal"},
@@ -121,6 +126,7 @@ class JobMatcher:
         self.api_key = api_key
         self.model_provider = model_provider
         self.model_name = model_name
+        self.client = AsyncOpenAI(api_key=api_key)
         logger.info(f"JobMatcher initialized with model: {model_provider}:{model_name}")
     
     def calculate_final_score(self, llm_scores: list) -> float:
@@ -207,7 +213,7 @@ class JobMatcher:
             company_name = job_data.get("company_name", "Unknown")
             
             # Create structured scoring prompt
-            prompt = f"""
+            user_prompt = f"""
 RESUME SUMMARY:
 - Skills: {', '.join(parsed_resume.get('skills', [])[:10])}
 - Experience: {len(parsed_resume.get('experience', []))} positions
@@ -224,25 +230,16 @@ Title: {job_title}
 Evaluate this candidate against the job using all 9 categories defined in your system prompt. Return structured JSON with category scores and reasons.
 """
 
-            # Initialize LLM chat with scoring system prompt and configured model
-            chat = LlmChat(
-                api_key=self.api_key,
-                session_id=f"score-{company_name}-{job_title}",
-                system_message=SCORING_SYSTEM_PROMPT
-            ).with_model(self.model_provider, self.model_name)
+            messages = [
+                {"role": "system", "content": SCORING_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt}
+            ]
             
-            # Send message with retry logic
-            response = await call_llm_with_retry(chat, UserMessage(text=prompt), timeout=30)
+            # Send message with retry logic - uses response_format for guaranteed JSON
+            response = await call_openai_with_retry(self.client, messages, self.model_name, timeout=30)
             
-            # Parse response with robust JSON extraction
-            response_text = response.strip()
-            
-            # Extract JSON from any wrapper format (markdown fences, leading text, etc.)
-            json_match = re.search(r'\{[\s\S]*\}', response_text)
-            if json_match:
-                response_text = json_match.group()
-            
-            result = json.loads(response_text)
+            # Parse response (response_format ensures valid JSON, no regex needed)
+            result = json.loads(response)
             
             # Validate response structure
             if 'scores' not in result:
