@@ -1,76 +1,63 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { AppShell } from './AppShell';
 import { UploadState } from './UploadState';
 import { LoadingState } from './LoadingState';
-import { ResultsState } from './ResultsState';
+import { ParsedResumeView } from './ParsedResumeView';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 export const RecommendedJobs = () => {
-  const [state, setState] = useState('upload'); // 'upload', 'loading', 'results'
+  const [state, setState] = useState('upload'); // 'upload', 'loading', 'parsed'
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [matchResults, setMatchResults] = useState(null);
+  const [parsedData, setParsedData] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
+    setError(null);
   };
 
   const handleStartMatching = async () => {
+    if (!uploadedFile) {
+      setError('Please upload a resume first');
+      return;
+    }
+
     setState('loading');
-    
-    // Simulate API call to backend for matching
-    setTimeout(() => {
-      // Mock results - will be replaced with real API call
-      const mockResults = {
-        strongMatches: [
-          {
-            id: '1',
-            company: 'Emergent',
-            logo: 'https://avatars.githubusercontent.com/in/1201222?s=120',
-            title: 'Senior Backend Engineer',
-            score: 92,
-            matchedSkills: ['Python', 'FastAPI', 'MongoDB', 'Docker'],
-            matchedExperience: ['5+ years backend development', 'Microservices architecture'],
-            summary: "Your experience with Python and FastAPI aligns perfectly with this role. Your MongoDB expertise is a strong match for their tech stack."
-          }
-        ],
-        improvableMatches: [
-          {
-            id: '2',
-            company: 'TechCorp',
-            logo: 'https://ui-avatars.com/api/?name=TC&background=4F46E5&color=fff',
-            title: 'Full Stack Developer',
-            score: 67,
-            suggestions: [
-              { type: 'skill', text: 'Add "React" to your skills section', impact: 'high' },
-              { type: 'keyword', text: 'Mention "CI/CD" or "DevOps" experience', impact: 'medium' },
-              { type: 'experience', text: 'Highlight any cloud platform experience (AWS, GCP, Azure)', impact: 'high' }
-            ]
-          }
-        ],
-        notAFitMatches: [
-          {
-            id: '3',
-            company: 'DataScience Inc',
-            logo: 'https://ui-avatars.com/api/?name=DS&background=DC2626&color=fff',
-            title: 'Machine Learning Engineer',
-            score: 35,
-            reasons: [
-              { category: 'tech_stack', text: 'Requires 3+ years of ML/AI experience, resume shows backend focus' },
-              { category: 'tech_stack', text: 'Missing required skills: TensorFlow, PyTorch, scikit-learn' },
-              { category: 'domain', text: 'Position requires deep learning expertise in computer vision' }
-            ]
-          }
-        ]
-      };
-      
-      setMatchResults(mockResults);
-      setState('results');
-    }, 3000);
+    setError(null);
+
+    try {
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+
+      // Call backend API to parse resume
+      const response = await axios.post(`${API}/parse-resume`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data.success) {
+        setParsedData(response.data.data);
+        setState('parsed');
+      } else {
+        throw new Error('Failed to parse resume');
+      }
+    } catch (err) {
+      console.error('Error parsing resume:', err);
+      setError(err.response?.data?.detail || 'Failed to parse resume. Please try again.');
+      setState('upload');
+    }
   };
 
   const handleReset = () => {
     setState('upload');
     setUploadedFile(null);
-    setMatchResults(null);
+    setParsedData(null);
+    setError(null);
   };
 
   return (
@@ -81,13 +68,14 @@ export const RecommendedJobs = () => {
           onFileUpload={handleFileUpload}
           onStartMatching={handleStartMatching}
           onCancel={() => setUploadedFile(null)}
+          error={error}
         />
       )}
-      {state === 'loading' && <LoadingState />}
-      {state === 'results' && (
-        <ResultsState 
-          results={matchResults}
-          onReset={handleReset}
+      {state === 'loading' && <LoadingState message="Parsing your resume..." />}
+      {state === 'parsed' && parsedData && (
+        <ParsedResumeView 
+          parsedData={parsedData}
+          onBack={handleReset}
         />
       )}
     </AppShell>

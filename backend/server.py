@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,9 +6,12 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
+import tempfile
+import json
+from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContentWithMimeType
 
 
 ROOT_DIR = Path(__file__).parent
@@ -36,6 +39,16 @@ class StatusCheck(BaseModel):
 
 class StatusCheckCreate(BaseModel):
     client_name: str
+
+class ParsedResume(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    summary: Optional[str] = None
+    skills: List[str] = []
+    experience: List[dict] = []
+    education: List[dict] = []
+    raw_text: Optional[str] = None
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -65,6 +78,111 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     
     return status_checks
+
+@api_router.post("/parse-resume")
+async def parse_resume(file: UploadFile = File(...)):
+    """
+    Parse uploaded resume PDF using LLM
+    """
+    try:
+        # Validate file type
+        if not file.filename.endswith('.pdf'):
+            raise HTTPException(status_code=400, detail="Only PDF files are supported")
+        
+        # Create temporary file to store uploaded PDF
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+            content = await file.read()
+            temp_file.write(content)
+            temp_file_path = temp_file.name
+        
+        # Get LLM API key
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="LLM API key not configured")
+        
+        # Initialize LLM chat with Gemini (supports PDF)
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"resume-parse-{uuid.uuid4()}",
+            system_message="You are a resume parsing assistant. Extract structured information from resumes accurately."
+        ).with_model("gemini", "gemini-2.5-flash")
+        
+        # Create file content object
+        pdf_file = FileContentWithMimeType(
+            file_path=temp_file_path,
+            mime_type="application/pdf"
+        )
+        
+        # Create parsing prompt
+        parsing_prompt = """
+        Please analyze this resume PDF and extract the following information in JSON format:
+        {
+            "name": "Full name of the candidate",
+            "email": "Email address",
+            "phone": "Phone number",
+            "summary": "Professional summary or objective (2-3 sentences)",
+            "skills": ["skill1", "skill2", "skill3", ...],
+            "experience": [
+                {
+                    "company": "Company name",
+                    "role": "Job title",
+                    "duration": "Time period (e.g., Jan 2020 - Dec 2022)",
+                    "description": "Brief description of responsibilities"
+                }
+            ],
+            "education": [
+                {
+                    "institution": "School/University name",
+                    "degree": "Degree name",
+                    "year": "Graduation year or period",
+                    "field": "Field of study"
+                }
+            ]
+        }
+        
+        Return ONLY the JSON object, no additional text or markdown formatting.
+        """
+        
+        # Send message with PDF attachment
+        user_message = UserMessage(
+            text=parsing_prompt,
+            file_contents=[pdf_file]
+        )
+        
+        response = await chat.send_message(user_message)
+        
+        # Clean up temporary file
+        os.unlink(temp_file_path)
+        
+        # Parse the JSON response
+        try:
+            # Remove markdown code blocks if present
+            response_text = response.strip()
+            if response_text.startswith('```'):
+                response_text = response_text.split('```')[1]
+                if response_text.startswith('json'):
+                    response_text = response_text[4:]
+            
+            parsed_data = json.loads(response_text.strip())
+            
+            return {
+                "success": True,
+                "data": parsed_data
+            }
+        except json.JSONDecodeError as e:
+            logging.error(f"Failed to parse LLM response as JSON: {e}")
+            logging.error(f"Response was: {response}")
+            return {
+                "success": True,
+                "data": {
+                    "raw_response": response,
+                    "error": "Failed to parse structured data, showing raw response"
+                }
+            }
+            
+    except Exception as e:
+        logging.error(f"Error parsing resume: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Include the router in the main app
 app.include_router(api_router)

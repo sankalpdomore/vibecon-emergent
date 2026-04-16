@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ResumeCardStack } from './ResumeCardStack';
 
-export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel }) => {
+export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel, error }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -59,23 +59,39 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
 
               {/* Upload Area */}
               {!uploadedFile ? (
-                <div
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  className={`dropzone ${isDragging ? 'dragging' : ''}`}
-                >
-                  <i className="ph-bold ph-cloud-arrow-up dropzone-icon"></i>
-                  <p className="dropzone-text">Drag and drop your resume here</p>
-                  <p className="dropzone-hint">PDF files only, max 10MB</p>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleFileSelect}
-                    style={{ display: 'none' }}
-                  />
-                </div>
+                <>
+                  {error && (
+                    <div style={{
+                      background: '#fee',
+                      border: '1px solid #fcc',
+                      borderRadius: '12px',
+                      padding: '12px',
+                      marginBottom: '16px',
+                      color: '#c33',
+                      fontSize: '14px',
+                      textAlign: 'center'
+                    }}>
+                      {error}
+                    </div>
+                  )}
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`dropzone ${isDragging ? 'dragging' : ''}`}
+                  >
+                    <i className="ph-bold ph-cloud-arrow-up dropzone-icon"></i>
+                    <p className="dropzone-text">Drag and drop your resume here</p>
+                    <p className="dropzone-hint">PDF files only, max 10MB</p>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf"
+                      onChange={handleFileSelect}
+                      style={{ display: 'none' }}
+                    />
+                  </div>
+                </>
               ) : (
                 <div className="dropzone has-file">
                   <div className="dropzone-file-info">
