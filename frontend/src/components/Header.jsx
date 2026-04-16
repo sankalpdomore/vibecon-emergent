@@ -5,7 +5,7 @@ export const Header = () => {
     <header className="app-header">
       {/* Left Side - Logo and Search */}
       <div className="app-header-left">
-        {/* Logo */}
+        {/* Logo - Interlocking Circles */}
         <div style={{
           width: '40px',
           height: '40px',
@@ -16,9 +16,10 @@ export const Header = () => {
           justifyContent: 'center',
           flexShrink: 0
         }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-            <circle cx="7" cy="12" r="4" />
-            <circle cx="17" cy="12" r="4" />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="9" cy="12" r="5" fill="white" />
+            <circle cx="15" cy="12" r="5" fill="white" />
+            <rect x="9" y="7" width="6" height="10" fill="black" />
           </svg>
         </div>
 
@@ -67,35 +68,35 @@ export const Header = () => {
       <div className="app-header-right">
         <div className="app-header-right-ctas">
           {/* Saved Jobs */}
-          <button style={{
+          <button className="cta-button" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '8px 12px',
+            padding: '0px 5px 0px 14px',
             borderRadius: '12px',
             border: '1px solid #e5e5e5',
             background: '#fff',
             cursor: 'not-allowed',
             opacity: 0.6
           }}>
-            <i className="ph-bold ph-bookmark" style={{ fontSize: '18px', color: '#666' }}></i>
+            <i className="ph-bold ph-bookmark-simple" style={{ fontSize: '18px', color: '#666' }}></i>
             <span style={{ fontSize: '14px', color: '#666' }}>Saved jobs</span>
             <span className="app-header-saved-jobs-count">0</span>
           </button>
 
           {/* Applied Jobs */}
-          <button style={{
+          <button className="cta-button" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '8px 12px',
+            padding: '0px 5px 0px 14px',
             borderRadius: '12px',
             border: '1px solid #e5e5e5',
             background: '#fff',
             cursor: 'not-allowed',
             opacity: 0.6
           }}>
-            <i className="ph-bold ph-check-circle" style={{ fontSize: '18px', color: '#666' }}></i>
+            <i className="ph-bold ph-checks" style={{ fontSize: '18px', color: '#666' }}></i>
             <span style={{ fontSize: '14px', color: '#666' }}>Applied jobs</span>
             <span className="app-header-applied-jobs-count">0</span>
           </button>

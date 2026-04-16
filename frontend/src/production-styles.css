@@ -295,6 +295,71 @@ body {
   margin-bottom: 4px;
 }
 
+.resume-mini-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-mini-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.resume-mini-section-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resume-mini-info {
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.resume-mini-block {
+  height: 32px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.right-aligned .resume-mini-block {
+  margin-top: 12px;
+}
+
+.resume-mini-two-column {
+  display: flex;
+  gap: 20px;
+}
+
+.resume-mini-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.resume-mini-sidebar-layout {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+.resume-mini-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 40%;
+  flex-shrink: 0;
+}
+
+.resume-mini-main-content {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
 /* Dropzone */
 .dropzone {
   border: 2px solid #eee;

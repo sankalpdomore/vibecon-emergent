@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { ResumeCardStack } from './ResumeCardStack';
 
 export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -37,42 +38,9 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
   return (
     <div className="resume-builder-wrapper">
       <div className="resume-builder-card">
-        {/* Resume Card Preview */}
+        {/* Resume Card Preview - Floats above the card */}
         <div className="resume-builder-icon-section">
-          <div className="resume-card-stack">
-            {/* Card 3 - Background */}
-            <div className="resume-stack-card resume-stack-card-2"></div>
-            
-            {/* Card 2 - Middle */}
-            <div className="resume-stack-card resume-stack-card-1"></div>
-            
-            {/* Card 1 - Front */}
-            <div className="resume-stack-card resume-stack-card-0">
-              <div className="resume-mini-header">
-                <div className="resume-mini-avatar">SK</div>
-                <div>
-                  <div className="resume-mini-name">Sankalp Sinha</div>
-                  <div className="resume-mini-title">Professional Title</div>
-                </div>
-              </div>
-              
-              {uploadedFile && (
-                <>
-                  <div className="resume-mini-section">
-                    <div className="resume-mini-section-title">Experience</div>
-                    <div className="resume-mini-line" style={{ width: '100%' }}></div>
-                    <div className="resume-mini-line" style={{ width: '80%' }}></div>
-                    <div className="resume-mini-line" style={{ width: '75%' }}></div>
-                  </div>
-                  <div className="resume-mini-section">
-                    <div className="resume-mini-section-title">Skills</div>
-                    <div className="resume-mini-line" style={{ width: '100%' }}></div>
-                    <div className="resume-mini-line" style={{ width: '85%' }}></div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+          <ResumeCardStack hasFile={uploadedFile !== null} />
         </div>
 
         {/* Main Content */}
@@ -97,7 +65,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                   onDrop={handleDrop}
                   className={`dropzone ${isDragging ? 'dragging' : ''}`}
                 >
-                  <i className="ph-bold ph-upload-simple dropzone-icon"></i>
+                  <i className="ph-bold ph-cloud-arrow-up dropzone-icon"></i>
                   <p className="dropzone-text">Drag and drop your resume here</p>
                   <p className="dropzone-hint">PDF files only, max 10MB</p>
                   <input
@@ -130,7 +98,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                 </div>
               )}
 
-              {/* Feature Badges */}
+              {/* Feature Badges - 6 items */}
               <div className="resume-features-inline">
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
@@ -142,11 +110,19 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Actionable insights</span>
+                  <span>WYSIWYG Editing</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Private & secure</span>
+                  <span>Download as PDF</span>
+                </div>
+                <div className="resume-feature-item">
+                  <i className="ph-bold ph-check"></i>
+                  <span>Private and secure</span>
+                </div>
+                <div className="resume-feature-item">
+                  <i className="ph-bold ph-check"></i>
+                  <span>Free to use</span>
                 </div>
               </div>
             </div>
