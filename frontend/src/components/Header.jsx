@@ -1,13 +1,21 @@
 import React from 'react';
-import { Search, Bookmark, CheckCircle, User } from 'lucide-react';
 
 export const Header = () => {
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-      {/* Logo and Search */}
-      <div className="flex items-center space-x-4 flex-1">
+    <header className="app-header">
+      {/* Left Side - Logo and Search */}
+      <div className="app-header-left">
         {/* Logo */}
-        <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center flex-shrink-0">
+        <div style={{
+          width: '40px',
+          height: '40px',
+          borderRadius: '12px',
+          background: '#000',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0
+        }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
             <circle cx="7" cy="12" r="4" />
             <circle cx="17" cy="12" r="4" />
@@ -15,40 +23,109 @@ export const Header = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-md relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Search filters, jobs, startups, or locations..."
-            className="w-full pl-10 pr-12 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-            disabled
-          />
-          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 font-medium">⌘K</span>
+        <div className="app-header-search">
+          <div style={{ position: 'relative', width: '100%' }}>
+            <i className="ph-bold ph-magnifying-glass" style={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#aaa',
+              fontSize: '18px'
+            }}></i>
+            <input
+              type="text"
+              placeholder="Search filters, jobs, startups, or locations..."
+              disabled
+              style={{
+                width: '100%',
+                paddingLeft: '40px',
+                paddingRight: '48px',
+                paddingTop: '10px',
+                paddingBottom: '10px',
+                border: '1px solid #e5e5e5',
+                borderRadius: '12px',
+                fontSize: '14px',
+                outline: 'none',
+                backgroundColor: '#fafafa'
+              }}
+            />
+            <span style={{
+              position: 'absolute',
+              right: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              fontSize: '12px',
+              color: '#aaa',
+              fontWeight: '500'
+            }}>⌘K</span>
+          </div>
         </div>
       </div>
 
-      {/* Right Side Actions */}
-      <div className="flex items-center space-x-4">
-        {/* Saved Jobs */}
-        <button className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 cursor-not-allowed opacity-50">
-          <Bookmark size={18} className="text-gray-600" />
-          <span className="text-sm text-gray-700">Saved jobs</span>
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">0</span>
-        </button>
+      {/* Right Side - CTAs and Profile */}
+      <div className="app-header-right">
+        <div className="app-header-right-ctas">
+          {/* Saved Jobs */}
+          <button style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 12px',
+            borderRadius: '12px',
+            border: '1px solid #e5e5e5',
+            background: '#fff',
+            cursor: 'not-allowed',
+            opacity: 0.6
+          }}>
+            <i className="ph-bold ph-bookmark" style={{ fontSize: '18px', color: '#666' }}></i>
+            <span style={{ fontSize: '14px', color: '#666' }}>Saved jobs</span>
+            <span className="app-header-saved-jobs-count">0</span>
+          </button>
 
-        {/* Applied Jobs */}
-        <button className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 cursor-not-allowed opacity-50">
-          <CheckCircle size={18} className="text-gray-600" />
-          <span className="text-sm text-gray-700">Applied jobs</span>
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">0</span>
-        </button>
+          {/* Applied Jobs */}
+          <button style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 12px',
+            borderRadius: '12px',
+            border: '1px solid #e5e5e5',
+            background: '#fff',
+            cursor: 'not-allowed',
+            opacity: 0.6
+          }}>
+            <i className="ph-bold ph-check-circle" style={{ fontSize: '18px', color: '#666' }}></i>
+            <span style={{ fontSize: '14px', color: '#666' }}>Applied jobs</span>
+            <span className="app-header-applied-jobs-count">0</span>
+          </button>
+        </div>
 
         {/* Profile */}
-        <div className="relative">
-          <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center cursor-pointer">
-            <User size={20} className="text-white" />
+        <div style={{ position: 'relative' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            background: '#3b82f6',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer'
+          }}>
+            <i className="ph-bold ph-user" style={{ fontSize: '20px', color: 'white' }}></i>
           </div>
-          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">LIFETIME</span>
+          <span style={{
+            position: 'absolute',
+            top: '-4px',
+            right: '-4px',
+            background: '#3b82f6',
+            color: 'white',
+            fontSize: '8px',
+            fontWeight: 'bold',
+            padding: '2px 6px',
+            borderRadius: '9999px'
+          }}>LIFETIME</span>
         </div>
       </div>
     </header>
