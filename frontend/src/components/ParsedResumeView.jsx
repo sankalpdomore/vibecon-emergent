@@ -255,7 +255,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                         <div className="job-leads-match-insights">
                           {job.matchInsights.map((insight, idx) => (
                             <div key={idx} className="job-leads-match-insight-item">
-                              <i className="ph-bold ph-check-circle"></i>
+                              <i className="ph-bold ph-checks"></i>
                               <span>{insight}</span>
                             </div>
                           ))}
