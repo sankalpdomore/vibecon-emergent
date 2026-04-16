@@ -8,8 +8,7 @@
 }
 
 .results-view-left {
-  width: 40%;
-  max-width: 440px;
+  min-width: 480px;
   border-right: 1px solid #eee;
   overflow-y: auto;
   flex-shrink: 0;
@@ -30,6 +29,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  width: fit-content;
   background: #ffffff88;
   backdrop-filter: blur(4px);
   border: 1px solid transparent;
@@ -57,6 +57,40 @@
   gap: 28px;
   overflow-y: auto;
   height: 100%;
+}
+
+/* Resume Parsed Card */
+.resume-parsed-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  padding: 0;
+  margin: 24px;
+  overflow: hidden;
+}
+
+.resume-parsed-card-header {
+  font-family: var(--font-young-serif);
+  font-size: 22px;
+  font-weight: bold;
+  color: #111;
+  padding: 24px 28px 0 28px;
+  margin-bottom: 4px;
+}
+
+.resume-parsed-card > .resume-parsed-section,
+.resume-parsed-card > .resume-parsed-details {
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.resume-parsed-card > .resume-parsed-section:first-child {
+  padding-top: 28px;
+}
+
+.resume-parsed-card > .resume-parsed-section:last-child,
+.resume-parsed-card > .resume-parsed-details:last-child {
+  padding-bottom: 28px;
 }
 
 /* Section heading with icon */
@@ -90,9 +124,6 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 24px 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
 }
 
 .resume-parsed-detail-row {
@@ -227,6 +258,40 @@
   color: #000;
   text-align: left;
   text-transform: capitalize;
+}
+
+.job-leads-ranking-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ranking-highly_recommended {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.ranking-good_fit {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.ranking-needs_discussion {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+.ranking-reject {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .job-leads-company-link-offices {

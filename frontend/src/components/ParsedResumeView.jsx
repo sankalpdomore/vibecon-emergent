@@ -18,7 +18,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           title: 'Senior Backend Engineer',
           hiringLocations: 5,
           departments: 'Engineering, Backend, Systems',
-          applyUrl: 'https://job-boards.greenhouse.io/emergentlabsinc/jobs/4111446009'
+          applyUrl: 'https://job-boards.greenhouse.io/emergentlabsinc/jobs/4111446009',
+          ranking: 'highly_recommended'
         },
         {
           id: 2,
@@ -28,7 +29,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           title: 'Backend Engineer',
           hiringLocations: 8,
           departments: 'Engineering, Data, Product',
-          applyUrl: 'https://job-boards.greenhouse.io/apollo-io/jobs/5541744004'
+          applyUrl: 'https://job-boards.greenhouse.io/apollo-io/jobs/5541744004',
+          ranking: 'good_fit'
         },
         {
           id: 3,
@@ -38,7 +40,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           title: 'Senior Data Engineer',
           hiringLocations: 12,
           departments: 'Engineering, Data, Analytics',
-          applyUrl: 'https://job-boards.greenhouse.io/bloomreach/jobs/6378473003'
+          applyUrl: 'https://job-boards.greenhouse.io/bloomreach/jobs/6378473003',
+          ranking: 'good_fit'
         },
         {
           id: 4,
@@ -48,7 +51,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           title: 'Backend Engineer - Search',
           hiringLocations: 3,
           departments: 'Engineering, Search, Backend',
-          applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008'
+          applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008',
+          ranking: 'needs_discussion'
         },
         {
           id: 5,
@@ -58,7 +62,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           title: 'Software Engineer',
           hiringLocations: 15,
           departments: 'Engineering, Product, Cloud',
-          applyUrl: 'https://job-boards.greenhouse.io/celonis/jobs/7645740003'
+          applyUrl: 'https://job-boards.greenhouse.io/celonis/jobs/7645740003',
+          ranking: 'reject'
         }
       ]);
       setMatchingState('complete');
@@ -86,71 +91,77 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
               <span>Back</span>
             </button>
 
-            {/* Overall Assessment */}
-            <div className="resume-parsed-section">
-              <div className="resume-parsed-section-heading">
-                <i className="ph-bold ph-list-dashes"></i>
-                <span>Overall assessment:</span>
-              </div>
-              <p className="resume-parsed-assessment-text">
-                {summary || `${name || 'Candidate'} is a skilled professional with expertise in ${skills && skills.length > 0 ? skills.slice(0, 2).join(' and ') : 'software development'}, demonstrating strong technical capabilities and experience in building scalable solutions.`}
-              </p>
-            </div>
+            {/* Resume Card */}
+            <div className="resume-parsed-card">
+              {/* Card Header */}
+              <div className="resume-parsed-card-header">Your resume</div>
 
-            {/* Structured Details */}
-            <div className="resume-parsed-details">
-              {experience && experience.length > 0 && (
-                <div className="resume-parsed-detail-row">
-                  <i className="ph-bold ph-briefcase"></i>
-                  <span className="resume-parsed-detail-label">Experience:</span>
-                  <span className="resume-parsed-detail-value">{experience.length}+ yrs.</span>
+              {/* Overall Assessment */}
+              <div className="resume-parsed-section">
+                <div className="resume-parsed-section-heading">
+                  <i className="ph-bold ph-list-dashes"></i>
+                  <span>Overall assessment:</span>
                 </div>
-              )}
-              
-              {education && education.length > 0 && (
-                <div className="resume-parsed-detail-row">
-                  <i className="ph-bold ph-graduation-cap"></i>
-                  <span className="resume-parsed-detail-label">Education:</span>
-                  <span className="resume-parsed-detail-value">{education[0].degree || education[0].institution || 'Degree information'}</span>
-                </div>
-              )}
-              
-              {skills && skills.length > 0 && (
-                <div className="resume-parsed-detail-row">
-                  <i className="ph-bold ph-wrench"></i>
-                  <span className="resume-parsed-detail-label">Skills:</span>
-                  <span className="resume-parsed-detail-value">{skills.join(', ')}</span>
-                </div>
-              )}
-              
-              {email && (
-                <div className="resume-parsed-detail-row">
-                  <i className="ph-bold ph-envelope-simple"></i>
-                  <span className="resume-parsed-detail-label">Email:</span>
-                  <span className="resume-parsed-detail-value">{email}</span>
-                </div>
-              )}
-              
-              {phone && (
-                <div className="resume-parsed-detail-row">
-                  <i className="ph-bold ph-phone"></i>
-                  <span className="resume-parsed-detail-label">Phone:</span>
-                  <span className="resume-parsed-detail-value">{phone}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Candidate Summary */}
-            <div className="resume-parsed-section">
-              <div className="resume-parsed-section-heading">
-                <i className="ph-bold ph-target"></i>
-                <span>Candidate Summary:</span>
+                <p className="resume-parsed-assessment-text">
+                  {summary || `${name || 'Candidate'} is a skilled professional with expertise in ${skills && skills.length > 0 ? skills.slice(0, 2).join(' and ') : 'software development'}, demonstrating strong technical capabilities and experience in building scalable solutions.`}
+                </p>
               </div>
-              <ol className="resume-parsed-summary-list">
-                {candidateSummary.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ol>
+
+              {/* Structured Details */}
+              <div className="resume-parsed-details">
+                {experience && experience.length > 0 && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-briefcase"></i>
+                    <span className="resume-parsed-detail-label">Experience:</span>
+                    <span className="resume-parsed-detail-value">{experience.length}+ yrs.</span>
+                  </div>
+                )}
+                
+                {education && education.length > 0 && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-graduation-cap"></i>
+                    <span className="resume-parsed-detail-label">Education:</span>
+                    <span className="resume-parsed-detail-value">{education[0].degree || education[0].institution || 'Degree information'}</span>
+                  </div>
+                )}
+                
+                {skills && skills.length > 0 && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-wrench"></i>
+                    <span className="resume-parsed-detail-label">Skills:</span>
+                    <span className="resume-parsed-detail-value">{skills.join(', ')}</span>
+                  </div>
+                )}
+                
+                {email && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-envelope-simple"></i>
+                    <span className="resume-parsed-detail-label">Email:</span>
+                    <span className="resume-parsed-detail-value">{email}</span>
+                  </div>
+                )}
+                
+                {phone && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-phone"></i>
+                    <span className="resume-parsed-detail-label">Phone:</span>
+                    <span className="resume-parsed-detail-value">{phone}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Candidate Summary */}
+              <div className="resume-parsed-section">
+                <div className="resume-parsed-section-heading">
+                  <i className="ph-bold ph-target"></i>
+                  <span>Candidate Summary:</span>
+                </div>
+                <ol className="resume-parsed-summary-list">
+                  {candidateSummary.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ol>
+              </div>
             </div>
           </div>
         </div>
@@ -159,7 +170,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
         <div className="results-view-right">
           <div>
             <h2 className="matches-heading">
-              {matchingState === 'loading' ? 'Finding Your Matches' : 'Your Top Matches'}
+              {matchingState === 'loading' ? 'Finding Your Matches' : `Your Top ${matchedJobs.length} Matches`}
             </h2>
             <p className="matches-subtext">
               {matchingState === 'loading' 
@@ -207,6 +218,12 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                     </div>
                     <div className="job-leads-company-link-info">
                       <div className="job-leads-company-link-name">{job.company}</div>
+                      <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
+                        {job.ranking === 'highly_recommended' && 'Highly recommended'}
+                        {job.ranking === 'good_fit' && 'Good fit'}
+                        {job.ranking === 'needs_discussion' && 'Needs discussion'}
+                        {job.ranking === 'reject' && 'Reject'}
+                      </span>
                       <div className="job-leads-company-link-offices">
                         <i className="ph-bold ph-buildings"></i>
                         Hiring in {job.hiringLocations} office locations
