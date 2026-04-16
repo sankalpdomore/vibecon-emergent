@@ -138,55 +138,23 @@ export const RecommendedJobs = () => {
         />
       )}
 
-      {/* Top-right controls row */}
-      <div style={{
-        position: 'fixed', top: '80px', right: '24px', zIndex: 100,
-        display: 'flex', alignItems: 'center', gap: '8px'
-      }}>
-        {/* Model Selector */}
-        <select
-          value={selectedModel}
-          onChange={(e) => setSelectedModel(e.target.value)}
-          style={{
-            padding: '5px 8px', borderRadius: '8px', fontSize: '11px',
-            background: '#fff', border: '1px solid #ddd', color: '#333',
-            cursor: 'pointer', fontFamily: 'var(--font-inter)', outline: 'none'
-          }}
-        >
-          {MODEL_OPTIONS.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.icon} {opt.label}</option>
-          ))}
-        </select>
-
-        {/* Settings button */}
+      {/* Settings button - only show when no key set */}
+      {!apiKey && (
         <button
           onClick={() => setShowSettings(!showSettings)}
           style={{
+            position: 'fixed', top: '80px', right: '24px', zIndex: 100,
             padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
-            background: apiKey ? '#f0fdf4' : '#fef2f2',
-            border: `1px solid ${apiKey ? '#a7f3d0' : '#fecaca'}`,
-            color: apiKey ? '#059669' : '#dc2626',
+            background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626',
             cursor: 'pointer', fontFamily: 'var(--font-inter)',
             display: 'flex', alignItems: 'center', gap: '4px'
           }}
         >
           <i className="ph-bold ph-key"></i>
-          {apiKey ? 'Key Set' : 'Add Key'}
+          Add Key
         </button>
-
-        {/* Logs button */}
-        <button
-          onClick={() => setShowLogs(!showLogs)}
-          style={{
-            padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
-            background: '#fff', border: '1px solid #ddd', color: '#666',
-            cursor: 'pointer', fontFamily: 'var(--font-inter)',
-            display: 'flex', alignItems: 'center', gap: '4px'
-          }}
-        >
-          <i className="ph-bold ph-terminal"></i>
-          Logs ({logs.length})
-        </button>
+      )}
+      <div style={{ display: 'none' }}>
       </div>
 
       {/* Settings panel */}
@@ -226,27 +194,7 @@ export const RecommendedJobs = () => {
         </div>
       )}
 
-      {/* Log panel */}
-      {showLogs && (
-        <div style={{
-          position: 'fixed', top: '116px', right: '24px', zIndex: 99,
-          width: '400px', maxHeight: '300px', overflowY: 'auto',
-          background: '#1a1a1a', color: '#0f0', borderRadius: '12px',
-          padding: '16px', fontSize: '11px', fontFamily: 'monospace',
-          lineHeight: '1.6', border: '1px solid #333',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
-        }}>
-          {logs.length === 0 ? (
-            <span style={{ color: '#666' }}>No logs yet. Upload a resume to start.</span>
-          ) : (
-            logs.map((log, i) => (
-              <div key={i} style={{ color: log.includes('ERROR') ? '#ff4444' : '#0f0' }}>
-                {log}
-              </div>
-            ))
-          )}
-        </div>
-      )}
+      {/* Log panel hidden - logs still collected internally */}
     </AppShell>
   );
 };
