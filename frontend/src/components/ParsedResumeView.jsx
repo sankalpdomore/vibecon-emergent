@@ -168,76 +168,78 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
 
         {/* Right Panel - Job Matches */}
         <div className="results-view-right">
-          <div>
-            <h2 className="matches-heading">
-              {matchingState === 'loading' ? 'Finding Your Matches' : `Your Top ${matchedJobs.length} Matches`}
-            </h2>
-            <p className="matches-subtext">
-              {matchingState === 'loading' 
-                ? 'Our agents are analyzing 50+ engineering roles...' 
-                : `Found ${matchedJobs.length} strong matches for your profile`
-              }
-            </p>
-          </div>
+          <div className="matches-card">
+            <div>
+              <h2 className="matches-heading">
+                {matchingState === 'loading' ? 'Finding Your Matches' : `Your Top ${matchedJobs.length} Matches`}
+              </h2>
+              <p className="matches-subtext">
+                {matchingState === 'loading' 
+                  ? 'Our agents are analyzing 50+ engineering roles...' 
+                  : `Found ${matchedJobs.length} strong matches for your profile`
+                }
+              </p>
+            </div>
 
-          <div>
-            {matchingState === 'loading' ? (
-              // Skeleton Loading
-              <>
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="skeleton-job-card">
-                    <div className="skeleton-header">
-                      <div className="skeleton-logo"></div>
-                      <div className="skeleton-text">
-                        <div className="skeleton-line title"></div>
-                        <div className="skeleton-line subtitle"></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              // Matched Jobs
-              <>
-                {matchedJobs.map((job) => (
-                  <a 
-                    key={job.id} 
-                    href={job.applyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="job-leads-company-link"
-                  >
-                    <div className="job-leads-company-link-logo">
-                      {job.logo ? (
-                        <img src={job.logo} alt={job.company} />
-                      ) : (
-                        <div className="job-leads-company-link-logo-fallback">
-                          {job.companyInitials}
+            <div className="matches-job-list">
+              {matchingState === 'loading' ? (
+                // Skeleton Loading
+                <>
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="skeleton-job-card">
+                      <div className="skeleton-header">
+                        <div className="skeleton-logo"></div>
+                        <div className="skeleton-text">
+                          <div className="skeleton-line title"></div>
+                          <div className="skeleton-line subtitle"></div>
                         </div>
-                      )}
-                    </div>
-                    <div className="job-leads-company-link-info">
-                      <div className="job-leads-company-link-name">{job.company}</div>
-                      <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
-                        {job.ranking === 'highly_recommended' && 'Highly recommended'}
-                        {job.ranking === 'good_fit' && 'Good fit'}
-                        {job.ranking === 'needs_discussion' && 'Needs discussion'}
-                        {job.ranking === 'reject' && 'Reject'}
-                      </span>
-                      <div className="job-leads-company-link-offices">
-                        <i className="ph-bold ph-buildings"></i>
-                        Hiring in {job.hiringLocations} office locations
-                      </div>
-                      <div className="job-leads-company-link-departments">
-                        <i className="ph-bold ph-stack"></i>
-                        {job.departments}
                       </div>
                     </div>
-                    <i className="ph-bold ph-arrow-square-out job-leads-company-link-arrow"></i>
-                  </a>
-                ))}
-              </>
-            )}
+                  ))}
+                </>
+              ) : (
+                // Matched Jobs
+                <>
+                  {matchedJobs.map((job) => (
+                    <a 
+                      key={job.id} 
+                      href={job.applyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="job-leads-company-link"
+                    >
+                      <div className="job-leads-company-link-logo">
+                        {job.logo ? (
+                          <img src={job.logo} alt={job.company} />
+                        ) : (
+                          <div className="job-leads-company-link-logo-fallback">
+                            {job.companyInitials}
+                          </div>
+                        )}
+                      </div>
+                      <div className="job-leads-company-link-info">
+                        <div className="job-leads-company-link-name">{job.company}</div>
+                        <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
+                          {job.ranking === 'highly_recommended' && 'Highly recommended'}
+                          {job.ranking === 'good_fit' && 'Good fit'}
+                          {job.ranking === 'needs_discussion' && 'Needs discussion'}
+                          {job.ranking === 'reject' && 'Reject'}
+                        </span>
+                        <div className="job-leads-company-link-offices">
+                          <i className="ph-bold ph-buildings"></i>
+                          Hiring in {job.hiringLocations} office locations
+                        </div>
+                        <div className="job-leads-company-link-departments">
+                          <i className="ph-bold ph-stack"></i>
+                          {job.departments}
+                        </div>
+                      </div>
+                      <i className="ph-bold ph-arrow-square-out job-leads-company-link-arrow"></i>
+                    </a>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

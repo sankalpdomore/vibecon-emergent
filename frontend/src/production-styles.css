@@ -171,7 +171,11 @@ body {
 }
 
 .resume-builder-wrapper.parsed {
-  padding-top: 48px;
+  padding: 0;
+  align-items: stretch;
+  justify-content: stretch;
+  background-image: none;
+  background-color: #f9fafb;
 }
 
 .resume-builder-card {
