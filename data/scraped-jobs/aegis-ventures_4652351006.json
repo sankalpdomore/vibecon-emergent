@@ -1,0 +1,38 @@
+{
+  "company_name": "Aegis Ventures",
+  "company_slug": "aegis-ventures",
+  "company_logo_url": "/company-logos/aegis-ventures.png",
+  "job": {
+    "title": "System Engineer (Part-Time)",
+    "apply_url": "https://job-boards.greenhouse.io/aegisventures/jobs/4652351006",
+    "location_display": "Remote within the U.S.",
+    "work_mode": "remote",
+    "role_department": "engineering",
+    "posted_date": "2026-02-16"
+  },
+  "jd": {
+    "raw_text": "Back to jobs System Engineer (Part-Time) Cleveland, Ohio Apply About Aegis Ventures Aegis Ventures partners with entrepreneurs and industry leaders to launch and scale transformative companies in digital health and artificial intelligence. Our platform brings together market-shaping ideas, growth capital, and ambitious individuals to solve major societal problems. With a focus on innovations in healthcare, Aegis has launched four successful portfolio companies in partnership with Northwell Health and recently announced the Digital Consortium to co-develop, invest in, and launch new companies. About Avandra Imaging Avandra Imaging's mission is to organize the world's medical images in order to accelerate innovation and unlock patient access to the best care in the world. Avandra is poised to revolutionize healthcare research and innovation by creating the largest indexed data cloud of medical imaging. This platform will unlock unprecedented access to real-world imaging data, essential for biopharma research, medical device innovation, AI model training, and improved patient care. Leveraging its strategic acquisitions, Avandra aims to aggregate and de-identify vast amounts of imaging data, providing frictionless access to this invaluable resource. Avandra has a national footprint of over 5,000 customer integrations and a market share of approximately 70% -- this robust infrastructure supports our core business, ensuring continued growth and cash flow to fuel our innovative data cloud platform. Under the leadership of Founder and CEO Ryan Tarzy, Avandra's experienced team is well-equipped to capitalize on this opportunity. Avandra\u2019s business model centers on generating recurring subscription revenue from its cloud platform, offering indexed, cleansed, and enhanced imaging data to health systems, AI companies, and biopharma firms. The go-to-market strategy focuses initially on data marketplaces to drive near-term sales, with plans to expand direct sales efforts targeting AI/ML companies, medical device firms, and biopharma companies. This strategic approach positions Avandra as a leading player in the competitive landscape, with the potential for substantial growth and international expansion in the coming years. About the Job As a Part-Time System Engineer at Avandra Imaging, you will be an early-career technical generalist supporting the stability, reliability, and performance of our systems. This role bridges frontline technical support, quality assurance, and systems automation, enabling Engineering teams to move quickly and confidently. This is a hands-on, growth-oriented role designed for candidates early in their technical careers who are eager to build strong foundations in systems engineering, automation, and troubleshooting in a real-world production environment. What You\u2019ll Do: Technical Support & Systems Troubleshooting Diagnose and resolve software, system, and infrastructure issues across Avandra\u2019s products and internal tooling Act as a technical point of contact for escalated or ambiguous issues impacting reliability, performance, or accessibility Support deployment, configuration, and maintenance of software, hardware, and internal systems Quality Assurance Contribute to the quality and reliability of Avandra\u2019s software through structured QA processes Write and maintain automated test suites (integration, regression, smoke tests) Participate in release testing and validation efforts Ensure appropriate test coverage for new features and critical infrastructure System Automation Write scripts and tools for deployment, monitoring, and troubleshooting Support infrastructure provisioning and configuration using automation tools (e.g., Terraform, Ansible) Improve system observability through logging, alerting, and dashboards Identify repetitive tasks and build automated solutions to reduce manual effort What You\u2019ll Need: Experience in a technical role (support, QA, IT operations, help desk) or relevant academic, bootcamp, or project experience Basic proficiency with Linux/Unix or macOS command-line environments Familiarity with at least one scripting language (Python, Bash, JavaScript, Go, etc.) Understanding of APIs, client/server concepts, and modern web applications Ability to read and interpret logs, error messages, and system metrics at a foundational level Basic experience with databases (queries, connections, or schema concepts) What You\u2019ll Bring to the Table: Problem-Solving Mindset: Ability to break down ambiguous technical problems into clear, actionable steps Curiosity & Learning Agility: Strong desire to learn new systems, tools, and technologies quickly Automation Orientation: Interest in reducing manual work through scripting, tooling, and process improvement Collaboration & Communication: Ability to work cross-functionally with Engineering, Product, and Support teams Ownership & Initiative: Willingness to take responsibility, ask questions, and escalate issues appropriately Benefits & Perks: Impact: Work on systems that support one of the largest medical imaging data platforms in the world Growth: Structured exposure to systems engineering, QA, automation, and cloud infrastructure Culture: Collaborative, engineering-driven environment focused on learning and continuous improvement Equity: Opportunity to participate in a high-growth, equity-driven company Hourly Rate / Compensation: $20.00 per hour Aegis Ventures is a proud Equal Opportunity Employer \u2014 we recruit, train, compensate and promote our team members based on qualifications. We encourage you to apply regardless of your race, religion, national origin, sex, gender identity, sexual orientation, disability, age, veteran status, or any other applicable legally protected characteristics. Create a Job Alert Interested in building your career at Aegis Ventures? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field First Name* Last Name* Email* Phone Country Phone Resume/CV Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile Website Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [
+        "indicates a required field First Name",
+        "Last Name",
+        "Email",
+        "Phone Country Phone Resume/CV Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile Website Submit application Powered by"
+      ],
+      "nice_to_have": [],
+      "tech_stack": [
+        "Python",
+        "JavaScript",
+        "Go"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:38:24.150453Z",
+    "success": true,
+    "error": null
+  }
+}

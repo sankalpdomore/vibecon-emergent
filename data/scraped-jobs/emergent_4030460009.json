@@ -1,0 +1,50 @@
+{
+  "company_name": "Emergent",
+  "company_slug": "emergent",
+  "company_logo_url": "/company-logos/emergent.png",
+  "job": {
+    "title": "Backend Engineer",
+    "apply_url": "https://job-boards.greenhouse.io/emergentlabsinc/jobs/4030460009",
+    "location_display": "Bengaluru, India",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-13"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Backend Engineer Bangalore Apply Now Emergent builds autonomous coding agents that replace traditional software development by generating, testing, and deploying production applications directly from plain-language intent. Our systems run in production at global scale and are used to build millions of real applications. Since public launch, Emergent has reached $100M ARR in 8 months. 6M+ users across 190+ countries have built 6.5M+ applications on Emergent. We've raised $100M+, backed by Khosla Ventures, SoftBank, Google, Lightspeed, Prosus, Together, and Y Combinator. We're solving the hard part of AI-driven software creation: correctness, reliability, security, and scale in real production systems. The team is built by repeat founders, Olympiad medalists, IIT & IIM alumni, and leaders from Google, Amazon, and Dropbox. We're hiring builders who want ownership, speed, and impact at global scale. What You'll Do: Build and maintain scalable, high-performance backend services Write clean, efficient code in Python and Go Design and optimize systems for speed, reliability, and distributed scale Work closely with ML, Infra, and Frontend teams to ship end-to-end features Participate in code reviews, design discussions, and tech planning Solve complex systems problems and contribute to architectural decisions What We're Looking For: 6 to 10 years of backend or systems development experience Proficient in Python and/or Go Strong grasp of distributed systems, concurrency, and performance optimization Experience building APIs, microservices, or cloud-native apps Familiar with Git, CI/CD workflows, and monitoring tools Comfortable working in fast-paced, collaborative environments Good to Have: Experience with Kubernetes, Docker, or cloud infra (AWS/GCP) Familiarity with message queues, caching, or databases at scale Exposure to ML/AI engineering or infra-related tooling Contributions to open-source or side projects Why Join Us: Build next-gen tools for 1B+ creators Work with a high-caliber, maker-first team Competitive comp and equity Fast learning, real impact, and clear growth path Benefits and Perks: Daily Meals: Lunch and Dinner provided Family Insurance: 3 Lakhs worth of coverage for you and your family Unlimited Paid Time Off: Take the time you need to recharge and come back refreshed Flexible Working Hours: Work arrangements that fit your life and commitments Let's build the future of software together. Apply for this job * indicates a required field First Name* Last Name* Email* Phone Country* Phone* Resume/CV* Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Education Degree* Select... Discipline Select... Start date year* End date year* Add another LinkedIn Profile* Add your current CTC * Expected CTC * Notice Period (Please mention if you have buyout option or if it's negotiable) * Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [
+        "performance backend services Write clean, efficient code in Python and Go Design and optimize systems for speed, reliability, and distributed scale Work closely with ML, Infra, and Frontend teams to ship end",
+        "to",
+        "end features Participate in code reviews, design discussions, and tech planning Solve complex systems problems and contribute to architectural decisions"
+      ],
+      "requirements": [
+        "native apps Familiar with Git, CI/CD workflows, and monitoring tools Comfortable working in fast",
+        "paced, collaborative environments Good to Have: Experience with Kubernetes, Docker, or cloud infra (AWS/GCP) Familiarity with message queues, caching, or databases at scale Exposure to ML/AI engineering or infra",
+        "related tooling Contributions to open",
+        "source or side projects Why Join Us: Build next",
+        "gen tools for 1B+ creators Work with a high",
+        "caliber, maker",
+        "first team Competitive comp and equity Fast learning, real impact, and clear growth path"
+      ],
+      "nice_to_have": [],
+      "tech_stack": [
+        "Python",
+        "Go",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "GCP",
+        "Git",
+        "CI/CD"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:41:25.730879Z",
+    "success": true,
+    "error": null
+  }
+}

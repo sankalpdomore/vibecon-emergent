@@ -1,0 +1,29 @@
+{
+  "company_name": "Falconx",
+  "company_slug": "falconx",
+  "company_logo_url": "/company-logos/falconx.png",
+  "job": {
+    "title": "Engineering Manager, Custody & Staking",
+    "apply_url": "https://job-boards.greenhouse.io/falconx/jobs/4614569005",
+    "location_display": "San Francisco, USA / New York, USA",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-07"
+  },
+  "jd": {
+    "raw_text": "Current openings at FalconX Create a Job Alert Level-up your career by having opportunities at FalconX sent directly to your inbox. Create alert Search Department Select... 35 jobs Accounting and Tax Job Accounting Manager, Capital Markets/Trading New York City, NY Finance Associate Bangalore, Karnataka, India Finance Associate Bangalore, Karnataka, India Head of Technical Accounting & Financial Reporting New York City, NY; Remote Senior Accountant New York City, NY Senior Manager, GL Accounting New York City, NY; San Francisco Bay Area, CA Compliance Job Compliance Analyst New York City, NY Compliance Associate Malta Transaction Monitoring AssociateNew Bangalore, Karnataka, India Engineering - Quant and Trading Systems Job Senior Quant Developer Bangalore, Karnataka, India Senior Quant Developer (PMS) Bangalore, Karnataka, India Senior Software Engineer (DevOps) - Market Making Bangalore, Karnataka, India Senior Trading Systems Developer New York City, NY Trading System Support Engineer Bangalore, Karnataka, India Trading System Support Engineer Bangalore, Karnataka, India Financial Transformation Job Integration Engineer - Finance Systems Bangalore, Karnataka, India FP&A Job Procurement & Third Party Risk - Manager New York City, NY Legal Job Capital Markets Counsel New York City, NY Counsel, Corporate and Fintech Products New York City, NY Senior Counsel, ISDA Negotiator New York City, NY Marketing Job Lead Brand DesignerNew New York City, NY Senior Marketing Associate New York City, NY Markets Job Derivatives Trader New York City, NY Office and Executive Operations Job Office Manager Malta Product Job Product Manager - Derivatives Trading Platform San Francisco Bay Area, New York City Revenue Sales and Coverage Job Institutional Sales ExecutiveNew New York City, NY Senior Institutional Coverage Bangalore, Karnataka, India Senior Institutional Sales Executive New York City, NY Risk Job Risk Management Associate, Technical Projects New York City, NY Security Job Director, SecurityNew New York City, NY Product Security Engineer \u2013 DeFi New York City, NY; Remote Strategic Opportunities Job Analyst, Strategic Opportunities New York City, NY Treasury and Operations Job Custody Operations AssociateNew Malta Head of Treasury Strategies New York City, NY Senior Manager TreasuryOpsNew Bangalore, Karnataka, India Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:42:22.909874Z",
+    "success": true,
+    "error": null
+  }
+}

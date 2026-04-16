@@ -1,0 +1,34 @@
+{
+  "company_name": "Coefficient",
+  "company_slug": "coefficient",
+  "company_logo_url": "/company-logos/coefficient.png",
+  "job": {
+    "title": "Early Product Engineer - US",
+    "apply_url": "https://job-boards.greenhouse.io/coefficient/jobs/4669394006",
+    "location_display": "San Mateo, USA",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-07"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Early Product Engineer - US San Mateo, CA Apply Who We Are Coefficient is a VC-backed startup building the next generation of data software. The founders, Navneet & Tommy, are serial entrepreneurs whose last startup, Shopular, was backed by Y Combinator and Sequoia and acquired by Rakuten Ebates. We started by turning spreadsheets into a live, connected layer on top of company data\u2014bringing systems like Salesforce, HubSpot, and Snowflake directly into Google Sheets and Excel. Today, thousands of teams rely on Coefficient to access real-time data without IT. Now, we\u2019re taking the next step. What We\u2019re Building Coefficient is evolving into an agentic data intelligence platform \u2014 where AI doesn\u2019t just retrieve data, but understands it, reasons about it, and takes action. At the core is a shared data world model: a unified, continuously updated understanding of a company\u2019s data, business logic, and context. This allows our autonomous agents to operate with far more context than traditional tools\u2014unlocking a fundamentally new way to work with data. Instead of dashboards and one-off queries, we\u2019re building AI agents that: Develop context over time (memory + business rules) Explore data and surface insights proactively Execute workflows and make decisions Generate complete, high-quality outputs (reports, dashboards, spreadsheets, scripts) All powered by the real-time, production-grade data pipelines we\u2019ve already built. The shift is simple: from tools that show you data \u2192 to autonomous agents that do work with it. Your Role We\u2019re looking for Product Engineers early in their career who operate with high agency, strong ownership, and deep curiosity. This is not a scoped, ticket-driven role. You\u2019ll work directly with the founders to define product direction, build core systems, and ship end-to-end experiences. You might be a fit if you: Take full ownership of problems\u2014from idea to production Are relentlessly curious and think from first principles Move quickly, make decisions, and iterate without perfect specs Care deeply about product quality, UX, and craft Thrive in ambiguity and low-structure environments Technical expectations: 2\u20134 years of experience building production web applications Proficiency in modern web stacks (e.g. TypeScript, React, Next.js, or similar) Experience with backend systems and APIs (e.g. Node, Python, Flask, or similar) Comfortable working with data-intensive applications and distributed systems Ability to pick up new technologies quickly and move across the stack as needed Solid understanding of performance, system design, and scalability Experience building and shipping production systems This is a hybrid in-office role in San Mateo, CA. We are looking for this person to be in-office three days a week with our team. Bottom Line We\u2019re building toward a future where autonomous agents, powered by a shared data world model, can understand a business and execute work on its behalf. If you\u2019re the kind of engineer who wants to build systems like that\u2014and take real ownership in the process\u2014you\u2019ll do well here. Our Benefits Medical, Dental and Vision Insurance Unlimited PTO Parental Leave 401K Plan Coefficient takes a market-based approach to pay. The candidate's starting pay will be determined based on job-related skills, experience, qualifications, and interview performance. For candidates located in the San Francisco Bay Area, the salary range will be $150,000-250,000. For candidates outside of the Bay Area, the salary range will be determined by location and adjusted for cost of labor. If you have questions on this, please contact our recruiting team for more information. We are committed to equal employment opportunity regardless of race, color, ancestry, religion, sex, national origin, sexual orientation, age, citizenship, marital status, disability, gender, gender identity or expression, or veteran status. We are proud to be an equal opportunity workplace. Create a Job Alert Interested in building your career at Coefficient? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Email* Phone Country* Phone* Resume/CV* Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [
+        "Python",
+        "TypeScript",
+        "React",
+        "Flask"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:39:31.400590Z",
+    "success": true,
+    "error": null
+  }
+}

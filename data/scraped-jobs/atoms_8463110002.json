@@ -1,0 +1,33 @@
+{
+  "company_name": "Atoms",
+  "company_slug": "atoms",
+  "company_logo_url": "/company-logos/atoms.png",
+  "job": {
+    "title": "Hardware Engineering",
+    "apply_url": "https://job-boards.greenhouse.io/cssmerge/jobs/8463110002",
+    "location_display": "Remote, USA",
+    "work_mode": "remote",
+    "role_department": "engineering",
+    "posted_date": "2026-04-05"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Hardware Engineering US Join Us Hardware Engineering Hardware Engineering develops the electronic and embedded systems that power our technology platforms. From architecture and prototyping to testing and production, this function designs reliable, scalable hardware that performs in demanding real-world environments. Working closely with software, robotics, and operations teams, Hardware Engineers turn concepts into robust systems that enable our products to operate at scale. From food production and delivery to mining and transport, ATOMS develops robotics, software, and infrastructure that automate how things are produced and moved through the physical world. Our systems combine robotics and intelligent software to sense, predict, and act in real-world environments, making earth\u2019s essential industries more productive, reliable, and scalable. Join ATOMS, we build progress machines for the physical world. Apply for this job * indicates a required field First Name* Last Name* Preferred First Name Email* Phone Country* Phone* Location (City)* Locate me Resume/CV Attach Attach Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile* Website Which of the following locations are you currently based in?* Select... Have you been referred by a current employee?* Select... If you were referred, please provide their full name and/or email address. Are you currently authorized to work for all employers in the country where this job is based?* Select... Do you now or will you in the future require immigration sponsorship by the company for continued work-authorization?* Select... Are you willing to work in office, 5-days a week?* Select... Are you willing to relocate for this role if required?* Select... Tell us a bit more about you. Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [
+        "days a week?",
+        "Select... Are you willing to relocate for this role if required?",
+        "Select... Tell us a bit more about you. Submit application Powered by"
+      ],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:41:15.924627Z",
+    "success": true,
+    "error": null
+  }
+}
