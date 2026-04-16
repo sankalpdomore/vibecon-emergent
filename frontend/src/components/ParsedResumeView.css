@@ -217,7 +217,7 @@
 .matches-job-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
 /* Job Leads Card - Production Design */
@@ -228,16 +228,23 @@
   border: 1px solid #ddd;
   transition: all 0.2s ease;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  gap: 0;
   position: relative;
-  cursor: pointer;
+  cursor: default;
   text-decoration: none;
 }
 
 .job-leads-company-link:hover {
   background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   border-color: #555;
+}
+
+.job-leads-company-link-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
 }
 
 .job-leads-company-link-logo {
@@ -248,6 +255,80 @@
   border: 1px solid #e5e5e5;
   display: flex;
   align-items: center;
+
+/* Job Card CTA Row */
+.job-card-cta-row {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.job-card-cta-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  color: #666;
+}
+
+.job-card-cta-btn i {
+  font-size: 14px;
+}
+
+.job-card-cta-btn i.ph-bold.ph-arrow-square-out {
+  font-size: 12px;
+  top: -1px;
+  position: relative;
+}
+
+.job-card-cta-btn i.ph-bold.ph-bookmark-simple {
+  font-size: 12px;
+  top: 0px;
+  position: relative;
+}
+
+.job-card-cta-btn:hover {
+  background: #f9f9f9;
+  border-color: #cccccc;
+}
+
+/* Save button active state (amber) */
+.job-card-cta-btn--save-active {
+  background: #fffbeb;
+  border: 1px solid #b4820980;
+  color: #b48209;
+}
+
+.job-card-cta-btn--save-active:hover {
+  background: #fef3c7;
+  border: 1px solid #b4820990;
+}
+
+/* Applied button active state (green) */
+.job-card-cta-btn--apply-active {
+  background: #f0fdf4;
+  border: 1px solid #15803d60;
+  color: #15803d;
+}
+
+.job-card-cta-btn--apply-active:hover {
+  background: #dcfce7;
+  border: 1px solid #15803d90;
+}
+
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
@@ -396,7 +477,7 @@
 }
 
 .job-leads-match-insight-item i {
-  font-size: 13px;
+  font-size: 17px;
   color: #18af53;
   flex-shrink: 0;
   margin-top: 1px;

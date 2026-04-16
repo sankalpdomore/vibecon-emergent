@@ -216,53 +216,73 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                 // Matched Jobs
                 <>
                   {matchedJobs.map((job) => (
-                    <a 
+                    <div 
                       key={job.id} 
-                      href={job.applyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="job-leads-company-link"
                     >
-                      <div className="job-leads-company-link-logo">
-                        {job.logo ? (
-                          <img src={job.logo} alt={job.company} />
-                        ) : (
-                          <div className="job-leads-company-link-logo-fallback">
-                            {job.companyInitials}
+                      {/* Row 1: Logo + Info + Insights */}
+                      <div className="job-leads-company-link-row">
+                        <div className="job-leads-company-link-logo">
+                          {job.logo ? (
+                            <img src={job.logo} alt={job.company} />
+                          ) : (
+                            <div className="job-leads-company-link-logo-fallback">
+                              {job.companyInitials}
+                            </div>
+                          )}
+                        </div>
+                        <div className="job-leads-company-link-info">
+                          <div className="job-leads-company-link-name">
+                            {job.title} <span className="job-leads-company-at">@ </span>{job.company}
+                          </div>
+                          <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
+                            {job.ranking === 'highly_recommended' && 'Highly recommended'}
+                            {job.ranking === 'good_fit' && 'Good fit'}
+                            {job.ranking === 'needs_discussion' && 'Needs discussion'}
+                          </span>
+                          <div className="job-leads-company-link-offices">
+                            <i className="ph-bold ph-map-pin"></i>
+                            {job.location}
+                          </div>
+                          <div className="job-leads-company-link-departments">
+                            <i className="ph-bold ph-stack"></i>
+                            {job.departments}
+                          </div>
+                        </div>
+                        {job.matchInsights && job.matchInsights.length > 0 && (
+                          <div className="job-leads-match-insights">
+                            {job.matchInsights.map((insight, idx) => (
+                              <div key={idx} className="job-leads-match-insight-item">
+                                <i className="ph-bold ph-checks"></i>
+                                <span>{insight}</span>
+                              </div>
+                            ))}
                           </div>
                         )}
                       </div>
-                      <div className="job-leads-company-link-info">
-                        <div className="job-leads-company-link-name">
-                          {job.title} <span className="job-leads-company-at">@ </span>{job.company}
-                        </div>
-                        <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
-                          {job.ranking === 'highly_recommended' && 'Highly recommended'}
-                          {job.ranking === 'good_fit' && 'Good fit'}
-                          {job.ranking === 'needs_discussion' && 'Needs discussion'}
-                          {job.ranking === 'reject' && 'Reject'}
-                        </span>
-                        <div className="job-leads-company-link-offices">
-                          <i className="ph-bold ph-map-pin"></i>
-                          {job.location}
-                        </div>
-                        <div className="job-leads-company-link-departments">
-                          <i className="ph-bold ph-stack"></i>
-                          {job.departments}
-                        </div>
+
+                      {/* Row 2: CTA Buttons */}
+                      <div className="job-card-cta-row">
+                        <a 
+                          href={job.applyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="job-card-cta-btn"
+                        >
+                          <i className="ph-bold ph-arrow-square-out"></i>
+                          <span>View job</span>
+                        </a>
+                        <button className="job-card-cta-btn">
+                          <i className="ph-bold ph-bookmark-simple"></i>
+                          <span>Save</span>
+                        </button>
+                        <button className="job-card-cta-btn">
+                          <i className="ph-bold ph-checks"></i>
+                          <span>Mark Applied</span>
+                        </button>
                       </div>
-                      {job.matchInsights && job.matchInsights.length > 0 && (
-                        <div className="job-leads-match-insights">
-                          {job.matchInsights.map((insight, idx) => (
-                            <div key={idx} className="job-leads-match-insight-item">
-                              <i className="ph-bold ph-checks"></i>
-                              <span>{insight}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
                       <i className="ph-bold ph-arrow-square-out job-leads-company-link-arrow"></i>
-                    </a>
+                    </div>
                   ))}
                 </>
               )}
