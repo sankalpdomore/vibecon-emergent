@@ -15,90 +15,78 @@ const CARD_LAYOUTS = [
   }
 ];
 
-const SingleColumnLayout = ({ hasFile }) => (
-  <>
-    {hasFile && (
-      <div className="resume-mini-sections">
-        <div className="resume-mini-section">
-          <div className="resume-mini-section-title">Experience</div>
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '80%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-          </div>
-        </div>
-        <div className="resume-mini-section">
-          <div className="resume-mini-section-title">Skills</div>
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '60%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-          </div>
-        </div>
+const SingleColumnLayout = () => (
+  <div className="resume-mini-sections">
+    <div className="resume-mini-section">
+      <div className="resume-mini-section-title">Experience</div>
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '80%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
       </div>
-    )}
-  </>
+    </div>
+    <div className="resume-mini-section">
+      <div className="resume-mini-section-title">Skills</div>
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+      </div>
+    </div>
+  </div>
 );
 
-const TwoColumnLayout = ({ hasFile }) => (
-  <>
-    {hasFile && (
-      <div className="resume-mini-two-column">
-        <div className="resume-mini-column">
-          <div className="resume-mini-section-title">Work</div>
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '70%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '70%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '70%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '70%' }}></div>
-          </div>
-        </div>
-        <div className="resume-mini-column">
-          <div className="resume-mini-section-title">Education</div>
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '60%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '60%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '60%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '60%' }}></div>
-          </div>
-        </div>
+const TwoColumnLayout = () => (
+  <div className="resume-mini-two-column">
+    <div className="resume-mini-column">
+      <div className="resume-mini-section-title">Work</div>
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '70%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '70%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '70%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '70%' }}></div>
       </div>
-    )}
-  </>
+    </div>
+    <div className="resume-mini-column">
+      <div className="resume-mini-section-title">Education</div>
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
+      </div>
+    </div>
+  </div>
 );
 
-const SidebarLayout = ({ hasFile }) => (
-  <>
-    {hasFile && (
-      <div className="resume-mini-sidebar-layout">
-        <div className="resume-mini-sidebar">
-          <div className="resume-mini-block"></div>
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '80%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-          </div>
-        </div>
-        <div className="resume-mini-main-content">
-          <div className="resume-mini-section-lines">
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '90%' }}></div>
-            <div className="resume-mini-line" style={{ width: '100%' }}></div>
-            <div className="resume-mini-line" style={{ width: '85%' }}></div>
-          </div>
-          <div className="resume-mini-block right-aligned"></div>
-        </div>
+const SidebarLayout = () => (
+  <div className="resume-mini-sidebar-layout">
+    <div className="resume-mini-sidebar">
+      <div className="resume-mini-block"></div>
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '80%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
       </div>
-    )}
-  </>
+    </div>
+    <div className="resume-mini-main-content">
+      <div className="resume-mini-section-lines">
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '90%' }}></div>
+        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '85%' }}></div>
+      </div>
+      <div className="resume-mini-block right-aligned"></div>
+    </div>
+  </div>
 );
 
 export const ResumeCardStack = ({ hasFile }) => {
@@ -123,11 +111,11 @@ export const ResumeCardStack = ({ hasFile }) => {
   const renderCardContent = (layoutType) => {
     switch (layoutType) {
       case 'single-column':
-        return <SingleColumnLayout hasFile={hasFile} />;
+        return <SingleColumnLayout />;
       case 'two-column':
-        return <TwoColumnLayout hasFile={hasFile} />;
+        return <TwoColumnLayout />;
       case 'sidebar':
-        return <SidebarLayout hasFile={hasFile} />;
+        return <SidebarLayout />;
       default:
         return null;
     }
@@ -154,6 +142,7 @@ export const ResumeCardStack = ({ hasFile }) => {
                 <div className="resume-mini-title">Professional Title</div>
               </div>
             </div>
+            {/* Always render content for all cards, not just when hasFile */}
             {renderCardContent(layout.type)}
           </div>
         );
