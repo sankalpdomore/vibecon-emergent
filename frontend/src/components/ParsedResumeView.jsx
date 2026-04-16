@@ -202,12 +202,24 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                 <>
                   {[1, 2, 3, 4, 5].map((i) => (
                     <div key={i} className="skeleton-job-card">
-                      <div className="skeleton-header">
+                      <div className="skeleton-row-1">
                         <div className="skeleton-logo"></div>
-                        <div className="skeleton-text">
-                          <div className="skeleton-line title"></div>
-                          <div className="skeleton-line subtitle"></div>
+                        <div className="skeleton-info">
+                          <div className="skeleton-line" style={{ width: '70%', height: '16px' }}></div>
+                          <div className="skeleton-line" style={{ width: '40%', height: '12px' }}></div>
+                          <div className="skeleton-line" style={{ width: '50%', height: '12px', marginTop: '8px' }}></div>
+                          <div className="skeleton-line" style={{ width: '60%', height: '12px' }}></div>
                         </div>
+                        <div className="skeleton-insights">
+                          <div className="skeleton-line" style={{ width: '90%', height: '10px' }}></div>
+                          <div className="skeleton-line" style={{ width: '80%', height: '10px' }}></div>
+                          <div className="skeleton-line" style={{ width: '85%', height: '10px' }}></div>
+                        </div>
+                      </div>
+                      <div className="skeleton-row-2">
+                        <div className="skeleton-btn"></div>
+                        <div className="skeleton-btn"></div>
+                        <div className="skeleton-btn"></div>
                       </div>
                     </div>
                   ))}
