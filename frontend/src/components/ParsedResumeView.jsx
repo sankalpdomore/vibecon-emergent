@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './ParsedResumeView.css';
 
 export const ParsedResumeView = ({ parsedData, onBack }) => {
   const { name, email, phone, summary, skills, experience, education } = parsedData;
@@ -8,7 +9,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
   useEffect(() => {
     // Simulate job matching process
     const timer = setTimeout(() => {
-      // Mock matched jobs
+      // Mock matched jobs matching the screenshot design
       setMatchedJobs([
         {
           id: 1,
@@ -16,38 +17,48 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           logo: 'https://avatars.githubusercontent.com/in/1201222?s=120',
           title: 'Senior Backend Engineer',
           score: 92,
+          hiring_info: 'Hiring in 5 office locations',
+          departments: 'Engineering, Backend, Systems',
           location: 'Remote, India'
         },
         {
           id: 2,
           company: 'Apollo.io',
-          logo: 'https://ui-avatars.com/api/?name=AP&background=4F46E5&color=fff',
+          logo: 'https://ui-avatars.com/api/?name=AP&background=4F46E5&color=fff&rounded=true',
           title: 'Backend Engineer',
           score: 88,
+          hiring_info: 'Hiring in 8 office locations',
+          departments: 'Engineering, Data, Product',
           location: 'Remote, India'
         },
         {
           id: 3,
           company: 'Bloomreach',
-          logo: 'https://ui-avatars.com/api/?name=BR&background=10B981&color=fff',
+          logo: 'https://ui-avatars.com/api/?name=BR&background=10B981&color=fff&rounded=true',
           title: 'Senior Data Engineer',
           score: 85,
+          hiring_info: 'Hiring in 12 office locations',
+          departments: 'Engineering, Data, Analytics',
           location: 'Bengaluru, India'
         },
         {
           id: 4,
           company: 'Atomicwork',
-          logo: 'https://ui-avatars.com/api/?name=AW&background=F59E0B&color=fff',
+          logo: 'https://ui-avatars.com/api/?name=AW&background=F59E0B&color=fff&rounded=true',
           title: 'Backend Engineer - Search',
           score: 82,
+          hiring_info: 'Hiring in 3 office locations',
+          departments: 'Engineering, Search, Backend',
           location: 'Bengaluru, India'
         },
         {
           id: 5,
           company: 'Celonis',
-          logo: 'https://ui-avatars.com/api/?name=CE&background=8B5CF6&color=fff',
+          logo: 'https://ui-avatars.com/api/?name=CE&background=8B5CF6&color=fff&rounded=true',
           title: 'Software Engineer',
           score: 80,
+          hiring_info: 'Hiring in 15 office locations',
+          departments: 'Engineering, Product, Cloud',
           location: 'Remote'
         }
       ]);
@@ -59,60 +70,62 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
 
   return (
     <div className="resume-builder-wrapper parsed">
-      <div style={{ display: 'flex', gap: '24px', maxWidth: '1400px', width: '100%', alignItems: 'flex-start' }}>
+      <div className="parsed-view-container">
         {/* Left Column - Parsed Resume */}
-        <div style={{ flex: '1', minWidth: '400px' }}>
+        <div className="parsed-resume-column">
           <div className="modal-card">
-            <div className="modal-card-content-container" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+            <div className="modal-card-content-container parsed-resume-content">
               <div className="modal-card-content">
+                {/* Back Button */}
+                <button onClick={onBack} className="back-button">
+                  <i className="ph-bold ph-arrow-left"></i>
+                  <span>Back</span>
+                </button>
+
                 <h1 className="modal-card-title">Resume Parsed Successfully</h1>
                 <p className="resume-builder-subtext">
                   Here's what we extracted from your resume
                 </p>
 
                 {/* Personal Information */}
-                <div style={{ textAlign: 'left', marginBottom: '24px' }}>
-                  <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#333' }}>
-                    Personal Information
-                  </h3>
-                  <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '12px', border: '1px solid #e5e5e5' }}>
-                    {name && <p style={{ marginBottom: '8px' }}><strong>Name:</strong> {name}</p>}
-                    {email && <p style={{ marginBottom: '8px' }}><strong>Email:</strong> {email}</p>}
-                    {phone && <p><strong>Phone:</strong> {phone}</p>}
+                <div className="parsed-section">
+                  <h3 className="parsed-section-title">Personal Information</h3>
+                  <div className="parsed-section-content">
+                    {name && (
+                      <p className="info-row">
+                        <span className="info-label">Name:</span> {name}
+                      </p>
+                    )}
+                    {email && (
+                      <p className="info-row">
+                        <span className="info-label">Email:</span> {email}
+                      </p>
+                    )}
+                    {phone && (
+                      <p className="info-row">
+                        <span className="info-label">Phone:</span> {phone}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 {/* Summary */}
                 {summary && (
-                  <div style={{ textAlign: 'left', marginBottom: '24px' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#333' }}>
-                      Professional Summary
-                    </h3>
-                    <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '12px', border: '1px solid #e5e5e5' }}>
-                      <p style={{ lineHeight: '1.6', color: '#666' }}>{summary}</p>
+                  <div className="parsed-section">
+                    <h3 className="parsed-section-title">Professional Summary</h3>
+                    <div className="parsed-section-content">
+                      <p className="parsed-section-text">{summary}</p>
                     </div>
                   </div>
                 )}
 
                 {/* Skills */}
                 {skills && skills.length > 0 && (
-                  <div style={{ textAlign: 'left', marginBottom: '24px' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#333' }}>
-                      Skills
-                    </h3>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  <div className="parsed-section">
+                    <h3 className="parsed-section-title">Skills</h3>
+                    <div className="skills-grid">
                       {skills.map((skill, idx) => (
-                        <span
-                          key={idx}
-                          style={{
-                            background: '#f0f0f0',
-                            padding: '6px 12px',
-                            borderRadius: '6px',
-                            fontSize: '13px',
-                            color: '#333',
-                            border: '1px solid #ddd'
-                          }}
-                        >
+                        <span key={idx} className="skill-badge">
                           {skill}
                         </span>
                       ))}
@@ -122,10 +135,10 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
               </div>
             </div>
 
-            {/* Back Button */}
+            {/* Upload Another Resume Button */}
             <div className="modal-card-button-container">
               <button onClick={onBack} className="modal-card-cta">
-                <i className="ph-bold ph-arrow-left"></i>
+                <i className="ph-bold ph-upload-simple"></i>
                 <span>Upload Another Resume</span>
               </button>
             </div>
@@ -133,9 +146,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
         </div>
 
         {/* Right Column - Job Matching */}
-        <div style={{ flex: '1', minWidth: '400px' }}>
+        <div className="job-matches-column">
           <div className="modal-card">
-            <div className="modal-card-content-container" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+            <div className="modal-card-content-container job-matches-content">
               <div className="modal-card-content">
                 <h2 className="modal-card-title" style={{ fontSize: '24px' }}>
                   {matchingState === 'loading' ? 'Finding Your Matches' : 'Your Top Matches'}
@@ -147,27 +160,17 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                   }
                 </p>
 
-                <div style={{ marginTop: '24px' }}>
+                <div className="job-cards-container">
                   {matchingState === 'loading' ? (
                     // Skeleton Loading
                     <>
                       {[1, 2, 3, 4, 5].map((i) => (
-                        <div
-                          key={i}
-                          style={{
-                            background: '#f9fafb',
-                            padding: '16px',
-                            borderRadius: '12px',
-                            border: '1px solid #e5e5e5',
-                            marginBottom: '12px',
-                            animation: 'pulse 1.5s ease-in-out infinite'
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                            <div style={{ width: '48px', height: '48px', borderRadius: '8px', background: '#e5e5e5' }}></div>
-                            <div style={{ flex: 1 }}>
-                              <div style={{ height: '16px', background: '#e5e5e5', borderRadius: '4px', width: '70%', marginBottom: '8px' }}></div>
-                              <div style={{ height: '14px', background: '#e5e5e5', borderRadius: '4px', width: '50%' }}></div>
+                        <div key={i} className="skeleton-job-card">
+                          <div className="skeleton-header">
+                            <div className="skeleton-logo"></div>
+                            <div className="skeleton-text">
+                              <div className="skeleton-line title"></div>
+                              <div className="skeleton-line subtitle"></div>
                             </div>
                           </div>
                         </div>
@@ -177,53 +180,27 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                     // Matched Jobs
                     <>
                       {matchedJobs.map((job) => (
-                        <div
-                          key={job.id}
-                          style={{
-                            background: 'white',
-                            padding: '16px',
-                            borderRadius: '12px',
-                            border: '1px solid #e5e5e5',
-                            marginBottom: '12px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                            e.currentTarget.style.borderColor = '#333';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = '#e5e5e5';
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                        <div key={job.id} className="job-card">
+                          <div className="job-card-header">
                             <img 
                               src={job.logo} 
                               alt={job.company}
-                              style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }}
+                              className="job-card-logo"
                             />
-                            <div style={{ flex: 1 }}>
-                              <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#333', marginBottom: '4px' }}>
-                                {job.title}
-                              </h3>
-                              <p style={{ fontSize: '14px', color: '#666' }}>{job.company}</p>
-                            </div>
-                            <div style={{ 
-                              background: '#10b981', 
-                              color: 'white', 
-                              padding: '4px 12px', 
-                              borderRadius: '8px',
-                              fontSize: '14px',
-                              fontWeight: '600'
-                            }}>
-                              {job.score}%
+                            <div className="job-card-info">
+                              <h3 className="job-card-company">{job.company}</h3>
+                              <h4 className="job-card-title">{job.title}</h4>
+                              <div className="job-card-meta">
+                                <i className="ph-bold ph-buildings"></i>
+                                <span>{job.hiring_info}</span>
+                              </div>
+                              <div className="job-card-details">
+                                <i className="ph-bold ph-briefcase"></i>
+                                <span>{job.departments}</span>
+                              </div>
                             </div>
                           </div>
-                          <p style={{ fontSize: '13px', color: '#888' }}>
-                            <i className="ph-bold ph-map-pin" style={{ marginRight: '6px' }}></i>
-                            {job.location}
-                          </p>
+                          <i className="ph-bold ph-arrow-square-out job-card-external-icon"></i>
                         </div>
                       ))}
                     </>

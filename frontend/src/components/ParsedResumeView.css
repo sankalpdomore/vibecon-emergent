@@ -1,0 +1,259 @@
+/* Parsed Resume View Styles */
+
+.parsed-view-container {
+  display: flex;
+  gap: 24px;
+  max-width: 100%;
+  width: 100%;
+  align-items: flex-start;
+  padding: 0 24px;
+}
+
+/* Left Column - Parsed Resume (Fixed width) */
+.parsed-resume-column {
+  width: 480px;
+  flex-shrink: 0;
+}
+
+.parsed-resume-content {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+/* Right Column - Job Matches (Takes remaining space) */
+.job-matches-column {
+  flex: 1;
+  min-width: 400px;
+}
+
+.job-matches-content {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+/* Back Button */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #333;
+}
+
+.back-button i {
+  font-size: 18px;
+}
+
+/* Section Styles */
+.parsed-section {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.parsed-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.parsed-section-content {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+}
+
+.parsed-section-text {
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+
+.info-row {
+  margin-bottom: 8px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* Skills */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-badge {
+  background: #f0f0f0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+/* Job Cards */
+.job-cards-container {
+  margin-top: 24px;
+}
+
+.job-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.job-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #333;
+}
+
+.job-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.job-card-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.job-card-info {
+  flex: 1;
+}
+
+.job-card-company {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.job-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.job-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #10b981;
+  margin-bottom: 8px;
+}
+
+.job-card-meta i {
+  font-size: 16px;
+}
+
+.job-card-details {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #888;
+}
+
+.job-card-details i {
+  font-size: 16px;
+}
+
+.job-card-score {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #10b981;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.job-card-external-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #ccc;
+  font-size: 20px;
+  transition: color 0.2s;
+}
+
+.job-card:hover .job-card-external-icon {
+  color: #666;
+}
+
+/* Skeleton Loading */
+.skeleton-job-card {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 16px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.skeleton-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #e5e5e5;
+}
+
+.skeleton-text {
+  flex: 1;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: #e5e5e5;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.skeleton-line.title {
+  width: 70%;
+}
+
+.skeleton-line.subtitle {
+  width: 50%;
+  height: 14px;
+}
