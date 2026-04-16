@@ -16,7 +16,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           companyInitials: 'EL',
           logo: 'https://nextdoor.company/company-logos/emergent.png',
           title: 'Senior Backend Engineer',
-          hiringLocations: 5,
+          location: 'Bengaluru, India',
           departments: 'Engineering, Backend, Systems',
           applyUrl: 'https://job-boards.greenhouse.io/emergentlabsinc/jobs/4111446009',
           ranking: 'highly_recommended'
@@ -27,7 +27,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           companyInitials: 'AP',
           logo: 'https://nextdoor.company/company-logos/apolloio.png',
           title: 'Backend Engineer',
-          hiringLocations: 8,
+          location: 'Remote, India',
           departments: 'Engineering, Data, Product',
           applyUrl: 'https://job-boards.greenhouse.io/apollo-io/jobs/5541744004',
           ranking: 'good_fit'
@@ -38,7 +38,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           companyInitials: 'BR',
           logo: 'https://nextdoor.company/company-logos/bloomreach.png',
           title: 'Senior Data Engineer',
-          hiringLocations: 12,
+          location: 'Prague, Czech Republic',
           departments: 'Engineering, Data, Analytics',
           applyUrl: 'https://job-boards.greenhouse.io/bloomreach/jobs/6378473003',
           ranking: 'good_fit'
@@ -49,7 +49,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           companyInitials: 'AW',
           logo: 'https://nextdoor.company/company-logos/atomicwork.png',
           title: 'Backend Engineer - Search',
-          hiringLocations: 3,
+          location: 'Bengaluru, India',
           departments: 'Engineering, Search, Backend',
           applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008',
           ranking: 'needs_discussion'
@@ -216,7 +216,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                         )}
                       </div>
                       <div className="job-leads-company-link-info">
-                        <div className="job-leads-company-link-name">{job.company}</div>
+                        <div className="job-leads-company-link-name">
+                          {job.title} <span className="job-leads-company-at">@{job.company}</span>
+                        </div>
                         <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
                           {job.ranking === 'highly_recommended' && 'Highly recommended'}
                           {job.ranking === 'good_fit' && 'Good fit'}
@@ -224,8 +226,8 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                           {job.ranking === 'reject' && 'Reject'}
                         </span>
                         <div className="job-leads-company-link-offices">
-                          <i className="ph-bold ph-buildings"></i>
-                          Hiring in {job.hiringLocations} office locations
+                          <i className="ph-bold ph-map-pin"></i>
+                          {job.location}
                         </div>
                         <div className="job-leads-company-link-departments">
                           <i className="ph-bold ph-stack"></i>

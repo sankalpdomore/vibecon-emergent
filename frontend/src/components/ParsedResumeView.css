@@ -29,7 +29,7 @@
 
 /* Back Button */
 .resume-parsed-card-nav {
-  padding: 20px 28px 0 28px;
+  padding: 20px 28px 0 16px;
 }
 
 .results-back-button {
@@ -83,6 +83,7 @@
   color: #111;
   padding: 0px 28px 0 28px;
   margin-bottom: 0px;
+  margin-top: -54px;
   text-align: center;
 }
 
@@ -286,6 +287,11 @@
   margin-bottom: 8px;
 }
 
+.job-leads-company-at {
+  font-weight: 400;
+  color: #888;
+}
+
 .job-leads-ranking-badge {
   font-size: 11px;
   font-weight: 600;
@@ -403,6 +409,14 @@
 }
 
 .skeleton-line.title {
+  width: 70%;
+}
+
+.skeleton-line.subtitle {
+  width: 50%;
+  height: 14px;
+}
+{
   width: 70%;
 }
 
