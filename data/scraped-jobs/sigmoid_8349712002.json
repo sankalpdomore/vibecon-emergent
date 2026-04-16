@@ -1,0 +1,32 @@
+{
+  "company_name": "Sigmoid",
+  "company_slug": "sigmoid",
+  "company_logo_url": "/company-logos/sigmoid.png",
+  "job": {
+    "title": "Data Architect (Dallas)",
+    "apply_url": "https://job-boards.greenhouse.io/sigmoid/jobs/8349712002",
+    "location_display": "Dallas, USA",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-07"
+  },
+  "jd": {
+    "raw_text": "Data Architect (Dallas) Texas, US Apply Job Description: 8+ Years of experience in Data Engineering Client Consulting and Technical Leadership Exp: Min 2 years, P1 Tech Stack: Databricks 2-3 years, P1 Preferred Experience: Tech Stack: Cloud - Azure/AWS 1-3 years, P2 Iceberg + Hadoop + Spark + Snowflake Should have experience in building data warehouses. Create a Job Alert Interested in building your career at Sigmoid? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Preferred First Name Email* Phone Country* Phone* Location (City)* Locate me Resume/CV* Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Education School* Select... Degree* Select... Discipline* Select... Start date month* Select... Start date year* End date month* Select... End date year* Add another Total Professional Experience* Select... Relevant Professional Experience* Select... Notice Period (In Days)* Please mention numeric value for the exact number of days you are required to serve as notice. LinkedIn Profile* How did you hear about this job?* Select... Expected CTC (In Lakhs - INR)* Expected Compensation: Enter the numerical value up to two decimal places (e.g., Eighteen Lakhs Twenty Thousands = 18.20). Current Designation* Please mention your current or most recent designation Current CTC (In Lakhs - INR)* Current Compensation: Enter the numerical value up to two decimal places (e.g., Eighteen Lakhs Twenty Thousands = 18.20). Current Company* Please mention the name of your current or most recent employer. Website Location Preference* Select... Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [
+        "AWS",
+        "Azure"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T10:02:16.971888Z",
+    "success": true,
+    "error": null
+  }
+}

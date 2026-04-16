@@ -17,10 +17,12 @@ export const RecommendedJobs = () => {
   const handleFileUpload = (file) => {
     setUploadedFile(file);
     setError(null);
+    // Immediately start parsing when file is selected
+    handleStartMatching(file);
   };
 
-  const handleStartMatching = async () => {
-    if (!uploadedFile) {
+  const handleStartMatching = async (file = uploadedFile) => {
+    if (!file) {
       setError('Please upload a resume first');
       return;
     }
@@ -31,7 +33,7 @@ export const RecommendedJobs = () => {
     try {
       // Create FormData for file upload
       const formData = new FormData();
-      formData.append('file', uploadedFile);
+      formData.append('file', file);
 
       // Call backend API to parse resume
       const response = await axios.post(`${API}/parse-resume`, formData, {
@@ -50,6 +52,7 @@ export const RecommendedJobs = () => {
       console.error('Error parsing resume:', err);
       setError(err.response?.data?.detail || 'Failed to parse resume. Please try again.');
       setState('upload');
+      setUploadedFile(null);
     }
   };
 
@@ -69,9 +72,19 @@ export const RecommendedJobs = () => {
           onStartMatching={handleStartMatching}
           onCancel={() => setUploadedFile(null)}
           error={error}
+          isLoading={false}
         />
       )}
-      {state === 'loading' && <LoadingState message="Parsing your resume..." />}
+      {state === 'loading' && (
+        <UploadState 
+          uploadedFile={uploadedFile}
+          onFileUpload={handleFileUpload}
+          onStartMatching={handleStartMatching}
+          onCancel={() => setUploadedFile(null)}
+          error={error}
+          isLoading={true}
+        />
+      )}
       {state === 'parsed' && parsedData && (
         <ParsedResumeView 
           parsedData={parsedData}

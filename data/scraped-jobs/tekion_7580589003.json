@@ -1,0 +1,43 @@
+{
+  "company_name": "Tekion",
+  "company_slug": "tekion",
+  "company_logo_url": "/company-logos/tekion.png",
+  "job": {
+    "title": "Architect, Software Engineering - Integration",
+    "apply_url": "https://job-boards.greenhouse.io/tekion/jobs/7580589003",
+    "location_display": "Bengaluru, India",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-13"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Architect, Software Engineering - Integration Bengaluru, Karnataka, India Apply About Tekion: Positively disrupting an industry that has not seen any innovation in over 50 years, Tekion has challenged the paradigm with the first and fastest cloud-native automotive platform that includes the revolutionary Automotive Retail Cloud (ARC) for retailers, Automotive Enterprise Cloud (AEC) for manufacturers and other large automotive enterprises and Automotive Partner Cloud (APC) for technology and industry partners. Tekion connects the entire spectrum of the automotive retail ecosystem through one seamless platform. The transformative platform uses cutting-edge technology, big data, machine learning, and AI to seamlessly bring together OEMs, retailers/dealers and consumers. With its highly configurable integration and greater customer engagement capabilities, Tekion is enabling the best automotive retail experiences ever. Tekion employs close to 3,000 people across North America, Asia and Europe. Job Summary - Software Platform Architect The Software Platform Architect is responsible for the high-level design, development, and evolution of scalable software platforms that support multiple products and business needs. This role collaborates with cross-functional teams\u2014including engineering, product, and operations\u2014to define technology standards, guide architectural decisions, and ensure the platform\u2019s reliability, scalability, and security. Key Responsibilities Lead the architecture and design of Integration and System Integrator Platform platforms, ensuring alignment with business objectives and technical strategy. Define and promote the use of architectural patterns, best practices, and standards across the engineering organization. Collaborate with development teams to translate business requirements into robust, scalable, and modular solutions. Evaluate and select appropriate technologies, frameworks, and tools to meet platform needs. Oversee integration with internal and third-party systems, ensuring data integrity and optimal performance. Conduct architecture reviews and provide technical guidance to engineering teams throughout the software development lifecycle. Identify and address potential bottlenecks, vulnerabilities, and system failures. Maintain documentation of architecture, processes, and best practices. Stay current with emerging technologies and industry trends, evaluating their potential impact on the platform. Mentor and coach engineering teams on architectural principles and practices. Qualifications Bachelor\u2019s or master's degree in computer science, Software Engineering, or related field. Experience in building at event driven applications at scale 10+ years of relevant experience in software development and architecture, with a focus on building platforms or large-scale systems. Experience is large scale messaging systems like Kafka Experience using Mongodb, ElasticSearch, MySQL, Postgresql Proven experience in building platform components using the java, SpringBoot. Experience with cloud platforms (e.g., AWS, Azure, GCP) and container orchestration (e.g., Kubernetes, Docker). Strong knowledge of APIs, microservices, data storage, and integration methodologies. Experience in SaaS platform architecture or development. Familiarity with DevOps practices and CI/CD pipelines. Experience with security, compliance, and regulatory requirements for enterprise software. Excellent problem-solving, communication, and leadership skills. Experience working in Agile environments. Experience in using AI tools (Augment, Cursor, Claude code) Tekion is proud to be an Equal Employment Opportunity employer. We do not discriminate based upon race, religion, color, national origin, gender (including pregnancy, childbirth, or related medical conditions), sexual orientation, gender identity, gender expression, age, status as a protected veteran, status as an individual with a disability, victim of violence or having a family member who is a victim of violence, the intersectionality of two or more protected categories, or other applicable legally protected characteristics. For more information on our privacy practices, please refer to our Applicant Privacy Notice here. Create a Job Alert Interested in building your career at Tekion? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Preferred First Name Email* Phone Country* Phone* Resume/CV* Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Education School* Select... Degree* Select... Start date year* Add another LinkedIn Profile (Strongly Preferred) Are you currently a Tekion employee? (If \"yes\" - please apply via Greenhouse Internal Job Board)* Select... Have you previously worked at Tekion as an employee or contractor?* Select... This will help us avoid duplicate profiles by connecting your application to your prior worker profile in our HRIS tools. If you are presently working, or have worked in the past, as a contractor or consultant for Tekion, please provide the dates and name of the agency/company.* If not, please type \"N/A\" Are you related to, or in a relationship with, anyone that works for Tekion? If yes, what is your relationship to them? * \"Related to\" or \"in a relationship with\" includes spouse/domestic partner, significant other, parent, child, grandparent, grandchild, sibling, uncle, aunt, nephew, niece, first cousin, in-laws (father, mother, son, daughter), any step-relation who falls into any of the previous categories, those in a in a dating relationship and/or members of the same household. Note: Your response here does not link to a referral. If you would like to be referred, please ask your contact to submit your resume and application through Greenhouse. What is your target base and bonus compensation for the role you are considering at Tekion? We want to be mindful of all parties' time during the application and interview process. Therefore, it is important that you share your desired compensation to ensure alignment to the role before engaging in the interview process. * Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [
+        "Submit application Powered by"
+      ],
+      "tech_stack": [
+        "Java",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB",
+        "Elasticsearch",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "GCP",
+        "Azure",
+        "CI/CD"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T10:21:23.339534Z",
+    "success": true,
+    "error": null
+  }
+}

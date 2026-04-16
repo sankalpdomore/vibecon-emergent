@@ -170,6 +170,10 @@ body {
   background-size: 24px 24px;
 }
 
+.resume-builder-wrapper.parsed {
+  padding-top: 48px;
+}
+
 .resume-builder-card {
   max-width: 480px;
   width: 100%;
@@ -952,4 +956,24 @@ body {
 .search-bar-input::placeholder {
   letter-spacing: -0.2px;
   color: #999999;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse animation for skeleton loading */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }

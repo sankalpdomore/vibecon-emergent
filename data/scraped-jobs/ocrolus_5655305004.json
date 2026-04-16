@@ -1,0 +1,34 @@
+{
+  "company_name": "Ocrolus",
+  "company_slug": "ocrolus",
+  "company_logo_url": "/company-logos/ocrolus.png",
+  "job": {
+    "title": "Senior Software Engineer",
+    "apply_url": "https://job-boards.greenhouse.io/ocrolusinc/jobs/5655305004",
+    "location_display": "Remote",
+    "work_mode": "remote",
+    "role_department": "engineering",
+    "posted_date": "2026-04-07"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Senior Software Engineer Remote - US Apply Come build at the intersection of AI and fintech. At Ocrolus, we\u2019re on a mission to help lenders automate workflows with confidence\u2014streamlining how financial institutions evaluate borrowers and enabling faster, more accurate lending decisions. Our AI workflow and analytics platform for lenders is trusted at scale, processing nearly one million credit applications every month across small business, mortgage, and consumer lending. By integrating state-of-the-art open- and closed-source AI models with our human-in-the-loop verification engine, Ocrolus captures data from financial documents with over 99% accuracy. Thanks to our advanced fraud detection and comprehensive cash flow and income analytics, our customers achieve greater efficiency in risk management, and provide expanded access to credit\u2014ultimately creating a more inclusive financial system. Trusted by more than 400 customers\u2014including industry leaders like Better Mortgage, Brex, Enova, Nova Credit, PayPal, Plaid, SoFi, and Square\u2014Ocrolus stands at the forefront of AI innovation in fintech. Join us, and help redefine how the world\u2019s most innovative lenders do business. The Mortgage Engineering team is seeking a highly skilled and experienced Engineer with a strong focus on microservices architecture to join our team. We are looking for an exceptionally skilled Senior Software Engineer with a solid technical background and leadership skills, able to work in a fast-paced environment, and help architect and build the next generation of our backend applications. What you'll do: Designing, implementing, and maintaining Microservices using Python. Designing and developing cloud based software products conforming to industry best practices. Build systems, services, and tools to handle new Ocrolus products and business requirements that securely scale over millions of transactions. Build and scale our fast-growing online services and data pipelines. Collaborate with other teams on security, reliability, and automation. Supporting the testing process, troubleshooting issues and resolving them. What you'll bring: Master's degree in Computer Science as a mandatory qualification 5+ years engineering experience Expert in Python and experience in building complex systems and applications in a large fintech Experience in JVM tuning for performance improvements for the mainframe product. Solid database skills (Postgres, MySQL etc) and data modeling experience. Experience with Web Frameworks like Flask, and related ecosystems Strong problem-solving and communication skills. Can contribute best-practices and architectural leadership to our backend applications and help pick the architecture, frameworks and tooling for our next generation platform. Experience with agile methodologies and automated testing. Familiarity with containerization, microservices architecture, continuous integration, Amazon Web Services, and deployment. Applicant must be based in NY/NJ/CT Note: This is a remote role; however, candidates must be based in New York City. The full-time salary range for this role is around $180,000 + equity + benefits. Base pay offered may vary depending on job-related knowledge, skills, experience, and market location. Disclosure as required by N.Y.C. Admin. Code \u00a7\u00a7 8-102 and 8-107(32) of the full time salary compensation range for this role when being hired into our offices in New York City. Life at Ocrolus We\u2019re a team of builders, thinkers, and problem solvers who care deeply about our mission \u2014 and each other. As a fast-growing, remote-first company, we offer an environment where you can grow your skills, take ownership of your work, and make a meaningful impact. Our culture is grounded in four core values: Empathy \u2013 Understand and serve with compassion Curiosity \u2013 Explore new ideas and question the status quo Humility \u2013 Listen, be grounded, and remain open-minded Ownership \u2013 Love what you do, work hard, and deliver excellence We believe diverse perspectives drive better outcomes. That\u2019s why we\u2019re committed to fostering an inclusive workplace where everyone has a seat at the table, regardless of race, gender, gender identity, age, disability, national origin, or any other protected characteristic. We look forward to building the future of lending together. Create a Job Alert Interested in building your career at Ocrolus Inc.? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Email* Phone Country* Phone* Resume/CV* Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile* Please share a link of Leet/ Github profile* Are you comfortable to travel to our NY office for the interview process?* Select... Are you based 45-60 minutes from the Financial District in New York City?* Select... Please explain your employment status and state if you would require a visa sponsorship.* Do you have exp. working in Saas based Product company?* Select... Please share your compensation expectation.* Please mention your earliest availability to join us if shortlisted* How many years of hands-on experience do you have with Python in production?* Select... How did your last microservice communicate with other services?* Select... Tell me about one microservice you designed or owned. What was its purpose and key challenges?* When performance issues arise in a Python service, what\u2019s your typical first diagnostic step? * A. Add caching B. Use cProfile, PySpy, or logs to profile C. Scale horizontally D. Inspect DB queries E. Restart containers When you built Python services, how did you structure them?* Which AWS services have you used in production?* Select... How did you package and deploy your applications?* Describe about a recent project you're proud of. What was your specific role?* Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [
+        "Python",
+        "Flask",
+        "MySQL",
+        "AWS"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:57:30.237628Z",
+    "success": true,
+    "error": null
+  }
+}

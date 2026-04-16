@@ -1,0 +1,31 @@
+{
+  "company_name": "Skild Ai",
+  "company_slug": "skild-ai",
+  "company_logo_url": "/company-logos/skild-ai.png",
+  "job": {
+    "title": "Electrical Engineer",
+    "apply_url": "https://job-boards.greenhouse.io/skildai-careers/jobs/4450191008",
+    "location_display": "Pittsburgh, USA / San Francisco, USA",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-03-24"
+  },
+  "jd": {
+    "raw_text": "Back to jobs Electrical Engineer Pittsburgh, San Francisco Apply Company Overview At Skild AI, we are building the world's first general purpose robotic intelligence that is robust and adapts to unseen scenarios without failing. We believe massive scale through data-driven machine learning is the key to unlocking these capabilities for the widespread deployment of robots within society. Our team consists of individuals with varying levels of experience and backgrounds, from new graduates to domain experts. Relevant industry experience is important, but ultimately less so than your demonstrated abilities and attitude. We are looking for passionate individuals who are eager to explore uncharted waters and contribute to our innovative projects. Position Overview We are seeking an experienced Electrical Engineer to join Skild AI and help drive innovation in robotics technology. In this role, you\u2019ll design DC power systems, integrate sensors, and collaborate on advanced motor driver and power electronics. You\u2019ll play a key part in hardware design, testing, and system validation to ensure reliability and performance in cutting-edge robotics solutions. Responsibilities Design and implement DC power systems, including battery management systems, monitoring, and protection. Collaborate with firmware engineers to design and validate motor driver circuits and power electronics systems. Integrate and fuse sensor data, including IMUs, encoders, hall sensors, and temperature sensors (PCB-level design). Develop and test power/sensor electronics systems in collaboration with hardware and firmware teams. Ensure system reliability through testing, validation, and debugging of hardware systems in the lab. Document design processes and contribute to hardware best practices. Preferred Qualifications Bachelor\u2019s or Master\u2019s degree in Electrical Engineering, Robotics, or Mechatronics. Hands-on experience with DC power systems, battery management, and power electronics. Strong understanding of sensor integration, including IMUs, encoders, and hall sensors. Familiarity with low-level communication protocols such as RS-485, CAN, and SPI. Experience with hardware design, PCB layout, and debugging. Proficiency in power electronics design, including motor drivers and circuit design. Excellent problem-solving skills and ability to handle system-level challenges. Base Salary Range $100,000 - $300,000 USD Create a Job Alert Interested in building your career at Skild AI? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Email* Phone Country Phone Resume/CV Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile Website For undergraduate applicants, transcripts must be included in your application. Please attach below.* Attach Attach Dropbox Google Drive Accepted file types: pdf, doc, docx, txt, rtf Please include your GPA if you are a recent graduate or have limited work experience.* Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [
+        "level design). Develop and test power/sensor electronics systems in collaboration with hardware and firmware teams. Ensure system reliability through testing, validation, and debugging of hardware systems in the lab. Document design processes and contribute to hardware best practices. Preferred"
+      ],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T10:03:14.211982Z",
+    "success": true,
+    "error": null
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "company_name": "Phonepe",
+  "company_slug": "phonepe",
+  "company_logo_url": "/company-logos/phonepe.png",
+  "job": {
+    "title": "Software Engineer - Android",
+    "apply_url": "https://job-boards.greenhouse.io/phonepe/jobs/7680147003",
+    "location_display": "Pune, India",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-13"
+  },
+  "jd": {
+    "raw_text": "Software Engineer - Android Pune Apply About PhonePe Limited: Headquartered in India, its flagship product, the PhonePe digital payments app, was launched in Aug 2016. As of April 2025, PhonePe has over 60 Crore (600 Million) registered users and a digital payments acceptance network spread across over 4 Crore (40+ million) merchants. PhonePe also processes over 33 Crore (330+ Million) transactions daily with an Annualized Total Payment Value (TPV) of over INR 150 lakh crore. PhonePe\u2019s portfolio of businesses includes the distribution of financial products (Insurance, Lending, and Wealth) as well as new consumer tech businesses (Pincode - hyperlocal e-commerce and Indus AppStore Localized App Store for the Android ecosystem) in India, which are aligned with the company\u2019s vision to offer every Indian an equal opportunity to accelerate their progress by unlocking the flow of money and access to services. Culture: At PhonePe, we go the extra mile to make sure you can bring your best self to work, Everyday!. And that starts with creating the right environment for you. We empower people and trust them to do the right thing. Here, you own your work from start to finish, right from day one. PhonePe-rs solve complex problems and execute quickly; often building frameworks from scratch. If you\u2019re excited by the idea of building platforms that touch millions, ideating with some of the best minds in the country and executing on your dreams with purpose and speed, join us! At PhonePe, we take extra care to make sure you give your best at work, Everyday! And creating the right environment for you is just one of the things we do. We empower people and trust them to do the right thing. Here, you own your work from start to finish, right from day one. Being enthusiastic about tech is a big part of being at PhonePe. If you like building technology that impacts millions Ideating with some of the best minds in the country and executing on your dreams with purpose and speed, join us! Challenges Building for Scale, Rapid Iterative Development and Customer-centric Product Thinking at each step defines every day for a developer at PhonePe. Though we engineer for a 50million+ strong userbase,we code with every individual user in mind. While we are quick to adopt the latest in Engineering, we care utmost for security, stability, and automation. Apply if you want to experience the best combination of passionate application development and product-driven thinking. Requirements: \u2022 Strong passion for Programming in general and Android App development in specific. \u2022 Strong problem-solving skills. \u2022 Strong system design and architecture skills - specifically for android. \u2022 Curiosity to tinker around, explore new paradigms and strong zest for continuous improvement. \u2022 Over 5-9 years of full time Android App development experience with strong basics and complete exposure to Android development. \u2022 Idea/experience of unit and instrumentation testing in Android E2E App development and/or experience of developing SDKs is good to have. \u2022 By using some of the latest advancements in the world of Android such as Kotlin, MVVM, Data Binding, Dagger 2, Live Data, Room, Work Manage. we are building India\u2019s Largest Transactional Platform pivoted on Payments! PhonePe Full Time Employee Benefits (Not applicable for Intern or Contract Roles) Insurance Benefits - Medical Insurance, Critical Illness Insurance, Accidental Insurance, Life Insurance Wellness Program - Employee Assistance Program, Onsite Medical Center, Emergency Support System Parental Support - Maternity Benefit, Paternity Benefit Program, Adoption Assistance Program, Day-care Support Program Mobility Benefits - Relocation benefits, Transfer Support Policy, Travel Policy Retirement Benefits - Employee PF Contribution, Flexible PF Contribution, Gratuity, NPS, Leave Encashment Other Benefits - Higher Education Assistance, Car Lease, Salary Advance Policy Our inclusive culture promotes individual expression, creativity, innovation, and achievement and in turn helps us better understand and serve our customers. We see ourselves as a place for intellectual curiosity, ideas and debates, where diverse perspectives lead to deeper understanding and better quality results. PhonePe is an equal opportunity employer and is committed to treating all its employees and job applicants equally; regardless of gender, sexual preference, religion, race, color or disability. If you have a disability or special need that requires assistance or reasonable accommodation, during the application and hiring process, including support for the interview or onboarding process, please fill out this form. Read more about PhonePe on our blog. Life at PhonePe PhonePe in the news Create a Job Alert Interested in building your career at PhonePe? Get future opportunities sent straight to your email. Create alert Apply for this job * indicates a required field Autofill with MyGreenhouse First Name* Last Name* Email* Phone Country Phone Resume/CV Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf Cover Letter Attach Attach Dropbox Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf LinkedIn Profile Website Company* Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [
+        "Strong passion for Programming in general and Android App development in specific.",
+        "Strong problem",
+        "solving skills.",
+        "Strong system design and architecture skills",
+        "specifically for android.",
+        "Curiosity to tinker around, explore new paradigms and strong zest for continuous improvement.",
+        "Over 5",
+        "9 years of full time Android App development experience with strong basics and complete exposure to Android development.",
+        "Idea/experience of unit and instrumentation testing in Android E2E App development and/or experience of developing SDKs is good to have.",
+        "By using some of the latest advancements in the world of Android such as Kotlin, MVVM, Data Binding, Dagger 2, Live Data, Room, Work Manage. we are building India\u2019s Largest Transactional Platform pivoted on Payments! PhonePe Full Time Employee"
+      ],
+      "nice_to_have": [],
+      "tech_stack": [
+        "Go"
+      ],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T10:24:14.910417Z",
+    "success": true,
+    "error": null
+  }
+}

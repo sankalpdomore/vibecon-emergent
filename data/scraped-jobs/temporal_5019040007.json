@@ -1,0 +1,29 @@
+{
+  "company_name": "Temporal",
+  "company_slug": "temporal",
+  "company_logo_url": "/company-logos/temporal.png",
+  "job": {
+    "title": "Staff Developer Advocate, Platform Engineering",
+    "apply_url": "https://job-boards.greenhouse.io/temporaltechnologies/jobs/5019040007",
+    "location_display": "Remote, United States",
+    "work_mode": "remote",
+    "role_department": "engineering",
+    "posted_date": "2026-04-03"
+  },
+  "jd": {
+    "raw_text": "Current openings at Temporal Technologies Search Department Select... Office Select... 44 jobs Developer Relations Job Staff Developer Advocate, Developer Enablement United States - Remote Opportunity Developer Success Job Senior Platform Architect United States - Remote Opportunity Developer Success Success Job Senior Developer Success Engineer - UK London, UK Staff Developer Success Engineer - East United States Staff Developer Success Engineer - West United States - Remote Opportunity Engineering AI SDK Job Staff Software Engineer - AI SDK United States - Remote Opportunity Engineering Cloud Job Senior Software Engineer, Cloud Growth United States - Remote Opportunity Senior Software Engineer, Temporal Cloud United States - Remote Opportunity Engineering Cloud Data Storage Job Senior Software Engineer, Cloud Capacity United States, Remote Opportunity Senior Software Engineer, Cloud Data Storage United States - Remote Opportunity Staff Software Engineer, Cloud Capacity United States OR Canada - Remote Opportunity Staff Software Engineer, Cloud Data Storage United States - Remote Opportunity Engineering Cloud Global Services Job Senior Engineering Manager, Cloud Enablement United States Senior Software Engineer, Cloud Enablement United States - Remote Opportunity Staff Software Engineer - Cloud Global Services United States - Remote Opportunity Staff Software Engineer, Replication Foundations United States - Remote Opportunity Engineering Compute Job Staff Software Engineer, Compute (Temporal Cloud) United States - Remote Opportunity Engineering DevProd Job Senior Software Engineer, DevProd (Infrastructure Observability) United States OR Canada - Remote Opportunity Staff Software Engineer, DevProd (Infrastructure Observability) United States - Remote Opportunity Engineering Foundations Job Staff Software Engineer, Infrastructure FoundationsNew United States, Remote Opportunity Staff Software Engineer, Traffic United States or Canada - Remote Opportunity Engineering Infrastructure Job Senior Engineering Manager, Builder Tools United States Senior Staff Software Engineer, Infrastructure United States, Remote Opportunity Engineering Nexus Job Staff Software Engineer - NexusNew United States - Remote Opportunity Engineering Open Source Server Job Senior Software Engineer, Open Source Nexus Server United States - Remote Opportunity Senior Software Engineer, Open Source Server United States - Remote Opportunity Staff Software Engineer - Open Source Server United States - Remote Opportunity Engineering Release Engineering Job Senior Software Engineer, Release Engineering United States - Remote Opportunity Senior Software Engineer, Release Engineering Canada - Remote Opportunity Engineering Security Job Senior Application Security EngineerNew United States - Remote Opportunity Finance Job Senior Accounting Manager United States - Remote Opportunity IT IT Job IT Support Specialist Atlanta, GA Marketing Product Marketing Job GTM Enablement Manager, Onboarding & Ramp United States - Remote Opportunity GTM Enablement Manager, Product United States - Remote Opportunity Senior Staff Product Marketing Manager, AI United States - Remote Opportunity Sales Account Executives Job Account Executive, India Bengaluru, Karnataka, India Account Executive, New Logo - Germany Mainz, Rhineland-Palatinate - Remote Account Executive, New Logo (West) United States - Remote Opportunity Sales Partnerships Job Manager, APJ Partnerships Singapore Sales Solutions Architecture Job Senior Solutions Architect, Commercial - San Francisco United States - Remote Opportunity Senior Solutions Architect - New Logo - West United States - Remote Opportunity Staff Solutions Architect - Germany Munich, Germany Staff Solutions Architect, New Logo - East United States - Remote Opportunity Staff Solutions Architect - Singapore Singapore - Remote Opportunity Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T10:20:26.144190Z",
+    "success": true,
+    "error": null
+  }
+}

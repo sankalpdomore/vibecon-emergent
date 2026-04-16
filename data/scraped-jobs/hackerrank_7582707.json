@@ -1,0 +1,35 @@
+{
+  "company_name": "Hackerrank",
+  "company_slug": "hackerrank",
+  "company_logo_url": "/company-logos/hackerrank.png",
+  "job": {
+    "title": "Engineering Manager",
+    "apply_url": "https://job-boards.greenhouse.io/hackerrank/jobs/7582707",
+    "location_display": "Bengaluru, India",
+    "work_mode": "on-site",
+    "role_department": "engineering",
+    "posted_date": "2026-04-07"
+  },
+  "jd": {
+    "raw_text": "Apply for this job * indicates a required field First Name* Last Name* Email* Phone Country* Phone* Resume/CV* Attach Attach Google Drive Enter manually Enter manually Accepted file types: pdf, doc, docx, txt, rtf How many years of total professional experience do you have?* Select... Do you have 2+ years of engineering management experience, including hands-on technical management? * Select... Have you architected any service that had to handle high concurrent scale?* Select... How do you currently use Al tools (like GitHub Copilot, ChatGPT, Cody, etc.) in your development workflow? * What's your current location (both city and state)?* Are you willing to work from Bangalore office 3 days per week? * Select... What are your salary expectations around the role?* When are you available to start?* LinkedIn Profile / Github Profile* Website Are you open to relocate to Bangalore?* Select... Submit application Powered by",
+    "sections": {
+      "about": null,
+      "responsibilities": [
+        "Select... What are your salary expectations around the role?",
+        "When are you available to start?",
+        "LinkedIn Profile / Github Profile",
+        "Website Are you open to relocate to Bangalore?",
+        "Select... Submit application Powered by"
+      ],
+      "requirements": [],
+      "nice_to_have": [],
+      "tech_stack": [],
+      "benefits": []
+    }
+  },
+  "scrape_metadata": {
+    "scraped_at": "2026-04-16T09:55:34.919923Z",
+    "success": true,
+    "error": null
+  }
+}

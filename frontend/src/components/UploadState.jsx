@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ResumeCardStack } from './ResumeCardStack';
 
-export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel, error }) => {
+export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel, error, isLoading }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -58,63 +58,52 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
               </p>
 
               {/* Upload Area */}
-              {!uploadedFile ? (
-                <>
-                  {error && (
-                    <div style={{
-                      background: '#fee',
-                      border: '1px solid #fcc',
-                      borderRadius: '12px',
-                      padding: '12px',
-                      marginBottom: '16px',
-                      color: '#c33',
-                      fontSize: '14px',
-                      textAlign: 'center'
-                    }}>
-                      {error}
+              {error && (
+                <div style={{
+                  background: '#fee',
+                  border: '1px solid #fcc',
+                  borderRadius: '12px',
+                  padding: '12px',
+                  marginBottom: '16px',
+                  color: '#c33',
+                  fontSize: '14px',
+                  textAlign: 'center'
+                }}>
+                  {error}
+                </div>
+              )}
+              
+              <div
+                onDragOver={isLoading ? undefined : handleDragOver}
+                onDragLeave={isLoading ? undefined : handleDragLeave}
+                onDrop={isLoading ? undefined : handleDrop}
+                onClick={isLoading ? undefined : handleUploadClick}
+                className={`dropzone ${isDragging ? 'dragging' : ''}`}
+                style={{ cursor: isLoading ? 'default' : 'pointer' }}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="dropzone-icon" style={{ animation: 'spin 1s linear infinite' }}>
+                      <i className="ph-bold ph-spinner" style={{ fontSize: '48px', color: '#aaa' }}></i>
                     </div>
-                  )}
-                  <div
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    onClick={handleUploadClick}
-                    className={`dropzone ${isDragging ? 'dragging' : ''}`}
-                    style={{ cursor: 'pointer' }}
-                  >
+                    <p className="dropzone-text">Parsing your resume...</p>
+                  </>
+                ) : (
+                  <>
                     <i className="ph-bold ph-cloud-arrow-up dropzone-icon"></i>
                     <p className="dropzone-text">Drag and drop your resume here</p>
                     <p className="dropzone-hint">PDF files only, max 10MB</p>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".pdf"
-                      onChange={handleFileSelect}
-                      style={{ display: 'none' }}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="dropzone has-file">
-                  <div className="dropzone-file-info">
-                    <i className="ph-bold ph-file-pdf dropzone-file-icon"></i>
-                    <div className="dropzone-file-details">
-                      <p className="dropzone-file-name">{uploadedFile.name}</p>
-                      <p className="dropzone-file-size">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                    </div>
-                  </div>
-                  <div className="dropzone-action-buttons">
-                    <button onClick={handleUploadClick} className="dropzone-action-btn dropzone-upload-btn">
-                      <i className="ph-bold ph-upload-simple" style={{ fontSize: '16px' }}></i>
-                      <span>Upload another</span>
-                    </button>
-                    <button onClick={onCancel} className="dropzone-action-btn dropzone-cancel-btn">
-                      <i className="ph-bold ph-x" style={{ fontSize: '16px' }}></i>
-                      <span>Cancel</span>
-                    </button>
-                  </div>
-                </div>
-              )}
+                  </>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileSelect}
+                  style={{ display: 'none' }}
+                  disabled={isLoading}
+                />
+              </div>
 
               {/* Feature Badges - 6 items */}
               <div className="resume-features-inline">
@@ -146,20 +135,15 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
             </div>
           </div>
 
-          {/* CTA Button */}
-          <div className="modal-card-button-container">
-            {!uploadedFile ? (
+          {/* CTA Button - Hidden during loading */}
+          {!isLoading && (
+            <div className="modal-card-button-container">
               <button onClick={handleUploadClick} className="modal-card-cta">
                 <span>Get started</span>
                 <i className="ph-bold ph-arrow-right"></i>
               </button>
-            ) : (
-              <button onClick={onStartMatching} className="modal-card-cta">
-                <span>Get started</span>
-                <i className="ph-bold ph-arrow-right"></i>
-              </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
