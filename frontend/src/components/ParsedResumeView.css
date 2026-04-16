@@ -204,10 +204,9 @@
 
 /* Matches Card */
 .matches-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 24px;
-  padding: 28px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 12px 20px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -243,13 +242,13 @@
 .job-leads-company-link-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
 }
 
 .job-leads-company-link-logo {
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 60px;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #e5e5e5;
@@ -449,6 +448,7 @@
   align-items: flex-start;
   text-align: left;
   text-transform: capitalize;
+  font-weight: 400;
 }
 
 .job-leads-company-link-departments i {
