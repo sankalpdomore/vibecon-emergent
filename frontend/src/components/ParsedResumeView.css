@@ -15,7 +15,7 @@
   max-width: 480px;
   flex-shrink: 0;
   overflow-y: auto;
-  padding: 24px;
+  padding: 24px 0px 24px 24px;
   box-sizing: border-box;
 }
 
@@ -28,6 +28,10 @@
 }
 
 /* Back Button */
+.resume-parsed-card-nav {
+  padding: 20px 28px 0 28px;
+}
+
 .results-back-button {
   display: flex;
   align-items: center;
@@ -43,7 +47,6 @@
   padding: 8px 14px;
   border-radius: 40px;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-  margin-bottom: 12px;
 }
 
 .results-back-button:hover {
@@ -67,7 +70,10 @@
   border: 1px solid #ddd;
   border-radius: 24px;
   padding: 0;
-  overflow: hidden;
+  overflow: scroll;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .resume-parsed-card-header {
@@ -76,7 +82,7 @@
   font-weight: bold;
   color: #111;
   padding: 24px 28px 0 28px;
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 }
 
 .resume-parsed-card > .resume-parsed-section,
@@ -100,14 +106,14 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-young-serif);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
   color: #111;
   margin-bottom: 12px;
 }
 
 .resume-parsed-section-heading i {
-  font-size: 22px;
+  font-size: 18px;
   color: #333;
 }
 
@@ -124,7 +130,7 @@
 .resume-parsed-details {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
 }
 
 .resume-parsed-detail-row {
@@ -176,11 +182,9 @@
 /* Matches Heading */
 .matches-heading {
   font-family: var(--font-young-serif);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: bold;
-  letter-spacing: -0.2px;
-  color: rgb(17, 24, 39);
-  text-align: center;
+  color: #111;
   margin-bottom: 4px;
 }
 
@@ -266,7 +270,7 @@
 .job-leads-company-link-info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 0px;
   flex: 1;
   min-width: 0;
 }
@@ -277,6 +281,7 @@
   color: #000;
   text-align: left;
   text-transform: capitalize;
+  margin-bottom: 8px;
 }
 
 .job-leads-ranking-badge {
@@ -320,6 +325,8 @@
   display: flex;
   align-items: flex-start;
   text-align: left;
+  margin-top: 10px;
+  margin-bottom: 6px;
 }
 
 .job-leads-company-link-offices i {

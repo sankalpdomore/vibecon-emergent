@@ -14,7 +14,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           id: 1,
           company: 'Emergent Labs',
           companyInitials: 'EL',
-          logo: 'https://avatars.githubusercontent.com/in/1201222?s=120',
+          logo: 'https://nextdoor.company/company-logos/emergent.png',
           title: 'Senior Backend Engineer',
           hiringLocations: 5,
           departments: 'Engineering, Backend, Systems',
@@ -25,7 +25,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           id: 2,
           company: 'Apollo.io',
           companyInitials: 'AP',
-          logo: null,
+          logo: 'https://nextdoor.company/company-logos/apolloio.png',
           title: 'Backend Engineer',
           hiringLocations: 8,
           departments: 'Engineering, Data, Product',
@@ -36,7 +36,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           id: 3,
           company: 'Bloomreach',
           companyInitials: 'BR',
-          logo: null,
+          logo: 'https://nextdoor.company/company-logos/bloomreach.png',
           title: 'Senior Data Engineer',
           hiringLocations: 12,
           departments: 'Engineering, Data, Analytics',
@@ -47,7 +47,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           id: 4,
           company: 'Atomicwork',
           companyInitials: 'AW',
-          logo: null,
+          logo: 'https://nextdoor.company/company-logos/atomicwork.png',
           title: 'Backend Engineer - Search',
           hiringLocations: 3,
           departments: 'Engineering, Search, Backend',
@@ -58,7 +58,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           id: 5,
           company: 'Celonis',
           companyInitials: 'CE',
-          logo: null,
+          logo: 'https://nextdoor.company/company-logos/celonis.png',
           title: 'Software Engineer',
           hiringLocations: 15,
           departments: 'Engineering, Product, Cloud',
@@ -85,14 +85,16 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
         {/* Left Panel - Resume Parsed Details */}
         <div className="results-view-left">
           <div className="resume-parsed-panel">
-            {/* Back Button */}
-            <button onClick={onBack} className="results-back-button">
-              <i className="ph-bold ph-arrow-left"></i>
-              <span>Back</span>
-            </button>
-
             {/* Resume Card */}
             <div className="resume-parsed-card">
+              {/* Back Button inside card */}
+              <div className="resume-parsed-card-nav">
+                <button onClick={onBack} className="results-back-button">
+                  <i className="ph-bold ph-arrow-left"></i>
+                  <span>Back</span>
+                </button>
+              </div>
+
               {/* Card Header */}
               <div className="resume-parsed-card-header">Your resume</div>
 

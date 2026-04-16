@@ -135,15 +135,20 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
             </div>
           </div>
 
-          {/* CTA Button - Hidden during loading */}
-          {!isLoading && (
-            <div className="modal-card-button-container">
+          {/* CTA Button - Show Cancel during loading, Get started otherwise */}
+          <div className="modal-card-button-container">
+            {isLoading ? (
+              <button onClick={onCancel} className="modal-card-cta" style={{ background: 'linear-gradient(0deg, #fff 0%, #f5f5f5 100%)', color: '#666', border: '1px solid #ddd' }}>
+                <span>Cancel</span>
+                <i className="ph-bold ph-x"></i>
+              </button>
+            ) : (
               <button onClick={handleUploadClick} className="modal-card-cta">
                 <span>Get started</span>
                 <i className="ph-bold ph-arrow-right"></i>
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

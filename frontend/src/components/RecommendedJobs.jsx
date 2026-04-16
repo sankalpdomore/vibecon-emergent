@@ -80,7 +80,10 @@ export const RecommendedJobs = () => {
           uploadedFile={uploadedFile}
           onFileUpload={handleFileUpload}
           onStartMatching={handleStartMatching}
-          onCancel={() => setUploadedFile(null)}
+          onCancel={() => {
+            setUploadedFile(null);
+            setState('upload');
+          }}
           error={error}
           isLoading={true}
         />
