@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import re
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
@@ -177,14 +178,14 @@ async def parse_resume(file: UploadFile = File(...)):
         
         # Parse the JSON response
         try:
-            # Remove markdown code blocks if present
             response_text = response.strip()
-            if response_text.startswith('```'):
-                response_text = response_text.split('```')[1]
-                if response_text.startswith('json'):
-                    response_text = response_text[4:]
             
-            parsed_data = json.loads(response_text.strip())
+            # Extract JSON from any wrapper format (markdown fences, leading text, etc.)
+            json_match = re.search(r'\{[\s\S]*\}', response_text)
+            if json_match:
+                response_text = json_match.group()
+            
+            parsed_data = json.loads(response_text)
             
             # Add raw text to response
             parsed_data['raw_text'] = pdf_text

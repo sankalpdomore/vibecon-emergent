@@ -6,6 +6,7 @@ Based on battle-tested HighValueTeam matching engine
 
 import logging
 import json
+import re
 import asyncio
 from typing import List, Dict
 from emergentintegrations.llm.chat import LlmChat, UserMessage
@@ -198,15 +199,13 @@ Evaluate this candidate against the job using all 9 categories defined in your s
             # Send message
             response = await chat.send_message(UserMessage(text=prompt))
             
-            # Parse response
+            # Parse response with robust JSON extraction
             response_text = response.strip()
             
-            # Remove markdown code blocks if present
-            if response_text.startswith('```'):
-                response_text = response_text.split('```')[1]
-                if response_text.startswith('json'):
-                    response_text = response_text[4:]
-                response_text = response_text.strip()
+            # Extract JSON from any wrapper format (markdown fences, leading text, etc.)
+            json_match = re.search(r'\{[\s\S]*\}', response_text)
+            if json_match:
+                response_text = json_match.group()
             
             result = json.loads(response_text)
             

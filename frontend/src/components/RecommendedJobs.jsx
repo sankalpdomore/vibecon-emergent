@@ -61,6 +61,7 @@ export const RecommendedJobs = () => {
     setUploadedFile(null);
     setParsedData(null);
     setError(null);
+    addLog('Reset - ready for new resume');
   };
 
   return (
@@ -92,7 +93,46 @@ export const RecommendedJobs = () => {
         <ParsedResumeView 
           parsedData={parsedData}
           onBack={handleReset}
+          addLog={addLog}
         />
+      )}
+
+      {/* Floating log button - top right */}
+      <button 
+        onClick={() => setShowLogs(!showLogs)}
+        style={{
+          position: 'fixed', top: '80px', right: '24px', zIndex: 100,
+          padding: '6px 12px', borderRadius: '8px', fontSize: '11px',
+          background: '#fff', border: '1px solid #ddd', color: '#666',
+          cursor: 'pointer', fontFamily: 'var(--font-inter)',
+          display: 'flex', alignItems: 'center', gap: '4px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}
+      >
+        <i className="ph-bold ph-terminal"></i>
+        Processing Logs ({logs.length})
+      </button>
+
+      {/* Log panel */}
+      {showLogs && (
+        <div style={{
+          position: 'fixed', top: '116px', right: '24px', zIndex: 100,
+          width: '400px', maxHeight: '300px', overflowY: 'auto',
+          background: '#1a1a1a', color: '#0f0', borderRadius: '12px',
+          padding: '16px', fontSize: '11px', fontFamily: 'monospace',
+          lineHeight: '1.6', border: '1px solid #333',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+        }}>
+          {logs.length === 0 ? (
+            <span style={{ color: '#666' }}>No logs yet. Upload a resume to start.</span>
+          ) : (
+            logs.map((log, i) => (
+              <div key={i} style={{ color: log.includes('ERROR') ? '#ff4444' : '#0f0' }}>
+                {log}
+              </div>
+            ))
+          )}
+        </div>
       )}
     </AppShell>
   );

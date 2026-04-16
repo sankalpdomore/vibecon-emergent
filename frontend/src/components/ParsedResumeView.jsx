@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ParsedResumeView.css';
 
-export const ParsedResumeView = ({ parsedData, onBack }) => {
+export const ParsedResumeView = ({ parsedData, onBack, addLog }) => {
   const { name, email, phone, summary, skills, experience, education, raw_text } = parsedData;
   const [matchingState, setMatchingState] = useState('loading');
   const [matchedJobs, setMatchedJobs] = useState([]);
@@ -10,6 +10,10 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
   useEffect(() => {
     // Call backend matching API
     const matchJobs = async () => {
+      const matchStartTime = Date.now();
+      if (addLog) addLog('Starting job matching against 50 JDs...');
+      if (addLog) addLog('Sending to /api/match-jobs...');
+      
       try {
         setMatchingState('loading');
         
@@ -41,6 +45,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
         const data = await response.json();
         
         if (data.success && data.matches) {
+          const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
+          if (addLog) addLog(`Matching complete in ${matchSeconds}s — ${data.matches.length} matches found`);
+          
           // Format matches for frontend
           const formattedMatches = data.matches.map((match, idx) => ({
             id: idx + 1,
@@ -55,12 +62,19 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
             matchInsights: match.match_insights || []
           }));
           
+          // Log each match
+          formattedMatches.forEach(m => {
+            if (addLog) addLog(`  ${m.ranking.toUpperCase()}: ${m.title} @ ${m.company}`);
+          });
+          
           setMatchedJobs(formattedMatches);
           setMatchingState('complete');
         } else {
           throw new Error('No matches found');
         }
       } catch (err) {
+        const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
+        if (addLog) addLog(`ERROR after ${matchSeconds}s: ${err.message}`);
         console.error('Error matching jobs:', err);
         setError(err.message);
         setMatchingState('error');
@@ -68,7 +82,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
     };
 
     matchJobs();
-  }, [name, email, phone, summary, skills, experience, education, raw_text]);
+  }, [name, email, phone, summary, skills, experience, education, raw_text, addLog]);
 
   // Create candidate summary from parsed data
   const candidateSummary = [
