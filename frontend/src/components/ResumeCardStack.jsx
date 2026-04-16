@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const PROFILE_IMAGE_URL = 'https://customer-assets.emergentagent.com/job_reading-first/artifacts/99wnph8u_sankalp.jpg';
+
 const CARD_LAYOUTS = [
   {
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -133,9 +135,17 @@ export const ResumeCardStack = ({ hasFile }) => {
             <div className="resume-mini-header">
               <div 
                 className="resume-mini-avatar" 
-                style={{ background: layout.gradient }}
+                style={{ background: layout.gradient, overflow: 'hidden' }}
               >
-                SK
+                <img 
+                  src={PROFILE_IMAGE_URL} 
+                  alt="SK" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover' 
+                  }} 
+                />
               </div>
               <div className="resume-mini-info">
                 <div className="resume-mini-name">Sankalp Sinha</div>

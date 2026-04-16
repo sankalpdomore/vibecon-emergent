@@ -162,7 +162,7 @@ body {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  padding-top: 148px;
+  padding-top: 168px;
   padding-bottom: 140px;
   overflow-y: auto;
   background-color: #f9fafb;
@@ -185,7 +185,7 @@ body {
 
 .resume-builder-icon-section {
   margin-top: -140px;
-  margin-bottom: 36px;
+  margin-bottom: -44px;
 }
 
 .resume-builder-subtext {
