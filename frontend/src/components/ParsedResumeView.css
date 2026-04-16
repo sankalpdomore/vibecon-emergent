@@ -255,8 +255,15 @@
   border: 1px solid #e5e5e5;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
 
-/* Job Card CTA Row */
+/* ============================================================
+   JOB CARD CTA ROW - 3 action buttons at bottom of each card
+   ============================================================ */
+
 .job-card-cta-row {
   display: flex;
   gap: 8px;
@@ -282,6 +289,7 @@
   background: #ffffff;
   border: 1px solid #dddddd;
   color: #666;
+  font-family: var(--font-inter);
 }
 
 .job-card-cta-btn i {
@@ -305,7 +313,7 @@
   border-color: #cccccc;
 }
 
-/* Save button active state (amber) */
+/* Save button - active (amber) */
 .job-card-cta-btn--save-active {
   background: #fffbeb;
   border: 1px solid #b4820980;
@@ -317,7 +325,7 @@
   border: 1px solid #b4820990;
 }
 
-/* Applied button active state (green) */
+/* Applied button - active (green) */
 .job-card-cta-btn--apply-active {
   background: #f0fdf4;
   border: 1px solid #15803d60;
@@ -329,9 +337,19 @@
   border: 1px solid #15803d90;
 }
 
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
+/* Loading state */
+.job-card-cta-btn--loading {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+@keyframes job-card-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.job-card-icon-spin {
+  animation: job-card-spin 1s linear infinite;
 }
 
 .job-leads-company-link-logo img {
