@@ -207,7 +207,10 @@ async def parse_resume(file: UploadFile = File(...)):
             
     except Exception as e:
         logging.error(f"Error parsing resume: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"Error type: {type(e).__name__}")
+        import traceback
+        logging.error(f"Traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Failed to parse resume: {str(e)}")
 
 @api_router.post("/match-jobs")
 async def match_jobs(request: MatchJobsRequest):
