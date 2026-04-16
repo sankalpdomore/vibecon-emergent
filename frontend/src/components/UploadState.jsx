@@ -78,7 +78,9 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
+                    onClick={handleUploadClick}
                     className={`dropzone ${isDragging ? 'dragging' : ''}`}
+                    style={{ cursor: 'pointer' }}
                   >
                     <i className="ph-bold ph-cloud-arrow-up dropzone-icon"></i>
                     <p className="dropzone-text">Drag and drop your resume here</p>

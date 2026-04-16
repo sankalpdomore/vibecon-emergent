@@ -98,56 +98,66 @@ async def parse_resume(file: UploadFile = File(...)):
         # Get LLM API key
         api_key = os.environ.get('EMERGENT_LLM_KEY')
         if not api_key:
+            logging.error("EMERGENT_LLM_KEY not found in environment")
             raise HTTPException(status_code=500, detail="LLM API key not configured")
         
-        # Initialize LLM chat with Gemini (supports PDF)
+        logging.info(f"Using API key: {api_key[:20]}...")
+        
+        # Read PDF content as text (simple approach for OpenAI)
+        import PyPDF2
+        pdf_text = ""
+        try:
+            with open(temp_file_path, 'rb') as pdf_file:
+                pdf_reader = PyPDF2.PdfReader(pdf_file)
+                for page in pdf_reader.pages:
+                    pdf_text += page.extract_text()
+        except Exception as e:
+            logging.error(f"Error reading PDF: {e}")
+            os.unlink(temp_file_path)
+            raise HTTPException(status_code=400, detail="Failed to read PDF file")
+        
+        # Initialize LLM chat with OpenAI GPT-4o-mini
         chat = LlmChat(
             api_key=api_key,
             session_id=f"resume-parse-{uuid.uuid4()}",
             system_message="You are a resume parsing assistant. Extract structured information from resumes accurately."
-        ).with_model("gemini", "gemini-2.5-flash")
-        
-        # Create file content object
-        pdf_file = FileContentWithMimeType(
-            file_path=temp_file_path,
-            mime_type="application/pdf"
-        )
+        ).with_model("openai", "gpt-4o-mini")
         
         # Create parsing prompt
-        parsing_prompt = """
-        Please analyze this resume PDF and extract the following information in JSON format:
-        {
+        parsing_prompt = f"""
+        Please analyze this resume text and extract the following information in JSON format:
+        {{
             "name": "Full name of the candidate",
             "email": "Email address",
             "phone": "Phone number",
             "summary": "Professional summary or objective (2-3 sentences)",
             "skills": ["skill1", "skill2", "skill3", ...],
             "experience": [
-                {
+                {{
                     "company": "Company name",
                     "role": "Job title",
                     "duration": "Time period (e.g., Jan 2020 - Dec 2022)",
                     "description": "Brief description of responsibilities"
-                }
+                }}
             ],
             "education": [
-                {
+                {{
                     "institution": "School/University name",
                     "degree": "Degree name",
                     "year": "Graduation year or period",
                     "field": "Field of study"
-                }
+                }}
             ]
-        }
+        }}
+        
+        Resume text:
+        {pdf_text}
         
         Return ONLY the JSON object, no additional text or markdown formatting.
         """
         
-        # Send message with PDF attachment
-        user_message = UserMessage(
-            text=parsing_prompt,
-            file_contents=[pdf_file]
-        )
+        # Send message
+        user_message = UserMessage(text=parsing_prompt)
         
         response = await chat.send_message(user_message)
         
