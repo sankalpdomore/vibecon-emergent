@@ -19,7 +19,12 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           location: 'Bengaluru, India',
           departments: 'Engineering, Backend, Systems',
           applyUrl: 'https://job-boards.greenhouse.io/emergentlabsinc/jobs/4111446009',
-          ranking: 'highly_recommended'
+          ranking: 'highly_recommended',
+          matchInsights: [
+            'Built distributed systems at scale — directly relevant to their microservices architecture',
+            'Prior experience at a B2B SaaS company aligns with their enterprise GTM motion',
+            'Strong Java and Spring Boot background matches their primary tech stack',
+          ]
         },
         {
           id: 2,
@@ -30,7 +35,11 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           location: 'Remote, India',
           departments: 'Engineering, Data, Product',
           applyUrl: 'https://job-boards.greenhouse.io/apollo-io/jobs/5541744004',
-          ranking: 'good_fit'
+          ranking: 'good_fit',
+          matchInsights: [
+            'Experience building RESTful APIs at scale matches their high-throughput data platform needs',
+            'Python and Django expertise fits their backend stack',
+          ]
         },
         {
           id: 3,
@@ -41,7 +50,11 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           location: 'Prague, Czech Republic',
           departments: 'Engineering, Data, Analytics',
           applyUrl: 'https://job-boards.greenhouse.io/bloomreach/jobs/6378473003',
-          ranking: 'good_fit'
+          ranking: 'good_fit',
+          matchInsights: [
+            'Hands-on experience with Kafka and data pipelines relevant to their real-time personalization engine',
+            'Worked with large-scale data processing — fits their data infrastructure team',
+          ]
         },
         {
           id: 4,
@@ -52,7 +65,11 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           location: 'Bengaluru, India',
           departments: 'Engineering, Search, Backend',
           applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008',
-          ranking: 'needs_discussion'
+          ranking: 'needs_discussion',
+          matchInsights: [
+            'Strong backend fundamentals but limited search-specific experience',
+            'Microservices architecture experience is transferable to their service-oriented platform',
+          ]
         }
       ]);
       setMatchingState('complete');
@@ -217,7 +234,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                       </div>
                       <div className="job-leads-company-link-info">
                         <div className="job-leads-company-link-name">
-                          {job.title} <span className="job-leads-company-at">@{job.company}</span>
+                          {job.title} <span className="job-leads-company-at">@ </span>{job.company}
                         </div>
                         <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
                           {job.ranking === 'highly_recommended' && 'Highly recommended'}
@@ -234,6 +251,16 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                           {job.departments}
                         </div>
                       </div>
+                      {job.matchInsights && job.matchInsights.length > 0 && (
+                        <div className="job-leads-match-insights">
+                          {job.matchInsights.map((insight, idx) => (
+                            <div key={idx} className="job-leads-match-insight-item">
+                              <i className="ph-bold ph-check-circle"></i>
+                              <span>{insight}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       <i className="ph-bold ph-arrow-square-out job-leads-company-link-arrow"></i>
                     </a>
                   ))}
