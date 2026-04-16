@@ -1,47 +1,177 @@
 """
-Job Matching Service
-Uses LLM to match resumes against job descriptions and generate insights
+Job Matching Service - Production-Grade Architecture
+Uses LLM to match resumes against job descriptions with structured scoring
+Based on battle-tested HighValueTeam matching engine
 """
 
 import logging
 import json
+import asyncio
 from typing import List, Dict
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 logger = logging.getLogger(__name__)
 
+# Scoring weights for Technology:Individual Contributor framework
+SCORING_WEIGHTS = {
+    'Spark Factor': 17,
+    'Role Alignment': 10,
+    'Technical Depth': 20,
+    'Quantified Impact': 10,
+    'Skills Match': 10,
+    'Problem Solving': 10,
+    'Ownership': 5,
+    'Career Growth': 8,
+    'Context Matching': 10,
+}
+
+SCORING_SYSTEM_PROMPT = """
+As an expert member of a hiring evaluation committee, your task is to evaluate and score a resume against a job description based on specific categories.
+
+You will be provided with a candidate's resume and a Job Description. You must assign a score out of 100 for each category listed below in the context of the provided Job Description.
+
+**Categories to Evaluate:**
+
+- **Spark Factor**
+  Pedigree + Selection Bar: Tier-1 colleges (IIT, IIM, ISB, Ivy League), FAANG or equivalent companies, founding experience, standout open-source projects, patents/publications. Signal of "selected by top selectors" and high raw ability.
+
+- **Role Alignment**
+  Functional Fit: IC-level engineering roles in similar org stages (startup vs enterprise), business models (B2B SaaS, consumer tech), and tech functions (frontend/backend). Penalize mismatched IC/EM tracks or stage gaps.
+
+- **Technical Depth**
+  System Mastery: Evidence of deep work in architecture, infra, scalability, performance, or frontend frameworks. Includes migrations, system design, low-level optimization, or platform work.
+
+- **Quantified Impact**
+  Data-Backed Results: Resume includes metrics — ARR impact, latency reduction, DAU, uptime, infra cost saved, funnel conversions. Vague "contributions" or "improved performance" get lower scores.
+
+- **Skills Match**
+  Tech Stack Overlap: How well the candidate's tools, languages, and platforms align with the JD. Check semantic and tool-level closeness, even if not 1:1 match.
+
+- **Problem Solving**
+  0-to-1 Thinking: Evidence of owning ambiguous problems, system design under tradeoffs, fixing bottlenecks, or proposing new solutions. Look for creative engineering beyond maintenance or feature factory work.
+
+- **Ownership**
+  End-to-End Delivery: Drove a project from design to deployment, ensured performance/monitoring, handled rollout. Distinguish leaders from contributors.
+
+- **Career Growth**
+  Trajectory Over Time: Promotions, increasing scope, or evolution in responsibilities (e.g., IC to Staff). Penalize stagnation or repetitive roles.
+
+- **Context Matching**
+  Relevance to Job Description: Do the candidate's most recent roles mirror the JD's key asks? Consider domain (fintech, ecommerce), stage (early vs scaled), and problem space.
+
+For each category, provide:
+- A score from 0 to 100.
+- A detailed reason explaining your score, including evidence and specific examples from the resume.
+
+In the end, attach a 2-3 line summary of all the category scoring reasons without revealing any of the category names.
+
+# Output Format
+
+Return ONLY a JSON object (no markdown):
+{
+  "scores": [
+    {"category": "Spark Factor", "score": 85, "reason": "IIT graduate, worked at Flipkart and Google — strong pedigree signal"},
+    {"category": "Role Alignment", "score": 72, "reason": "Backend IC at B2B SaaS companies, good stage match but limited frontend exposure"},
+    ...all 9 categories
+  ],
+  "summary": "2-3 line summary combining all reasons without mentioning category names"
+}
+"""
+
 
 class JobMatcher:
     """
-    Matches resumes against job descriptions using LLM-based analysis
+    Matches resumes against job descriptions using structured LLM-based scoring
     """
     
     def __init__(self, api_key: str):
         self.api_key = api_key
     
-    async def match_resume_to_job(self, resume_text: str, parsed_resume: dict, job_data: dict) -> Dict:
+    def calculate_final_score(self, llm_scores: list) -> float:
         """
-        Match a single resume against a job description
+        Takes LLM category scores (0-100 each) and weights,
+        returns final score on 0-5 scale.
+        
+        Args:
+            llm_scores: List of {"category": str, "score": int, "reason": str}
+            
+        Returns:
+            Final score between 0-5
+        """
+        weighted_sum = 0
+        for score_entry in llm_scores:
+            category = score_entry['category']
+            score = score_entry['score']
+            weight = SCORING_WEIGHTS.get(category, 0)
+            weighted_sum += (score * weight) / 100
+        
+        # Normalize: max possible weighted_sum is 100, divide by 20 to get 0-5 scale
+        final_score = round(weighted_sum / 20, 1)
+        return final_score
+    
+    def generate_insights(self, llm_scores: list, summary: str) -> list:
+        """
+        Generate match insights from top scoring categories
+        
+        Args:
+            llm_scores: List of category scores
+            summary: Overall summary from LLM
+            
+        Returns:
+            List of 2-3 insight strings
+        """
+        # Sort by score and pick top 3 categories
+        sorted_scores = sorted(llm_scores, key=lambda x: x['score'], reverse=True)
+        insights = []
+        
+        for entry in sorted_scores[:3]:
+            reason = entry['reason']
+            # Clean up the reason to be concise recruiter-speak
+            if len(reason) > 120:
+                reason = reason[:117] + '...'
+            insights.append(reason)
+        
+        return insights
+    
+    def score_to_ranking(self, score: float) -> str:
+        """
+        Convert 0-5 score to ranking category
+        
+        Args:
+            score: Score between 0-5
+            
+        Returns:
+            Ranking string: highly_recommended, good_fit, or needs_discussion
+        """
+        if score >= 4.4:
+            return 'highly_recommended'
+        elif score >= 4.0:
+            return 'good_fit'
+        elif score >= 3.5:
+            return 'needs_discussion'
+        else:
+            return 'reject'
+    
+    async def score_single_job(self, resume_text: str, parsed_resume: dict, job_data: dict) -> Dict:
+        """
+        Score a single job using structured category evaluation
         
         Args:
             resume_text: Raw text from the resume
-            parsed_resume: Structured resume data (skills, experience, etc.)
+            parsed_resume: Structured resume data
             job_data: Job data from scraped JSON
             
         Returns:
-            Dictionary with score and insights
+            Dictionary with score, ranking, and insights
         """
         try:
             # Extract job details
             jd_text = job_data.get("jd", {}).get("raw_text", "")
             job_title = job_data.get("job", {}).get("title", "Unknown")
             company_name = job_data.get("company_name", "Unknown")
-            location = job_data.get("job", {}).get("location_display", "")
-            work_mode = job_data.get("job", {}).get("work_mode", "")
             
-            # Create matching prompt
-            prompt = f"""You are an experienced recruiter analyzing job-candidate fit.
-
+            # Create structured scoring prompt
+            prompt = f"""
 RESUME SUMMARY:
 - Skills: {', '.join(parsed_resume.get('skills', [])[:10])}
 - Experience: {len(parsed_resume.get('experience', []))} positions
@@ -50,44 +180,19 @@ RESUME SUMMARY:
 FULL RESUME TEXT:
 {resume_text[:3000]}
 
-JOB DETAILS:
+JOB DESCRIPTION:
 Company: {company_name}
 Title: {job_title}
-Location: {location}
-Work Mode: {work_mode}
-
-JOB DESCRIPTION:
 {jd_text[:4000]}
 
-Analyze the fit between this candidate and job role. Consider:
-1. Tech stack overlap - Does their experience match the required technologies?
-2. Domain relevance - Does their industry background align (B2B vs B2C, fintech vs healthtech, etc.)?
-3. Seniority match - Are they too junior or too senior for this role?
-4. Work mode compatibility - Remote candidate for on-site role or vice versa?
-5. Company stage fit - Startup experience for a startup role?
-
-Return ONLY a JSON object (no markdown, no extra text):
-{{
-  "score": 75,
-  "insights": [
-    "Specific reason 1 explaining fit — direct relevance to their tech stack",
-    "Specific reason 2 showing alignment — prior experience matches"
-  ]
-}}
-
-IMPORTANT:
-- Score: 0-100 (be realistic, not everyone is 80+)
-- Insights: 2-3 short, specific sentences in recruiter-speak
-- Focus on WHY they match, not just that they do
-- Be specific: mention actual technologies, experience, or qualifications
-- Bad: "Has relevant experience" | Good: "Built distributed systems at scale — directly relevant to their microservices architecture"
+Evaluate this candidate against the job using all 9 categories defined in your system prompt. Return structured JSON with category scores and reasons.
 """
 
-            # Initialize LLM chat
+            # Initialize LLM chat with scoring system prompt
             chat = LlmChat(
                 api_key=self.api_key,
-                session_id=f"match-{company_name}-{job_title}",
-                system_message="You are a recruiter analyzing job-candidate fit. Return only JSON."
+                session_id=f"score-{company_name}-{job_title}",
+                system_message=SCORING_SYSTEM_PROMPT
             ).with_model("openai", "gpt-4o-mini")
             
             # Send message
@@ -105,23 +210,53 @@ IMPORTANT:
             
             result = json.loads(response_text)
             
-            # Validate response
-            if 'score' not in result or 'insights' not in result:
-                logger.error(f"Invalid response format for {company_name}: {result}")
-                return {"score": 0, "insights": []}
+            # Validate response structure
+            if 'scores' not in result:
+                logger.error(f"Invalid response format for {company_name}: missing 'scores'")
+                return None
             
-            # Cap insights at 3
-            result['insights'] = result['insights'][:3]
+            # Calculate final score from category scores
+            llm_scores = result['scores']
+            final_score = self.calculate_final_score(llm_scores)
             
-            return result
+            # Determine ranking
+            ranking = self.score_to_ranking(final_score)
+            
+            # Generate insights from top categories
+            summary = result.get('summary', '')
+            insights = self.generate_insights(llm_scores, summary)
+            
+            # Format company logo URL
+            logo_path = job_data.get("company_logo_url", "")
+            if logo_path and not logo_path.startswith("http"):
+                logo_url = f"https://nextdoor.company{logo_path}"
+            else:
+                logo_url = logo_path
+            
+            # Get company initials for fallback
+            company_initials = ''.join([word[0].upper() for word in company_name.split()[:2]])
+            
+            return {
+                "company_name": company_name,
+                "company_slug": job_data.get("company_slug", ""),
+                "company_logo_url": logo_url,
+                "companyInitials": company_initials,
+                "title": job_data.get("job", {}).get("title", ""),
+                "apply_url": job_data.get("job", {}).get("apply_url", ""),
+                "location": job_data.get("job", {}).get("location_display", ""),
+                "departments": job_data.get("job", {}).get("role_department", "Engineering").title(),
+                "ranking": ranking,
+                "score": final_score,
+                "match_insights": insights
+            }
             
         except Exception as e:
-            logger.error(f"Error matching job {job_data.get('company_name')}: {e}")
-            return {"score": 0, "insights": []}
+            logger.error(f"Error scoring job {job_data.get('company_name')}: {e}")
+            return None
     
     async def match_resume_to_jobs(self, resume_text: str, parsed_resume: dict, jobs: List[Dict]) -> List[Dict]:
         """
-        Match resume against multiple jobs and return top matches
+        Match resume against multiple jobs in parallel batches
         
         Args:
             resume_text: Raw text from resume
@@ -131,66 +266,51 @@ IMPORTANT:
         Returns:
             List of matched jobs with scores and insights, sorted by score
         """
-        matches = []
+        BATCH_SIZE = 10
+        all_results = []
         
-        logger.info(f"Matching resume against {len(jobs)} jobs...")
+        logger.info(f"Matching resume against {len(jobs)} jobs in batches of {BATCH_SIZE}...")
         
-        for idx, job in enumerate(jobs):
-            try:
-                # Match resume to job
-                result = await self.match_resume_to_job(resume_text, parsed_resume, job)
+        # Process jobs in parallel batches
+        for i in range(0, len(jobs), BATCH_SIZE):
+            batch = jobs[i:i + BATCH_SIZE]
+            batch_num = (i // BATCH_SIZE) + 1
+            total_batches = (len(jobs) + BATCH_SIZE - 1) // BATCH_SIZE
+            
+            logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} jobs)...")
+            
+            # Create tasks for parallel execution
+            tasks = [
+                self.score_single_job(resume_text, parsed_resume, job)
+                for job in batch
+            ]
+            
+            # Execute batch in parallel
+            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+            
+            # Process results
+            for job, result in zip(batch, batch_results):
+                if isinstance(result, Exception):
+                    logger.error(f"Error matching {job.get('company_name')}: {result}")
+                    continue
+                
+                if result is None:
+                    continue
                 
                 score = result.get('score', 0)
-                insights = result.get('insights', [])
+                ranking = result.get('ranking', 'reject')
                 
-                # Only include matches above 40%
-                if score >= 40:
-                    # Determine ranking
-                    if score >= 80:
-                        ranking = 'highly_recommended'
-                    elif score >= 60:
-                        ranking = 'good_fit'
-                    else:
-                        ranking = 'needs_discussion'
-                    
-                    # Format company logo URL
-                    logo_path = job.get("company_logo_url", "")
-                    if logo_path and not logo_path.startswith("http"):
-                        logo_url = f"https://nextdoor.company{logo_path}"
-                    else:
-                        logo_url = logo_path
-                    
-                    # Get company initials for fallback
-                    company_name = job.get("company_name", "")
-                    company_initials = ''.join([word[0].upper() for word in company_name.split()[:2]])
-                    
-                    match_data = {
-                        "company_name": company_name,
-                        "company_slug": job.get("company_slug", ""),
-                        "company_logo_url": logo_url,
-                        "companyInitials": company_initials,
-                        "title": job.get("job", {}).get("title", ""),
-                        "apply_url": job.get("job", {}).get("apply_url", ""),
-                        "location": job.get("job", {}).get("location_display", ""),
-                        "departments": job.get("job", {}).get("role_department", "Engineering").title(),
-                        "ranking": ranking,
-                        "match_insights": insights,
-                        "score": score
-                    }
-                    
-                    matches.append(match_data)
-                    logger.info(f"  [{idx+1}/{len(jobs)}] {company_name} - {job.get('job', {}).get('title', '')} : {score}% ({ranking})")
+                # Only include matches with score >= 3.5 (not rejected)
+                if ranking != 'reject':
+                    all_results.append(result)
+                    logger.info(f"  {result['company_name']} - {result['title']}: {score}/5.0 ({ranking})")
                 else:
-                    logger.info(f"  [{idx+1}/{len(jobs)}] {job.get('company_name', '')} : {score}% (rejected)")
-                    
-            except Exception as e:
-                logger.error(f"Error processing job {idx}: {e}")
-                continue
+                    logger.info(f"  {job.get('company_name')}: {score}/5.0 (rejected - below 3.5)")
         
-        # Sort by score descending and return top 8-10
-        matches.sort(key=lambda x: x['score'], reverse=True)
-        top_matches = matches[:10]
+        # Sort by score descending and return top 10
+        all_results.sort(key=lambda x: x['score'], reverse=True)
+        top_matches = all_results[:10]
         
-        logger.info(f"Returning {len(top_matches)} top matches out of {len(matches)} total matches")
+        logger.info(f"Returning {len(top_matches)} top matches out of {len(all_results)} total matches")
         
         return top_matches
