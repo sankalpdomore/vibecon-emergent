@@ -1,217 +1,283 @@
 /* Parsed Resume View Styles */
 
-.parsed-view-container {
+/* Results View Layout - Two Panel */
+.results-view-container {
   display: flex;
-  gap: 24px;
-  max-width: 100%;
-  width: 100%;
-  align-items: flex-start;
-  padding: 0 24px;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* Left Column - Parsed Resume (Fixed width) */
-.parsed-resume-column {
-  width: 480px;
+.results-view-left {
+  width: 40%;
+  max-width: 440px;
+  border-right: 1px solid #eee;
+  overflow-y: auto;
   flex-shrink: 0;
+  background: #fff;
 }
 
-.parsed-resume-content {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
-}
-
-/* Right Column - Job Matches (Takes remaining space) */
-.job-matches-column {
+.results-view-right {
   flex: 1;
-  min-width: 400px;
-}
-
-.job-matches-content {
-  max-height: calc(100vh - 200px);
   overflow-y: auto;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Back Button */
-.back-button {
+.results-back-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: none;
-  border: none;
+  gap: 6px;
+  background: #ffffff88;
+  backdrop-filter: blur(4px);
+  border: 1px solid transparent;
   color: #666;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  margin-bottom: 16px;
-  transition: color 0.2s;
+  padding: 8px 14px;
+  border-radius: 40px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  margin-bottom: 20px;
 }
 
-.back-button:hover {
-  color: #333;
+.results-back-button:hover {
+  background: #f5f5f5cc;
+  border-color: #ddd;
+  color: #000;
 }
 
-.back-button i {
-  font-size: 18px;
-}
-
-/* Section Styles */
-.parsed-section {
-  text-align: left;
-  margin-bottom: 24px;
-}
-
-.parsed-section-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #333;
-}
-
-.parsed-section-content {
-  background: #f9fafb;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #e5e5e5;
-}
-
-.parsed-section-text {
-  line-height: 1.6;
-  color: #666;
-  margin: 0;
-}
-
-.info-row {
-  margin-bottom: 8px;
-}
-
-.info-row:last-child {
-  margin-bottom: 0;
-}
-
-.info-label {
-  font-weight: 600;
-  margin-right: 4px;
-}
-
-/* Skills */
-.skills-grid {
+/* Resume Parsed Panel */
+.resume-parsed-panel {
+  padding: 32px 28px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 28px;
+  overflow-y: auto;
+  height: 100%;
 }
 
-.skill-badge {
-  background: #f0f0f0;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
+/* Section heading with icon */
+.resume-parsed-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-young-serif);
+  font-size: 22px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.resume-parsed-section-heading i {
+  font-size: 22px;
   color: #333;
-  border: 1px solid #ddd;
 }
 
-/* Job Cards */
-.job-cards-container {
-  margin-top: 24px;
+/* Assessment paragraph text */
+.resume-parsed-assessment-text {
+  font-family: var(--font-inter);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+  padding-left: 32px;
 }
 
-.job-card {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  border: 1px solid #e5e5e5;
-  margin-bottom: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
+/* Structured detail rows */
+.resume-parsed-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
-.job-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: #333;
-}
-
-.job-card-header {
+.resume-parsed-detail-row {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 10px;
 }
 
-.job-card-logo {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  object-fit: cover;
+.resume-parsed-detail-row i {
+  font-size: 18px;
+  color: #888;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.resume-parsed-detail-label {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  min-width: 100px;
   flex-shrink: 0;
 }
 
-.job-card-info {
+.resume-parsed-detail-value {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 400;
+  color: #111;
   flex: 1;
 }
 
-.job-card-company {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
+/* Candidate Summary numbered list */
+.resume-parsed-summary-list {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  padding-left: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.job-card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
+.resume-parsed-summary-list li {
+  padding-left: 4px;
+}
+
+/* Matches Heading */
+.matches-heading {
+  font-family: var(--font-young-serif);
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: -0.2px;
+  color: rgb(17, 24, 39);
+  text-align: center;
   margin-bottom: 4px;
 }
 
-.job-card-meta {
+.matches-subtext {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Job Leads Card - Production Design */
+.job-leads-company-link {
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff 100%);
+  border-radius: 24px;
+  border: 1px solid #ddd;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.job-leads-company-link:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border-color: #555;
+}
+
+.job-leads-company-link-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #10b981;
-  margin-bottom: 8px;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.job-card-meta i {
-  font-size: 16px;
+.job-leads-company-link-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
 }
 
-.job-card-details {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #888;
-}
-
-.job-card-details i {
-  font-size: 16px;
-}
-
-.job-card-score {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #10b981;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
+.job-leads-company-link-logo-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 18px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
 }
 
-.job-card-external-icon {
+.job-leads-company-link-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.job-leads-company-link-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.job-leads-company-link-offices {
+  font-size: 13px;
+  font-weight: 500;
+  color: #18af53;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.job-leads-company-link-offices i {
+  font-size: 14px;
+  color: #18af53;
+  font-weight: 600;
+  margin-right: 8px;
+  position: relative;
+  top: 1px;
+}
+
+.job-leads-company-link-departments {
+  font-size: 13px;
+  color: #999;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.job-leads-company-link-departments i {
+  font-size: 14px;
+  color: #bbb;
+  font-weight: 600;
+  position: relative;
+  top: 2px;
+  margin-right: 8px;
+}
+
+.job-leads-company-link-arrow {
+  font-size: 18px;
+  color: #999;
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #ccc;
-  font-size: 20px;
-  transition: color 0.2s;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
-.job-card:hover .job-card-external-icon {
-  color: #666;
+.job-leads-company-link:hover .job-leads-company-link-arrow {
+  color: #000;
+  transform: translate(1px, -1px);
 }
 
 /* Skeleton Loading */
