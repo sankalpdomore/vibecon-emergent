@@ -2,81 +2,73 @@ import React, { useState, useEffect } from 'react';
 import './ParsedResumeView.css';
 
 export const ParsedResumeView = ({ parsedData, onBack }) => {
-  const { name, email, phone, summary, skills, experience, education } = parsedData;
+  const { name, email, phone, summary, skills, experience, education, raw_text } = parsedData;
   const [matchingState, setMatchingState] = useState('loading');
   const [matchedJobs, setMatchedJobs] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate job matching process
-    const timer = setTimeout(() => {
-      setMatchedJobs([
-        {
-          id: 1,
-          company: 'Emergent Labs',
-          companyInitials: 'EL',
-          logo: 'https://nextdoor.company/company-logos/emergent.png',
-          title: 'Senior Backend Engineer',
-          location: 'Bengaluru, India',
-          departments: 'Engineering, Backend, Systems',
-          applyUrl: 'https://job-boards.greenhouse.io/emergentlabsinc/jobs/4111446009',
-          ranking: 'highly_recommended',
-          matchInsights: [
-            'Built distributed systems at scale — directly relevant to their microservices architecture',
-            'Prior experience at a B2B SaaS company aligns with their enterprise GTM motion',
-            'Strong Java and Spring Boot background matches their primary tech stack',
-          ]
-        },
-        {
-          id: 2,
-          company: 'Apollo.io',
-          companyInitials: 'AP',
-          logo: 'https://nextdoor.company/company-logos/apolloio.png',
-          title: 'Backend Engineer',
-          location: 'Remote, India',
-          departments: 'Engineering, Data, Product',
-          applyUrl: 'https://job-boards.greenhouse.io/apollo-io/jobs/5541744004',
-          ranking: 'good_fit',
-          matchInsights: [
-            'Experience building RESTful APIs at scale matches their high-throughput data platform needs',
-            'Python and Django expertise fits their backend stack',
-          ]
-        },
-        {
-          id: 3,
-          company: 'Bloomreach',
-          companyInitials: 'BR',
-          logo: 'https://nextdoor.company/company-logos/bloomreach.png',
-          title: 'Senior Data Engineer',
-          location: 'Prague, Czech Republic',
-          departments: 'Engineering, Data, Analytics',
-          applyUrl: 'https://job-boards.greenhouse.io/bloomreach/jobs/6378473003',
-          ranking: 'good_fit',
-          matchInsights: [
-            'Hands-on experience with Kafka and data pipelines relevant to their real-time personalization engine',
-            'Worked with large-scale data processing — fits their data infrastructure team',
-          ]
-        },
-        {
-          id: 4,
-          company: 'Atomicwork',
-          companyInitials: 'AW',
-          logo: 'https://nextdoor.company/company-logos/atomicwork.png',
-          title: 'Backend Engineer - Search',
-          location: 'Bengaluru, India',
-          departments: 'Engineering, Search, Backend',
-          applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008',
-          ranking: 'needs_discussion',
-          matchInsights: [
-            'Strong backend fundamentals but limited search-specific experience',
-            'Microservices architecture experience is transferable to their service-oriented platform',
-          ]
-        }
-      ]);
-      setMatchingState('complete');
-    }, 5000);
+    // Call backend matching API
+    const matchJobs = async () => {
+      try {
+        setMatchingState('loading');
+        
+        const API_URL = process.env.REACT_APP_BACKEND_URL;
+        
+        const response = await fetch(`${API_URL}/api/match-jobs`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            resume_text: raw_text || '',
+            parsed_data: {
+              name,
+              email,
+              phone,
+              summary,
+              skills,
+              experience,
+              education
+            }
+          })
+        });
 
-    return () => clearTimeout(timer);
-  }, []);
+        if (!response.ok) {
+          throw new Error(`Failed to match jobs: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.matches) {
+          // Format matches for frontend
+          const formattedMatches = data.matches.map((match, idx) => ({
+            id: idx + 1,
+            company: match.company_name,
+            companyInitials: match.companyInitials || match.company_name.substring(0, 2).toUpperCase(),
+            logo: match.company_logo_url,
+            title: match.title,
+            location: match.location,
+            departments: match.departments,
+            applyUrl: match.apply_url,
+            ranking: match.ranking,
+            matchInsights: match.match_insights || []
+          }));
+          
+          setMatchedJobs(formattedMatches);
+          setMatchingState('complete');
+        } else {
+          throw new Error('No matches found');
+        }
+      } catch (err) {
+        console.error('Error matching jobs:', err);
+        setError(err.message);
+        setMatchingState('error');
+      }
+    };
+
+    matchJobs();
+  }, [name, email, phone, summary, skills, experience, education, raw_text]);
 
   // Create candidate summary from parsed data
   const candidateSummary = [

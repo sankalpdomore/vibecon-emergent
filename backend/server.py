@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException
+from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -12,6 +13,12 @@ from datetime import datetime, timezone
 import tempfile
 import json
 from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContentWithMimeType
+
+# Import utilities
+import sys
+sys.path.append(str(Path(__file__).parent))
+from utils.load_jobs import load_all_jobs
+from services.job_matcher import JobMatcher
 
 
 ROOT_DIR = Path(__file__).parent
@@ -49,6 +56,10 @@ class ParsedResume(BaseModel):
     experience: List[dict] = []
     education: List[dict] = []
     raw_text: Optional[str] = None
+
+class MatchJobsRequest(BaseModel):
+    resume_text: str
+    parsed_data: dict
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -175,6 +186,9 @@ async def parse_resume(file: UploadFile = File(...)):
             
             parsed_data = json.loads(response_text.strip())
             
+            # Add raw text to response
+            parsed_data['raw_text'] = pdf_text
+            
             return {
                 "success": True,
                 "data": parsed_data
@@ -192,6 +206,47 @@ async def parse_resume(file: UploadFile = File(...)):
             
     except Exception as e:
         logging.error(f"Error parsing resume: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/match-jobs")
+async def match_jobs(request: MatchJobsRequest):
+    """
+    Match resume against scraped job descriptions using LLM
+    """
+    try:
+        # Get API key
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="LLM API key not configured")
+        
+        # Load all scraped jobs
+        logger.info("Loading scraped jobs...")
+        jobs = load_all_jobs(only_successful=True)
+        
+        if not jobs:
+            raise HTTPException(status_code=404, detail="No jobs found in database")
+        
+        logger.info(f"Loaded {len(jobs)} jobs successfully")
+        
+        # Initialize job matcher
+        matcher = JobMatcher(api_key=api_key)
+        
+        # Match resume against jobs
+        matches = await matcher.match_resume_to_jobs(
+            resume_text=request.resume_text,
+            parsed_resume=request.parsed_data,
+            jobs=jobs
+        )
+        
+        return {
+            "success": True,
+            "matches": matches,
+            "total_jobs_analyzed": len(jobs),
+            "matches_found": len(matches)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error matching jobs: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # Include the router in the main app
