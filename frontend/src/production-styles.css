@@ -501,7 +501,8 @@ body {
 }
 
 .resume-feature-item i {
-  font-size: 18px;
+  font-size: 14px;
+  color: #bbb;
 }
 
 /* Modal Card */
@@ -577,6 +578,11 @@ body {
 .modal-card-button-container {
   padding: 24px 32px 28px 32px;
   border-top: 1px solid #ddd;
+}
+
+/* Override for full-width modal cards */
+.modal-card.modal-card-full-width {
+  max-width: none;
 }
 
 .cta-button {

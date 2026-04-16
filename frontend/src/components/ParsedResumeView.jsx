@@ -19,7 +19,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           score: 92,
           hiring_info: 'Hiring in 5 office locations',
           departments: 'Engineering, Backend, Systems',
-          location: 'Remote, India'
+          location: 'Remote, India',
+          recommendation: 'Highly recommended',
+          recommendationColor: '#10b981' // green
         },
         {
           id: 2,
@@ -29,7 +31,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           score: 88,
           hiring_info: 'Hiring in 8 office locations',
           departments: 'Engineering, Data, Product',
-          location: 'Remote, India'
+          location: 'Remote, India',
+          recommendation: 'Highly recommended',
+          recommendationColor: '#10b981' // green
         },
         {
           id: 3,
@@ -39,7 +43,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           score: 85,
           hiring_info: 'Hiring in 12 office locations',
           departments: 'Engineering, Data, Analytics',
-          location: 'Bengaluru, India'
+          location: 'Bengaluru, India',
+          recommendation: 'Good fit',
+          recommendationColor: '#3b82f6' // blue
         },
         {
           id: 4,
@@ -49,7 +55,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           score: 82,
           hiring_info: 'Hiring in 3 office locations',
           departments: 'Engineering, Search, Backend',
-          location: 'Bengaluru, India'
+          location: 'Bengaluru, India',
+          recommendation: 'Needs discussion',
+          recommendationColor: '#f59e0b' // amber
         },
         {
           id: 5,
@@ -59,7 +67,9 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           score: 80,
           hiring_info: 'Hiring in 15 office locations',
           departments: 'Engineering, Product, Cloud',
-          location: 'Remote'
+          location: 'Remote',
+          recommendation: 'Reject',
+          recommendationColor: '#ef4444' // red
         }
       ]);
       setMatchingState('complete');
@@ -73,7 +83,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
       <div className="parsed-view-container">
         {/* Left Column - Parsed Resume */}
         <div className="parsed-resume-column">
-          <div className="modal-card">
+          <div className="modal-card modal-card-full-width">
             <div className="modal-card-content-container parsed-resume-content">
               <div className="modal-card-content">
                 {/* Back Button */}
@@ -147,7 +157,7 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
 
         {/* Right Column - Job Matching */}
         <div className="job-matches-column">
-          <div className="modal-card">
+          <div className="modal-card modal-card-full-width">
             <div className="modal-card-content-container job-matches-content">
               <div className="modal-card-content">
                 <h2 className="modal-card-title" style={{ fontSize: '24px' }}>
@@ -197,6 +207,22 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                               <div className="job-card-details">
                                 <i className="ph-bold ph-briefcase"></i>
                                 <span>{job.departments}</span>
+                              </div>
+                              {/* Recommendation Tag */}
+                              <div 
+                                className="job-recommendation-tag" 
+                                style={{ 
+                                  backgroundColor: job.recommendationColor,
+                                  color: 'white',
+                                  padding: '4px 12px',
+                                  borderRadius: '12px',
+                                  fontSize: '12px',
+                                  fontWeight: '600',
+                                  display: 'inline-block',
+                                  marginTop: '8px'
+                                }}
+                              >
+                                {job.recommendation}
                               </div>
                             </div>
                           </div>
