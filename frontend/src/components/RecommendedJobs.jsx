@@ -138,22 +138,22 @@ export const RecommendedJobs = () => {
         />
       )}
 
-      {/* Settings button - only show when no key set */}
-      {!apiKey && (
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          style={{
-            position: 'fixed', top: '80px', right: '24px', zIndex: 100,
-            padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
-            background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626',
-            cursor: 'pointer', fontFamily: 'var(--font-inter)',
-            display: 'flex', alignItems: 'center', gap: '4px'
-          }}
-        >
-          <i className="ph-bold ph-key"></i>
-          Add Key
-        </button>
-      )}
+      {/* Settings button - always visible */}
+      <button
+        onClick={() => setShowSettings(!showSettings)}
+        style={{
+          position: 'fixed', top: '80px', right: '24px', zIndex: 100,
+          padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
+          background: apiKey ? '#f0fdf4' : '#fef2f2',
+          border: `1px solid ${apiKey ? '#a7f3d0' : '#fecaca'}`,
+          color: apiKey ? '#059669' : '#dc2626',
+          cursor: 'pointer', fontFamily: 'var(--font-inter)',
+          display: 'flex', alignItems: 'center', gap: '4px'
+        }}
+      >
+        <i className="ph-bold ph-key"></i>
+        {apiKey ? 'Key Set' : 'Add Key'}
+      </button>
       <div style={{ display: 'none' }}>
       </div>
 
