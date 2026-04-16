@@ -9,10 +9,19 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 export const RecommendedJobs = () => {
-  const [state, setState] = useState('upload'); // 'upload', 'loading', 'parsed'
+  const [state, setState] = useState('upload');
   const [uploadedFile, setUploadedFile] = useState(null);
   const [parsedData, setParsedData] = useState(null);
   const [error, setError] = useState(null);
+  const [logs, setLogs] = useState([]);
+  const [showLogs, setShowLogs] = useState(false);
+
+  const API = process.env.REACT_APP_BACKEND_URL;
+
+  const addLog = (message) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setLogs(prev => [...prev, `[${timestamp}] ${message}`]);
+  };
 
   const handleFileUpload = (file) => {
     setUploadedFile(file);
