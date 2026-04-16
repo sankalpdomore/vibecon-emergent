@@ -13,6 +13,38 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 logger = logging.getLogger(__name__)
 
+
+# LLM Retry Logic Helper
+async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
+    """
+    Call LLM with timeout and retry logic
+    
+    Args:
+        chat: LlmChat instance
+        message: UserMessage to send
+        max_retries: Maximum number of retry attempts
+        timeout: Timeout in seconds for each attempt
+        
+    Returns:
+        Response string from LLM
+        
+    Raises:
+        Exception if all retries fail
+    """
+    for attempt in range(max_retries):
+        try:
+            response = await asyncio.wait_for(
+                chat.send_message(message),
+                timeout=timeout
+            )
+            return response
+        except (asyncio.TimeoutError, Exception) as e:
+            if attempt == max_retries - 1:
+                logger.error(f"LLM call failed after {max_retries} attempts: {e}")
+                raise e
+            logger.warning(f"LLM attempt {attempt + 1} failed: {e}, retrying...")
+            await asyncio.sleep(1)
+
 # Scoring weights for Technology:Individual Contributor framework
 SCORING_WEIGHTS = {
     'Spark Factor': 17,
@@ -85,8 +117,11 @@ class JobMatcher:
     Matches resumes against job descriptions using structured LLM-based scoring
     """
     
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, model_provider: str = 'openai', model_name: str = 'gpt-4o-mini'):
         self.api_key = api_key
+        self.model_provider = model_provider
+        self.model_name = model_name
+        logger.info(f"JobMatcher initialized with model: {model_provider}:{model_name}")
     
     def calculate_final_score(self, llm_scores: list) -> float:
         """
@@ -189,15 +224,15 @@ Title: {job_title}
 Evaluate this candidate against the job using all 9 categories defined in your system prompt. Return structured JSON with category scores and reasons.
 """
 
-            # Initialize LLM chat with scoring system prompt
+            # Initialize LLM chat with scoring system prompt and configured model
             chat = LlmChat(
                 api_key=self.api_key,
                 session_id=f"score-{company_name}-{job_title}",
                 system_message=SCORING_SYSTEM_PROMPT
-            ).with_model("openai", "gpt-4o-mini")
+            ).with_model(self.model_provider, self.model_name)
             
-            # Send message
-            response = await chat.send_message(UserMessage(text=prompt))
+            # Send message with retry logic
+            response = await call_llm_with_retry(chat, UserMessage(text=prompt), timeout=30)
             
             # Parse response with robust JSON extraction
             response_text = response.strip()

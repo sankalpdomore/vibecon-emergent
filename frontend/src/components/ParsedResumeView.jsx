@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ParsedResumeView.css';
 
-export const ParsedResumeView = ({ parsedData, onBack, addLog }) => {
+export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel }) => {
   const { name, email, phone, summary, skills, experience, education, raw_text } = parsedData;
   const [matchingState, setMatchingState] = useState('loading');
   const [matchedJobs, setMatchedJobs] = useState([]);
@@ -19,6 +19,19 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog }) => {
         
         const API_URL = process.env.REACT_APP_BACKEND_URL;
         
+        // Parse model from selectedModel (format: 'provider:model-key')
+        const modelProvider = selectedModel ? selectedModel.split(':')[0] : 'openai';
+        const modelKey = selectedModel ? selectedModel.split(':')[1] : 'gpt-4o-mini';
+        
+        // Map model key to actual model name
+        const MODEL_MAP = {
+          'gpt-4o-mini': 'gpt-4o-mini',
+          'gpt-4o': 'gpt-4o',
+          'claude-sonnet': 'claude-sonnet-4-20250514',
+          'gemini': 'gemini-2.0-flash'
+        };
+        const modelName = MODEL_MAP[modelKey] || modelKey;
+        
         const response = await fetch(`${API_URL}/api/match-jobs`, {
           method: 'POST',
           headers: {
@@ -34,7 +47,9 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog }) => {
               skills,
               experience,
               education
-            }
+            },
+            model_provider: modelProvider,
+            model_name: modelName
           })
         });
 
@@ -82,7 +97,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog }) => {
     };
 
     matchJobs();
-  }, [name, email, phone, summary, skills, experience, education, raw_text, addLog]);
+  }, [name, email, phone, summary, skills, experience, education, raw_text, addLog, selectedModel]);
 
   // Create candidate summary from parsed data
   const candidateSummary = [

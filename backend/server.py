@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException
+from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException, Form, Request
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -13,6 +13,7 @@ import uuid
 from datetime import datetime, timezone
 import tempfile
 import json
+import asyncio
 from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContentWithMimeType
 
 # Import utilities
@@ -24,6 +25,45 @@ from services.job_matcher import JobMatcher
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+# LLM Retry Logic Helper
+async def call_llm_with_retry(chat, message, max_retries=2, timeout=30):
+    """
+    Call LLM with timeout and retry logic
+    
+    Args:
+        chat: LlmChat instance
+        message: UserMessage to send
+        max_retries: Maximum number of retry attempts
+        timeout: Timeout in seconds for each attempt
+        
+    Returns:
+        Response string from LLM
+        
+    Raises:
+        Exception if all retries fail
+    """
+    for attempt in range(max_retries):
+        try:
+            response = await asyncio.wait_for(
+                chat.send_message(message),
+                timeout=timeout
+            )
+            return response
+        except (asyncio.TimeoutError, Exception) as e:
+            if attempt == max_retries - 1:
+                logger.error(f"LLM call failed after {max_retries} attempts: {e}")
+                raise e
+            logger.warning(f"LLM attempt {attempt + 1} failed: {e}, retrying...")
+            await asyncio.sleep(1)
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -61,6 +101,8 @@ class ParsedResume(BaseModel):
 class MatchJobsRequest(BaseModel):
     resume_text: str
     parsed_data: dict
+    model_provider: str = 'openai'
+    model_name: str = 'gpt-4o-mini'
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -92,14 +134,24 @@ async def get_status_checks():
     return status_checks
 
 @api_router.post("/parse-resume")
-async def parse_resume(file: UploadFile = File(...)):
+async def parse_resume(
+    request: Request,
+    file: UploadFile = File(...)
+):
     """
-    Parse uploaded resume PDF using LLM
+    Parse uploaded resume PDF using LLM with configurable model
     """
     try:
         # Validate file type
         if not file.filename.endswith('.pdf'):
             raise HTTPException(status_code=400, detail="Only PDF files are supported")
+        
+        # Get model parameters from form data
+        form_data = await request.form()
+        model_provider = form_data.get('model_provider', 'openai')
+        model_name = form_data.get('model_name', 'gpt-4o-mini')
+        
+        logger.info(f"Using model: {model_provider}:{model_name}")
         
         # Create temporary file to store uploaded PDF
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
@@ -110,10 +162,10 @@ async def parse_resume(file: UploadFile = File(...)):
         # Get LLM API key
         api_key = os.environ.get('EMERGENT_LLM_KEY')
         if not api_key:
-            logging.error("EMERGENT_LLM_KEY not found in environment")
+            logger.error("EMERGENT_LLM_KEY not found in environment")
             raise HTTPException(status_code=500, detail="LLM API key not configured")
         
-        logging.info(f"Using API key: {api_key[:20]}...")
+        logger.info(f"Using API key: {api_key[:20]}...")
         
         # Read PDF content as text (simple approach for OpenAI)
         import PyPDF2
@@ -124,16 +176,16 @@ async def parse_resume(file: UploadFile = File(...)):
                 for page in pdf_reader.pages:
                     pdf_text += page.extract_text()
         except Exception as e:
-            logging.error(f"Error reading PDF: {e}")
+            logger.error(f"Error reading PDF: {e}")
             os.unlink(temp_file_path)
             raise HTTPException(status_code=400, detail="Failed to read PDF file")
         
-        # Initialize LLM chat with OpenAI GPT-4o-mini
+        # Initialize LLM chat with selected model
         chat = LlmChat(
             api_key=api_key,
             session_id=f"resume-parse-{uuid.uuid4()}",
             system_message="You are a resume parsing assistant. Extract structured information from resumes accurately."
-        ).with_model("openai", "gpt-4o-mini")
+        ).with_model(model_provider, model_name)
         
         # Create parsing prompt
         parsing_prompt = f"""
@@ -168,10 +220,10 @@ async def parse_resume(file: UploadFile = File(...)):
         Return ONLY the JSON object, no additional text or markdown formatting.
         """
         
-        # Send message
+        # Send message with retry logic
         user_message = UserMessage(text=parsing_prompt)
         
-        response = await chat.send_message(user_message)
+        response = await call_llm_with_retry(chat, user_message, timeout=30)
         
         # Clean up temporary file
         os.unlink(temp_file_path)
@@ -215,7 +267,7 @@ async def parse_resume(file: UploadFile = File(...)):
 @api_router.post("/match-jobs")
 async def match_jobs(request: MatchJobsRequest):
     """
-    Match resume against scraped job descriptions using LLM
+    Match resume against scraped job descriptions using LLM with configurable model
     """
     try:
         # Get API key
@@ -231,9 +283,14 @@ async def match_jobs(request: MatchJobsRequest):
             raise HTTPException(status_code=404, detail="No jobs found in database")
         
         logger.info(f"Loaded {len(jobs)} jobs successfully")
+        logger.info(f"Using model: {request.model_provider}:{request.model_name}")
         
-        # Initialize job matcher
-        matcher = JobMatcher(api_key=api_key)
+        # Initialize job matcher with model configuration
+        matcher = JobMatcher(
+            api_key=api_key,
+            model_provider=request.model_provider,
+            model_name=request.model_name
+        )
         
         # Match resume against jobs
         matches = await matcher.match_resume_to_jobs(
@@ -263,13 +320,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
