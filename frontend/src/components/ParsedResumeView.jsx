@@ -53,17 +53,6 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
           departments: 'Engineering, Search, Backend',
           applyUrl: 'https://job-boards.greenhouse.io/atomicwork/jobs/4342088008',
           ranking: 'needs_discussion'
-        },
-        {
-          id: 5,
-          company: 'Celonis',
-          companyInitials: 'CE',
-          logo: 'https://nextdoor.company/company-logos/celonis.png',
-          title: 'Software Engineer',
-          hiringLocations: 15,
-          departments: 'Engineering, Product, Cloud',
-          applyUrl: 'https://job-boards.greenhouse.io/celonis/jobs/7645740003',
-          ranking: 'reject'
         }
       ]);
       setMatchingState('complete');
@@ -75,9 +64,16 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
   // Create candidate summary from parsed data
   const candidateSummary = [
     experience && experience.length > 0 ? `${experience.length}+ years experience in software engineering` : 'Experience in software development',
-    skills && skills.length > 0 ? `Skilled in ${skills.slice(0, 3).join(', ')}${skills.length > 3 ? ` and ${skills.length - 3} more` : ''}` : 'Technical skills in modern technologies',
-    'Strong background in building scalable applications'
-  ];
+    skills && skills.length > 0 ? `Proficient in ${skills.slice(0, 3).join(', ')}` : 'Technical skills in modern technologies',
+    skills && skills.length > 3 ? `Additional skills: ${skills.slice(3, 6).join(', ')}` : null,
+    'Strong background in building scalable applications',
+    'Experience with distributed systems and microservices',
+    education && education.length > 0 ? `Education: ${education[0].degree || education[0].institution || 'Degree in Computer Science'}` : 'Strong academic foundation',
+    'Proven ability to work in cross-functional teams',
+    'Track record of delivering production-ready code',
+    skills && skills.some(s => s.toLowerCase().includes('docker') || s.toLowerCase().includes('kubernetes') || s.toLowerCase().includes('aws')) ? 'Experience with cloud infrastructure and DevOps' : 'Familiarity with modern development workflows',
+    'Strong problem-solving and analytical skills',
+  ].filter(Boolean).slice(0, 10);
 
   return (
     <div className="resume-builder-wrapper parsed">
@@ -158,11 +154,11 @@ export const ParsedResumeView = ({ parsedData, onBack }) => {
                   <i className="ph-bold ph-target"></i>
                   <span>Candidate Summary:</span>
                 </div>
-                <ol className="resume-parsed-summary-list">
+                <ul className="resume-parsed-summary-list">
                   {candidateSummary.map((item, idx) => (
                     <li key={idx}>{item}</li>
                   ))}
-                </ol>
+                </ul>
               </div>
             </div>
           </div>

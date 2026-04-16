@@ -138,7 +138,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
           {/* CTA Button - Show Cancel during loading, Get started otherwise */}
           <div className="modal-card-button-container">
             {isLoading ? (
-              <button onClick={onCancel} className="modal-card-cta" style={{ background: 'linear-gradient(0deg, #fff 0%, #f5f5f5 100%)', color: '#666', border: '1px solid #ddd' }}>
+              <button onClick={onCancel} className="modal-card-cta" style={{ background: 'linear-gradient(0deg, #dc2626 0%, #ef4444 100%)', color: '#fff', border: '1px solid #dc2626' }}>
                 <span>Cancel</span>
                 <i className="ph-bold ph-x"></i>
               </button>
