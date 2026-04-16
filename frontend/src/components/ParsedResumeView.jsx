@@ -98,7 +98,8 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
     };
 
     matchJobs();
-  }, [name, email, phone, summary, skills, experience, education, raw_text, addLog, selectedModel]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Create candidate summary from parsed data
   const candidateSummary = [
