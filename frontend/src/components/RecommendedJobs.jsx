@@ -21,16 +21,22 @@ export const RecommendedJobs = () => {
   const [logs, setLogs] = useState([]);
   const [showLogs, setShowLogs] = useState(false);
   const [selectedModel, setSelectedModel] = useState('openai:gpt-4o-mini');
+  const [showSettings, setShowSettings] = useState(false);
+  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
 
   const addLog = (message) => {
     const timestamp = new Date().toLocaleTimeString();
     setLogs(prev => [...prev, `[${timestamp}] ${message}`]);
   };
 
+  const saveApiKey = (key) => {
+    setApiKey(key);
+    localStorage.setItem('openai_api_key', key);
+  };
+
   const handleFileUpload = (file) => {
     setUploadedFile(file);
     setError(null);
-    // Immediately start parsing when file is selected
     handleStartMatching(file);
   };
 
@@ -40,40 +46,52 @@ export const RecommendedJobs = () => {
       return;
     }
 
+    const currentKey = apiKey || localStorage.getItem('openai_api_key');
+    if (!currentKey) {
+      setError('Please add your OpenAI API key in Settings first.');
+      setShowSettings(true);
+      return;
+    }
+
     setState('loading');
     setError(null);
 
-    // Log selected model
     const modelOption = MODEL_OPTIONS.find(m => m.value === selectedModel);
     addLog(`Using model: ${modelOption?.label || selectedModel}`);
+    addLog(`Uploading resume: ${file.name} (${(file.size / 1024).toFixed(1)}KB)`);
+
+    const parseStartTime = Date.now();
+    addLog('Sending to /api/parse-resume...');
 
     try {
-      // Create FormData for file upload
       const formData = new FormData();
       formData.append('file', file);
-      
-      // Add model parameters
       formData.append('model_provider', selectedModel.split(':')[0]);
       formData.append('model_name', modelOption?.model || selectedModel.split(':')[1]);
 
-      // Call backend API to parse resume
       const response = await axios.post(`${API}/parse-resume`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'X-OpenAI-Key': currentKey,
         },
       });
 
       if (response.data.success) {
-        setParsedData(response.data.data);
+        const parseSeconds = ((Date.now() - parseStartTime) / 1000).toFixed(1);
+        addLog(`Resume parsed in ${parseSeconds}s`);
+        const data = response.data.data;
+        addLog(`Parse result: ${(data.skills || []).length} skills, ${(data.experience || []).length} positions`);
+        setParsedData({ ...data, _parseTime: parseSeconds });
         setState('parsed');
       } else {
         throw new Error('Failed to parse resume');
       }
     } catch (err) {
+      const parseSeconds = ((Date.now() - parseStartTime) / 1000).toFixed(1);
+      addLog(`ERROR after ${parseSeconds}s: ${err.response?.data?.detail || err.message}`);
       console.error('Error parsing resume:', err);
       setError(err.response?.data?.detail || 'Failed to parse resume. Please try again.');
       setState('upload');
-      // Don't clear uploaded file on error - let user retry
     }
   };
 
@@ -88,7 +106,7 @@ export const RecommendedJobs = () => {
   return (
     <AppShell>
       {state === 'upload' && (
-        <UploadState 
+        <UploadState
           uploadedFile={uploadedFile}
           onFileUpload={handleFileUpload}
           onStartMatching={handleStartMatching}
@@ -98,7 +116,7 @@ export const RecommendedJobs = () => {
         />
       )}
       {state === 'loading' && (
-        <UploadState 
+        <UploadState
           uploadedFile={uploadedFile}
           onFileUpload={handleFileUpload}
           onStartMatching={handleStartMatching}
@@ -111,58 +129,107 @@ export const RecommendedJobs = () => {
         />
       )}
       {state === 'parsed' && parsedData && (
-        <ParsedResumeView 
+        <ParsedResumeView
           parsedData={parsedData}
           onBack={handleReset}
           addLog={addLog}
           selectedModel={selectedModel}
+          apiKey={apiKey}
         />
       )}
 
-      {/* Model Selector - top right, next to logs button */}
+      {/* Top-right controls row */}
       <div style={{
-        position: 'fixed', top: '80px', right: '200px', zIndex: 100,
-        display: 'flex', alignItems: 'center', gap: '6px'
+        position: 'fixed', top: '80px', right: '24px', zIndex: 100,
+        display: 'flex', alignItems: 'center', gap: '8px'
       }}>
-        <span style={{ fontSize: '11px', color: '#888', fontFamily: 'var(--font-inter)' }}>Model:</span>
+        {/* Model Selector */}
         <select
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
           style={{
             padding: '5px 8px', borderRadius: '8px', fontSize: '11px',
             background: '#fff', border: '1px solid #ddd', color: '#333',
-            cursor: 'pointer', fontFamily: 'var(--font-inter)',
-            outline: 'none'
+            cursor: 'pointer', fontFamily: 'var(--font-inter)', outline: 'none'
           }}
         >
           {MODEL_OPTIONS.map(opt => (
-            <option key={opt.value} value={opt.value}>
-              {opt.icon} {opt.label}
-            </option>
+            <option key={opt.value} value={opt.value}>{opt.icon} {opt.label}</option>
           ))}
         </select>
+
+        {/* Settings button */}
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          style={{
+            padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
+            background: apiKey ? '#f0fdf4' : '#fef2f2',
+            border: `1px solid ${apiKey ? '#a7f3d0' : '#fecaca'}`,
+            color: apiKey ? '#059669' : '#dc2626',
+            cursor: 'pointer', fontFamily: 'var(--font-inter)',
+            display: 'flex', alignItems: 'center', gap: '4px'
+          }}
+        >
+          <i className="ph-bold ph-key"></i>
+          {apiKey ? 'Key Set' : 'Add Key'}
+        </button>
+
+        {/* Logs button */}
+        <button
+          onClick={() => setShowLogs(!showLogs)}
+          style={{
+            padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
+            background: '#fff', border: '1px solid #ddd', color: '#666',
+            cursor: 'pointer', fontFamily: 'var(--font-inter)',
+            display: 'flex', alignItems: 'center', gap: '4px'
+          }}
+        >
+          <i className="ph-bold ph-terminal"></i>
+          Logs ({logs.length})
+        </button>
       </div>
 
-      {/* Floating log button - top right */}
-      <button 
-        onClick={() => setShowLogs(!showLogs)}
-        style={{
-          position: 'fixed', top: '80px', right: '24px', zIndex: 100,
-          padding: '6px 12px', borderRadius: '8px', fontSize: '11px',
-          background: '#fff', border: '1px solid #ddd', color: '#666',
-          cursor: 'pointer', fontFamily: 'var(--font-inter)',
-          display: 'flex', alignItems: 'center', gap: '4px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}
-      >
-        <i className="ph-bold ph-terminal"></i>
-        Processing Logs ({logs.length})
-      </button>
+      {/* Settings panel */}
+      {showSettings && (
+        <div style={{
+          position: 'fixed', top: '116px', right: '24px', zIndex: 100,
+          width: '360px', background: '#fff', borderRadius: '12px',
+          padding: '20px', border: '1px solid #ddd',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+          fontFamily: 'var(--font-inter)'
+        }}>
+          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111', marginBottom: '12px' }}>
+            Settings
+          </div>
+          <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+            OpenAI API Key
+          </div>
+          <input
+            type="password"
+            value={apiKey}
+            onChange={(e) => saveApiKey(e.target.value)}
+            placeholder="sk-proj-..."
+            style={{
+              width: '100%', padding: '8px 12px', borderRadius: '8px',
+              border: '1px solid #ddd', fontSize: '12px', outline: 'none',
+              fontFamily: 'monospace', boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ fontSize: '11px', color: '#999', marginTop: '8px' }}>
+            Get your key from platform.openai.com/api-keys. Stored in browser localStorage only.
+          </div>
+          {apiKey && (
+            <div style={{ fontSize: '11px', color: '#059669', marginTop: '6px' }}>
+              Key saved ({apiKey.slice(0, 8)}...{apiKey.slice(-4)})
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Log panel */}
       {showLogs && (
         <div style={{
-          position: 'fixed', top: '116px', right: '24px', zIndex: 100,
+          position: 'fixed', top: '116px', right: '24px', zIndex: 99,
           width: '400px', maxHeight: '300px', overflowY: 'auto',
           background: '#1a1a1a', color: '#0f0', borderRadius: '12px',
           padding: '16px', fontSize: '11px', fontFamily: 'monospace',

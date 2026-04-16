@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ParsedResumeView.css';
 
-export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel }) => {
+export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, apiKey }) => {
   const { name, email, phone, summary, skills, experience, education, raw_text } = parsedData;
   const [matchingState, setMatchingState] = useState('loading');
   const [matchedJobs, setMatchedJobs] = useState([]);
@@ -39,6 +39,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel }) 
           },
           body: JSON.stringify({
             resume_text: raw_text || '',
+            openai_key: apiKey || localStorage.getItem('openai_api_key') || '',
             parsed_data: {
               name,
               email,

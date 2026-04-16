@@ -106,6 +106,7 @@ class ParsedResume(BaseModel):
 class MatchJobsRequest(BaseModel):
     resume_text: str
     parsed_data: dict
+    openai_key: str = ''
     model_provider: str = 'openai'
     model_name: str = 'gpt-4o-mini'
 
@@ -164,9 +165,10 @@ async def parse_resume(
             temp_file.write(content)
             temp_file_path = temp_file.name
         
-        # OpenAI API key (base64 encoded to avoid GitHub secret scanning auto-revocation)
-        import base64
-        api_key = base64.b64decode("c2stcHJvai16RURjQmJZODhad0VtMlQ1VEJUS2VPUkt4Vzh4U0Q0d2pLZ3ladkNQZ3p4OUp3ZExNV0h0NTN2bjVPdzZTNmFkWURPYjZtWHRMLVQzQmxia0ZKUHBCcVpReHl3c2dtN013NzUyVGhHT0lBR2lPZFI3dXpzR2lsdFV3N1hiZ0RRMzZRUHlQVThMMERMSUVySHFKYWlCbjZMRXlNQQ==").decode()
+        # Get OpenAI API key from request header or env
+        api_key = request.headers.get('X-OpenAI-Key') or os.environ.get('OPENAI_API_KEY')
+        if not api_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key required. Add your key in Settings.")
         
         # Read PDF content as text (simple approach for OpenAI)
         import PyPDF2
@@ -265,9 +267,10 @@ async def match_jobs(request: MatchJobsRequest):
     Match resume against scraped job descriptions using LLM with configurable model
     """
     try:
-        # OpenAI API key (base64 encoded to avoid GitHub secret scanning auto-revocation)
-        import base64
-        api_key = base64.b64decode("c2stcHJvai16RURjQmJZODhad0VtMlQ1VEJUS2VPUkt4Vzh4U0Q0d2pLZ3ladkNQZ3p4OUp3ZExNV0h0NTN2bjVPdzZTNmFkWURPYjZtWHRMLVQzQmxia0ZKUHBCcVpReHl3c2dtN013NzUyVGhHT0lBR2lPZFI3dXpzR2lsdFV3N1hiZ0RRMzZRUHlQVThMMERMSUVySHFKYWlCbjZMRXlNQQ==").decode()
+        # Get OpenAI API key from request body or env
+        api_key = request.openai_key or os.environ.get('OPENAI_API_KEY')
+        if not api_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key required. Add your key in Settings.")
         
         # Load all scraped jobs
         logger.info("Loading scraped jobs...")
