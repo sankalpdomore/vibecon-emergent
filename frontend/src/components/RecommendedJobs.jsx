@@ -5,15 +5,12 @@ import { UploadState } from './UploadState';
 import { LoadingState } from './LoadingState';
 import { ParsedResumeView } from './ParsedResumeView';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-// Model options for LLM selection
+// Model options - OpenAI only (backend uses AsyncOpenAI client)
 const MODEL_OPTIONS = [
   { value: 'openai:gpt-4o-mini', label: 'GPT-4o Mini', provider: 'openai', model: 'gpt-4o-mini', icon: '🤖' },
   { value: 'openai:gpt-4o', label: 'GPT-4o', provider: 'openai', model: 'gpt-4o', icon: '🤖' },
-  { value: 'anthropic:claude-sonnet', label: 'Claude Sonnet', provider: 'anthropic', model: 'claude-sonnet-4-20250514', icon: '✦' },
-  { value: 'google:gemini', label: 'Gemini', provider: 'google', model: 'gemini-2.0-flash', icon: '✧' },
 ];
 
 export const RecommendedJobs = () => {
@@ -24,8 +21,6 @@ export const RecommendedJobs = () => {
   const [logs, setLogs] = useState([]);
   const [showLogs, setShowLogs] = useState(false);
   const [selectedModel, setSelectedModel] = useState('openai:gpt-4o-mini');
-
-  const API = process.env.REACT_APP_BACKEND_URL;
 
   const addLog = (message) => {
     const timestamp = new Date().toLocaleTimeString();

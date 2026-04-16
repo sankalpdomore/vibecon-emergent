@@ -164,13 +164,8 @@ async def parse_resume(
             temp_file.write(content)
             temp_file_path = temp_file.name
         
-        # Get OpenAI API key (try VIBECON key first, fallback to Emergent)
-        api_key = os.environ.get('OPENAI_API_KEY_VIBECON') or os.environ.get('EMERGENT_LLM_KEY')
-        if not api_key:
-            logger.error("No API key found in environment (OPENAI_API_KEY_VIBECON or EMERGENT_LLM_KEY)")
-            raise HTTPException(status_code=500, detail="API key not configured")
-        
-        logger.info(f"Using API key: {api_key[:20]}...")
+        # OpenAI API key
+        api_key = "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"
         
         # Read PDF content as text (simple approach for OpenAI)
         import PyPDF2
@@ -269,10 +264,8 @@ async def match_jobs(request: MatchJobsRequest):
     Match resume against scraped job descriptions using LLM with configurable model
     """
     try:
-        # Get OpenAI API key (try VIBECON key first, fallback to Emergent)
-        api_key = os.environ.get('OPENAI_API_KEY_VIBECON') or os.environ.get('EMERGENT_LLM_KEY')
-        if not api_key:
-            raise HTTPException(status_code=500, detail="API key not configured")
+        # OpenAI API key
+        api_key = "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"
         
         # Load all scraped jobs
         logger.info("Loading scraped jobs...")
