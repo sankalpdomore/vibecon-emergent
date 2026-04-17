@@ -473,7 +473,7 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
         Returns:
             List of matched jobs with scores and insights, sorted by score
         """
-        BATCH_SIZE = 10
+        BATCH_SIZE = 5
         all_results = []
 
         # --- Pre-screen: reject obvious mismatches before LLM calls ---
@@ -532,7 +532,11 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
 
             if failed_in_batch > 0:
                 logger.warning(f"  Batch {batch_num}: {failed_in_batch}/{len(batch)} jobs failed")
-        
+
+            # Small delay between batches to avoid rate limits
+            if i + BATCH_SIZE < len(screened_jobs):
+                await asyncio.sleep(1)
+
         # Sort by score descending and return all matches above threshold
         all_results.sort(key=lambda x: x['score'], reverse=True)
         top_matches = all_results

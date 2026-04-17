@@ -285,12 +285,14 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
           <div className="matches-card">
             <div>
               <h2 className="matches-heading">
-                {matchingState === 'loading' ? 'Finding Your Matches' : `Your Top ${matchedJobs.length} Matches`}
+                {matchingState === 'loading' ? 'Finding Your Matches' : matchedJobs.length > 0 ? `Your Top ${matchedJobs.length} Matches` : 'No Matches Found'}
               </h2>
               <p className="matches-subtext">
-                {matchingState === 'loading' 
-                  ? 'Looking for matches across 1,000+ engineering roles...' 
-                  : `Found ${matchedJobs.length} strong matches for your profile`
+                {matchingState === 'loading'
+                  ? 'Looking for matches across 1,000+ engineering roles...'
+                  : matchedJobs.length > 0
+                    ? `Found ${matchedJobs.length} strong matches for your profile`
+                    : 'This may be due to rate limits or timeouts. Try again in a minute.'
                 }
               </p>
             </div>
