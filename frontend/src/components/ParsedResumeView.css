@@ -565,6 +565,7 @@
 
 .improvement-item {
   color: #d97706 !important;
+  font-weight: 600;
 }
 
 .improvement-item i {

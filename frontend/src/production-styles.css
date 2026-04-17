@@ -69,6 +69,137 @@ body {
   background: #ededed;
 }
 
+/* Matches filters row — Filters button left, tabs right */
+.matches-filters-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Filters trigger button */
+.filters-trigger-wrapper {
+  position: relative;
+}
+
+.filters-trigger-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  font-family: var(--font-inter);
+  transition: all 0.15s ease;
+}
+
+.filters-trigger-button:hover {
+  box-shadow: 0 1px 6px 0px rgb(0 0 0 / 12%);
+}
+
+.filters-trigger-button i {
+  font-size: 14px;
+}
+
+/* Filters dropdown popover */
+.filters-popover-content {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 280px;
+  max-height: 52vh;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0px 12px 0px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.filters-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.filters-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #999;
+  font-size: 16px;
+}
+
+.filters-options-list {
+  padding: 12px 20px 16px;
+}
+
+.filters-option-group {
+  margin-bottom: 16px;
+}
+
+.filters-option-group:last-child {
+  margin-bottom: 0;
+}
+
+.filters-option-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.filters-option-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filters-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.filters-checkbox-container input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #333;
+  cursor: pointer;
+}
+
+.filters-checkbox-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+
 /* Slide transition between upload and results views */
 .recommended-jobs-views-stack {
   position: relative;

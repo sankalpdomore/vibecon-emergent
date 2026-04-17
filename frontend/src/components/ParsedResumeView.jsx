@@ -47,12 +47,18 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   const [matchedJobs, setMatchedJobs] = useState([]);
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
 
-  // Memoize filtered jobs to ensure filter always applies correctly
-  const filteredJobs = useMemo(() => {
-    if (activeFilter === 'all') return matchedJobs;
-    return matchedJobs.filter(job => job.ranking === activeFilter);
-  }, [matchedJobs, activeFilter]);
+  // Compute filtered + sorted list — always SM first, GM second, WS last
+  const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
+  const sortedJobs = [...matchedJobs].sort((a, b) => {
+    const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
+    if (tierDiff !== 0) return tierDiff;
+    if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
+    if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
+    return 0;
+  });
+  const filteredJobs = activeFilter === 'all' ? sortedJobs : sortedJobs.filter(job => job.ranking === activeFilter);
 
   // Fallback mock data for demo when API fails
   const loadFallbackData = () => {
@@ -190,19 +196,8 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                 matchCount++;
                 const formatted = formatMatch(event.match);
                 if (addLog) addLog(`  ${formatted.ranking.toUpperCase()}: ${formatted.title} @ ${formatted.company}`);
-                // Append and sort: ranking tier first, then Anthropic on top within same tier
-                setMatchedJobs(prev => {
-                  const updated = [...prev, formatted];
-                  updated.sort((a, b) => {
-                    const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
-                    if (tierDiff !== 0) return tierDiff;
-                    // Anthropic first within same tier
-                    if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
-                    if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
-                    return 0;
-                  });
-                  return updated;
-                });
+                // Append — sorting happens at render time via sortedJobs
+                setMatchedJobs(prev => [...prev, formatted]);
               }
 
               if (event.type === 'done') {
@@ -400,31 +395,101 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               const gmCount = matchedJobs.filter(j => j.ranking === 'good_match').length;
               const wsCount = matchedJobs.filter(j => j.ranking === 'worth_a_shot').length;
               return (
-                <div className="tabs-container tabs-container--medium">
-                  <button
-                    className={`tabs-tab ${activeFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('all')}
-                  >
-                    All <span className="tabs-count">{matchedJobs.length}</span>
-                  </button>
-                  <button
-                    className={`tabs-tab ${activeFilter === 'strong_match' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('strong_match')}
-                  >
-                    Strong Match <span className="tabs-count">{smCount}</span>
-                  </button>
-                  <button
-                    className={`tabs-tab ${activeFilter === 'good_match' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('good_match')}
-                  >
-                    Good Match <span className="tabs-count">{gmCount}</span>
-                  </button>
-                  <button
-                    className={`tabs-tab ${activeFilter === 'worth_a_shot' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('worth_a_shot')}
-                  >
-                    Worth a Shot <span className="tabs-count">{wsCount}</span>
-                  </button>
+                <div className="matches-filters-row">
+                  {/* Filters Button */}
+                  <div className="filters-trigger-wrapper">
+                    <button
+                      className="filters-trigger-button"
+                      onClick={() => setShowFiltersDropdown(!showFiltersDropdown)}
+                    >
+                      <i className="ph-bold ph-funnel"></i>
+                      <span>Filters</span>
+                    </button>
+                    {showFiltersDropdown && (
+                      <div className="filters-popover-content">
+                        <div className="filters-header">
+                          <span className="filters-header-title">Filters</span>
+                          <button className="filters-close-btn" onClick={() => setShowFiltersDropdown(false)}>
+                            <i className="ph-bold ph-x"></i>
+                          </button>
+                        </div>
+                        <div className="filters-options-list">
+                          <div className="filters-option-group">
+                            <div className="filters-option-label">City</div>
+                            <div className="filters-option-items">
+                              {['San Francisco', 'Bengaluru', 'Remote', 'New York', 'London'].map(city => (
+                                <label key={city} className="filters-checkbox-container">
+                                  <input type="checkbox" />
+                                  <span className="filters-checkbox-label">{city}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="filters-option-group">
+                            <div className="filters-option-label">Work Mode</div>
+                            <div className="filters-option-items">
+                              {['Remote', 'On-site', 'Hybrid'].map(mode => (
+                                <label key={mode} className="filters-checkbox-container">
+                                  <input type="checkbox" />
+                                  <span className="filters-checkbox-label">{mode}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="filters-option-group">
+                            <div className="filters-option-label">Funding Stage</div>
+                            <div className="filters-option-items">
+                              {['Seed', 'Series A', 'Series B', 'Series C', 'Series D+', 'IPO'].map(stage => (
+                                <label key={stage} className="filters-checkbox-container">
+                                  <input type="checkbox" />
+                                  <span className="filters-checkbox-label">{stage}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="filters-option-group">
+                            <div className="filters-option-label">Funding Raised</div>
+                            <div className="filters-option-items">
+                              {['Under $50M', '$50M - $200M', '$200M - $500M', '$500M+'].map(range => (
+                                <label key={range} className="filters-checkbox-container">
+                                  <input type="checkbox" />
+                                  <span className="filters-checkbox-label">{range}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Ranking Tabs */}
+                  <div className="tabs-container tabs-container--medium">
+                    <button
+                      className={`tabs-tab ${activeFilter === 'all' ? 'active' : ''}`}
+                      onClick={() => setActiveFilter('all')}
+                    >
+                      All <span className="tabs-count">{matchedJobs.length}</span>
+                    </button>
+                    <button
+                      className={`tabs-tab ${activeFilter === 'strong_match' ? 'active' : ''}`}
+                      onClick={() => setActiveFilter('strong_match')}
+                    >
+                      Strong Match <span className="tabs-count">{smCount}</span>
+                    </button>
+                    <button
+                      className={`tabs-tab ${activeFilter === 'good_match' ? 'active' : ''}`}
+                      onClick={() => setActiveFilter('good_match')}
+                    >
+                      Good Match <span className="tabs-count">{gmCount}</span>
+                    </button>
+                    <button
+                      className={`tabs-tab ${activeFilter === 'worth_a_shot' ? 'active' : ''}`}
+                      onClick={() => setActiveFilter('worth_a_shot')}
+                    >
+                      Worth a Shot <span className="tabs-count">{wsCount}</span>
+                    </button>
+                  </div>
                 </div>
               );
             })()}
