@@ -1,7 +1,7 @@
 {
   "company_name": "Anthropic",
   "company_slug": "anthropic",
-  "company_logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Anthropic_logo.svg/200px-Anthropic_logo.svg.png",
+  "company_logo_url": "/company-logos/anthropic.png",
   "job": {
     "title": "Model Quality Software Engineer, Claude Code",
     "apply_url": "https://job-boards.greenhouse.io/anthropic/jobs/5098025008",
