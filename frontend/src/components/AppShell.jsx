@@ -2,10 +2,10 @@ import React from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 
-export const AppShell = ({ children }) => {
+export const AppShell = ({ children, apiKey, onApiKeyChange }) => {
   return (
     <div className="app-page-container">
-      <Header />
+      <Header apiKey={apiKey} onApiKeyChange={onApiKeyChange} />
       <div className="app-page-main-wrapper with-feature-nav">
         <Sidebar />
         <div className="app-page-feature-content">

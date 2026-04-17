@@ -134,6 +134,31 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               {/* Card Header */}
               <div className="resume-parsed-card-header">Your resume</div>
 
+              {/* Contact Info - Name, Email, Phone */}
+              <div className="resume-parsed-contact-info">
+                {name && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-user"></i>
+                    <span className="resume-parsed-detail-label">Name:</span>
+                    <span className="resume-parsed-detail-value">{name}</span>
+                  </div>
+                )}
+                {email && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-envelope-simple"></i>
+                    <span className="resume-parsed-detail-label">Email:</span>
+                    <span className="resume-parsed-detail-value">{email}</span>
+                  </div>
+                )}
+                {phone && (
+                  <div className="resume-parsed-detail-row">
+                    <i className="ph-bold ph-phone"></i>
+                    <span className="resume-parsed-detail-label">Phone:</span>
+                    <span className="resume-parsed-detail-value">{phone}</span>
+                  </div>
+                )}
+              </div>
+
               {/* Overall Assessment */}
               <div className="resume-parsed-section">
                 <div className="resume-parsed-section-heading">
@@ -171,21 +196,6 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                   </div>
                 )}
                 
-                {email && (
-                  <div className="resume-parsed-detail-row">
-                    <i className="ph-bold ph-envelope-simple"></i>
-                    <span className="resume-parsed-detail-label">Email:</span>
-                    <span className="resume-parsed-detail-value">{email}</span>
-                  </div>
-                )}
-                
-                {phone && (
-                  <div className="resume-parsed-detail-row">
-                    <i className="ph-bold ph-phone"></i>
-                    <span className="resume-parsed-detail-label">Phone:</span>
-                    <span className="resume-parsed-detail-value">{phone}</span>
-                  </div>
-                )}
               </div>
 
               {/* Candidate Summary */}

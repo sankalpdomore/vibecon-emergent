@@ -83,9 +83,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
               >
                 {isLoading ? (
                   <>
-                    <div className="dropzone-icon" style={{ animation: 'spin 1s linear infinite' }}>
-                      <i className="ph-bold ph-spinner" style={{ fontSize: '48px', color: '#aaa' }}></i>
-                    </div>
+                    <div className="gradient-spinner"></div>
                     <p className="dropzone-text">Parsing your resume...</p>
                   </>
                 ) : (
@@ -139,8 +137,8 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
           <div className="modal-card-button-container">
             {isLoading ? (
               <button onClick={onCancel} className="modal-card-cta" style={{ background: 'linear-gradient(0deg, #dc2626 0%, #ef4444 100%)', color: '#fff', border: '1px solid #dc2626' }}>
-                <span>Cancel</span>
                 <i className="ph-bold ph-x"></i>
+                <span>Cancel</span>
               </button>
             ) : (
               <button onClick={handleUploadClick} className="modal-card-cta">

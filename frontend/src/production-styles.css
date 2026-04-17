@@ -979,12 +979,13 @@ body {
   }
 }
 
-/* Pulse animation for skeleton loading */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+/* Gradient spinner for loading state */
+.gradient-spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid #e5e5e5;
+  border-top: 4px solid #333;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
 }

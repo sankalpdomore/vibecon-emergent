@@ -19,9 +19,7 @@ export const RecommendedJobs = () => {
   const [parsedData, setParsedData] = useState(null);
   const [error, setError] = useState(null);
   const [logs, setLogs] = useState([]);
-  const [showLogs, setShowLogs] = useState(false);
   const [selectedModel, setSelectedModel] = useState('openai:gpt-4o-mini');
-  const [showSettings, setShowSettings] = useState(false);
   const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
 
   const addLog = (message) => {
@@ -48,8 +46,7 @@ export const RecommendedJobs = () => {
 
     const currentKey = apiKey || localStorage.getItem('openai_api_key');
     if (!currentKey) {
-      setError('Please add your OpenAI API key in Settings first.');
-      setShowSettings(true);
+      setError('Please add your OpenAI API key first. Click your profile icon in the top right.');
       return;
     }
 
@@ -104,7 +101,7 @@ export const RecommendedJobs = () => {
   };
 
   return (
-    <AppShell>
+    <AppShell apiKey={apiKey} onApiKeyChange={saveApiKey}>
       {state === 'upload' && (
         <UploadState
           uploadedFile={uploadedFile}
@@ -137,64 +134,6 @@ export const RecommendedJobs = () => {
           apiKey={apiKey}
         />
       )}
-
-      {/* Settings button - always visible */}
-      <button
-        onClick={() => setShowSettings(!showSettings)}
-        style={{
-          position: 'fixed', top: '80px', right: '24px', zIndex: 100,
-          padding: '5px 10px', borderRadius: '8px', fontSize: '11px',
-          background: apiKey ? '#f0fdf4' : '#fef2f2',
-          border: `1px solid ${apiKey ? '#a7f3d0' : '#fecaca'}`,
-          color: apiKey ? '#059669' : '#dc2626',
-          cursor: 'pointer', fontFamily: 'var(--font-inter)',
-          display: 'flex', alignItems: 'center', gap: '4px'
-        }}
-      >
-        <i className="ph-bold ph-key"></i>
-        {apiKey ? 'Key Set' : 'Add Key'}
-      </button>
-      <div style={{ display: 'none' }}>
-      </div>
-
-      {/* Settings panel */}
-      {showSettings && (
-        <div style={{
-          position: 'fixed', top: '116px', right: '24px', zIndex: 100,
-          width: '360px', background: '#fff', borderRadius: '12px',
-          padding: '20px', border: '1px solid #ddd',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-          fontFamily: 'var(--font-inter)'
-        }}>
-          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111', marginBottom: '12px' }}>
-            Settings
-          </div>
-          <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
-            OpenAI API Key
-          </div>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => saveApiKey(e.target.value)}
-            placeholder="sk-proj-..."
-            style={{
-              width: '100%', padding: '8px 12px', borderRadius: '8px',
-              border: '1px solid #ddd', fontSize: '12px', outline: 'none',
-              fontFamily: 'monospace', boxSizing: 'border-box'
-            }}
-          />
-          <div style={{ fontSize: '11px', color: '#999', marginTop: '8px' }}>
-            Get your key from platform.openai.com/api-keys. Stored in browser localStorage only.
-          </div>
-          {apiKey && (
-            <div style={{ fontSize: '11px', color: '#059669', marginTop: '6px' }}>
-              Key saved ({apiKey.slice(0, 8)}...{apiKey.slice(-4)})
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Log panel hidden - logs still collected internally */}
     </AppShell>
   );
 };
