@@ -207,14 +207,14 @@ body {
 .resume-card-stack {
   position: relative;
   width: 240px;
-  height: 220px;
-  margin: 0 auto 16px;
+  height: 212px;
+  margin: 0px auto 0px;
 }
 
 .resume-stack-card {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: min-content;
   background: white;
   border-radius: 20px;
   border: 1px solid #ddd;

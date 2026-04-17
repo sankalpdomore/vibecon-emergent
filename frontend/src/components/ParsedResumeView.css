@@ -509,6 +509,25 @@
   margin-top: 1px;
 }
 
+.insight-text-truncated {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.insight-read-more {
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.insight-read-more:hover {
+  text-decoration: underline;
+}
+
 
 .job-leads-company-link:hover .job-leads-company-link-arrow {
   color: #000;

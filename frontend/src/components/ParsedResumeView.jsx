@@ -1,5 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ParsedResumeView.css';
+
+// Expandable insight text — truncated to 3 lines with "Read more"
+const InsightItem = ({ text }) => {
+  const [expanded, setExpanded] = useState(false);
+  const [needsTruncation, setNeedsTruncation] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    if (textRef.current) {
+      // Check if text overflows 3 lines (line-height 1.4 * font-size 12px * 3 lines = ~50px)
+      const lineHeight = parseFloat(getComputedStyle(textRef.current).lineHeight);
+      const maxHeight = lineHeight * 3;
+      if (textRef.current.scrollHeight > maxHeight + 2) {
+        setNeedsTruncation(true);
+      }
+    }
+  }, [text]);
+
+  return (
+    <div className="job-leads-match-insight-item">
+      <i className="ph-bold ph-checks"></i>
+      <div>
+        <span
+          ref={textRef}
+          className={!expanded && needsTruncation ? 'insight-text-truncated' : ''}
+        >
+          {text}
+        </span>
+        {needsTruncation && (
+          <span
+            className="insight-read-more"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? ' Show less' : ' Read more'}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, apiKey }) => {
   const { name, email, phone, summary, skills, experience, education, raw_text } = parsedData;
@@ -297,10 +337,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                         {job.matchInsights && job.matchInsights.length > 0 && (
                           <div className="job-leads-match-insights">
                             {job.matchInsights.map((insight, idx) => (
-                              <div key={idx} className="job-leads-match-insight-item">
-                                <i className="ph-bold ph-checks"></i>
-                                <span>{insight}</span>
-                              </div>
+                              <InsightItem key={idx} text={insight} />
                             ))}
                           </div>
                         )}
@@ -308,6 +345,10 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
 
                       {/* Row 2: CTA Buttons */}
                       <div className="job-card-cta-row">
+                        <button className="job-card-cta-btn">
+                          <i className="ph-bold ph-cursor-click"></i>
+                          <span>Auto apply</span>
+                        </button>
                         <a
                           href={job.applyUrl}
                           target="_blank"
@@ -317,10 +358,6 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                           <i className="ph-bold ph-arrow-square-out"></i>
                           <span>View job</span>
                         </a>
-                        <button className="job-card-cta-btn">
-                          <i className="ph-bold ph-cursor-click"></i>
-                          <span>Auto apply</span>
-                        </button>
                         <button className="job-card-cta-btn">
                           <i className="ph-bold ph-bookmark-simple"></i>
                           <span>Save</span>
