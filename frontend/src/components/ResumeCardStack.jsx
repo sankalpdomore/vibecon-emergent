@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const JOB_CARDS = [
   {
     company: 'Anthropic',
-    logo: 'https://nextdoor.company/company-logos/anthropic.png',
+    logo: '/anthropic-logo.png',
     initials: 'AN',
     title: 'Research Engineer, Agents',
     ranking: 'strong_match',
