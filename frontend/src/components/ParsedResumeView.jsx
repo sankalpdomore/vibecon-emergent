@@ -308,7 +308,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
 
                       {/* Row 2: CTA Buttons */}
                       <div className="job-card-cta-row">
-                        <a 
+                        <a
                           href={job.applyUrl}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -317,6 +317,10 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                           <i className="ph-bold ph-arrow-square-out"></i>
                           <span>View job</span>
                         </a>
+                        <button className="job-card-cta-btn">
+                          <i className="ph-bold ph-cursor-click"></i>
+                          <span>Auto apply</span>
+                        </button>
                         <button className="job-card-cta-btn">
                           <i className="ph-bold ph-bookmark-simple"></i>
                           <span>Save</span>

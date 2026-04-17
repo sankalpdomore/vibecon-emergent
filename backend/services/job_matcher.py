@@ -301,9 +301,6 @@ class JobMatcher:
         
         for entry in sorted_scores[:3]:
             reason = entry['reason']
-            # Clean up the reason to be concise recruiter-speak
-            if len(reason) > 120:
-                reason = reason[:117] + '...'
             insights.append(reason)
         
         return insights
