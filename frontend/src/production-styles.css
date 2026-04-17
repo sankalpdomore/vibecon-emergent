@@ -317,7 +317,9 @@ body {
 }
 
 .resume-mini-section-lines {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .resume-mini-info {

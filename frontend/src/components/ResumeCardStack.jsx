@@ -44,12 +44,6 @@ const SkeletonLines = () => (
         <div className="resume-mini-line" style={{ width: '90%' }}></div>
       </div>
     </div>
-    <div className="resume-mini-section">
-      <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '85%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-      </div>
-    </div>
   </div>
 );
 
