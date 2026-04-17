@@ -48,17 +48,24 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
   const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
+  const [displayJobs, setDisplayJobs] = useState([]);
 
-  // Compute filtered + sorted list — always SM first, GM second, WS last
-  const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
-  const sortedJobs = [...matchedJobs].sort((a, b) => {
-    const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
-    if (tierDiff !== 0) return tierDiff;
-    if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
-    if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
-    return 0;
-  });
-  const filteredJobs = activeFilter === 'all' ? sortedJobs : sortedJobs.filter(job => job.ranking === activeFilter);
+  // Recompute displayed jobs whenever matchedJobs or activeFilter changes
+  useEffect(() => {
+    const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
+    const sorted = [...matchedJobs].sort((a, b) => {
+      const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
+      if (tierDiff !== 0) return tierDiff;
+      if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
+      if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
+      return 0;
+    });
+    if (activeFilter === 'all') {
+      setDisplayJobs(sorted);
+    } else {
+      setDisplayJobs(sorted.filter(job => job.ranking === activeFilter));
+    }
+  }, [matchedJobs, activeFilter]);
 
   // Fallback mock data for demo when API fails
   const loadFallbackData = () => {
@@ -525,9 +532,9 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               ) : (
                 // Matched Jobs (streaming or complete) — show cards + trailing skeletons during streaming
                 <>
-                  {sortedJobs.filter(j => activeFilter === 'all' ? true : j.ranking === activeFilter).map((job) => (
-                    <div 
-                      key={job.id} 
+                  {displayJobs.map((job, idx) => (
+                    <div
+                      key={`${job.company}-${job.title}-${idx}`}
                       className="job-leads-company-link"
                     >
                       {/* Row 1: Logo + Info + Insights */}
