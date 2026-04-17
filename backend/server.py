@@ -272,15 +272,15 @@ async def match_jobs(request: MatchJobsRequest):
         if not api_key:
             raise HTTPException(status_code=400, detail="OpenAI API key required. Add your key in Settings.")
         
-        # Load scraped jobs (limit to 10 for faster matching)
+        # Load all scraped jobs
         logger.info("Loading scraped jobs...")
         all_jobs = load_all_jobs(only_successful=True)
 
         if not all_jobs:
             raise HTTPException(status_code=404, detail="No jobs found in database")
 
-        jobs = all_jobs[:10]
-        logger.info(f"Loaded {len(all_jobs)} jobs, using first {len(jobs)} for matching")
+        jobs = all_jobs
+        logger.info(f"Loaded {len(jobs)} jobs for matching")
         logger.info(f"Using model: {request.model_provider}:{request.model_name}")
         
         # Initialize job matcher with model configuration

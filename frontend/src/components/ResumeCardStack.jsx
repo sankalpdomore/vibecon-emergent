@@ -1,159 +1,139 @@
 import React, { useState, useEffect } from 'react';
 
-const PROFILE_IMAGE_URL = 'https://customer-assets.emergentagent.com/job_reading-first/artifacts/99wnph8u_sankalp.jpg';
-
-const CARD_LAYOUTS = [
+// Three sample job cards rotating in the stack — one per ranking tier
+const JOB_CARDS = [
   {
-    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    type: 'single-column'
+    company: 'Emergent',
+    logo: 'https://nextdoor.company/company-logos/emergent.png',
+    initials: 'EM',
+    title: 'Backend Engineer',
+    ranking: 'highly_recommended',
+    rankingLabel: 'Highly Recommended',
+    rankingColor: '#16a34a',
+    rankingBg: '#dcfce7',
   },
   {
-    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    type: 'two-column'
+    company: 'Vercel',
+    logo: 'https://nextdoor.company/company-logos/vercel.png',
+    initials: 'VE',
+    title: 'Design Engineer',
+    ranking: 'good_fit',
+    rankingLabel: 'Good Fit',
+    rankingColor: '#2563eb',
+    rankingBg: '#dbeafe',
   },
   {
-    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    type: 'sidebar'
-  }
+    company: 'Apollo.io',
+    logo: 'https://nextdoor.company/company-logos/apolloio.png',
+    initials: 'AP',
+    title: 'Senior Backend Engineer',
+    ranking: 'needs_discussion',
+    rankingLabel: 'Needs Discussion',
+    rankingColor: '#d97706',
+    rankingBg: '#fef3c7',
+  },
 ];
 
-const SingleColumnLayout = () => (
+// Skeleton lines to suggest JD content below the header
+const SkeletonLines = () => (
   <div className="resume-mini-sections">
     <div className="resume-mini-section">
-      <div className="resume-mini-section-title">Experience</div>
       <div className="resume-mini-section-lines">
         <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '80%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
+        <div className="resume-mini-line" style={{ width: '75%' }}></div>
+        <div className="resume-mini-line" style={{ width: '90%' }}></div>
       </div>
     </div>
     <div className="resume-mini-section">
-      <div className="resume-mini-section-title">Skills</div>
       <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-      </div>
-    </div>
-  </div>
-);
-
-const TwoColumnLayout = () => (
-  <div className="resume-mini-two-column">
-    <div className="resume-mini-column">
-      <div className="resume-mini-section-title">Work</div>
-      <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '70%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '70%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '70%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '70%' }}></div>
-      </div>
-    </div>
-    <div className="resume-mini-column">
-      <div className="resume-mini-section-title">Education</div>
-      <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '60%' }}></div>
-      </div>
-    </div>
-  </div>
-);
-
-const SidebarLayout = () => (
-  <div className="resume-mini-sidebar-layout">
-    <div className="resume-mini-sidebar">
-      <div className="resume-mini-block"></div>
-      <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '80%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-      </div>
-    </div>
-    <div className="resume-mini-main-content">
-      <div className="resume-mini-section-lines">
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
-        <div className="resume-mini-line" style={{ width: '90%' }}></div>
-        <div className="resume-mini-line" style={{ width: '100%' }}></div>
         <div className="resume-mini-line" style={{ width: '85%' }}></div>
+        <div className="resume-mini-line" style={{ width: '60%' }}></div>
       </div>
-      <div className="resume-mini-block right-aligned"></div>
     </div>
   </div>
 );
 
 export const ResumeCardStack = ({ hasFile }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imgErrors, setImgErrors] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % 3);
+      setActiveIndex((prev) => (prev + 1) % JOB_CARDS.length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
 
   const getCardPosition = (cardIndex) => {
-    return (cardIndex - activeIndex + 3) % 3;
+    return (cardIndex - activeIndex + JOB_CARDS.length) % JOB_CARDS.length;
   };
 
-  const getPositionClass = (position) => {
-    return `resume-stack-card-${position}`;
-  };
-
-  const renderCardContent = (layoutType) => {
-    switch (layoutType) {
-      case 'single-column':
-        return <SingleColumnLayout />;
-      case 'two-column':
-        return <TwoColumnLayout />;
-      case 'sidebar':
-        return <SidebarLayout />;
-      default:
-        return null;
-    }
+  const handleImgError = (index) => {
+    setImgErrors((prev) => ({ ...prev, [index]: true }));
   };
 
   return (
     <div className="resume-card-stack">
-      {CARD_LAYOUTS.map((layout, index) => {
+      {JOB_CARDS.map((card, index) => {
         const position = getCardPosition(index);
         return (
           <div
             key={index}
-            className={`resume-stack-card ${getPositionClass(position)}`}
+            className={`resume-stack-card resume-stack-card-${position}`}
           >
+            {/* Company header row: logo + name + title */}
             <div className="resume-mini-header">
-              <div 
-                className="resume-mini-avatar" 
-                style={{ background: layout.gradient, overflow: 'hidden' }}
+              <div
+                className="resume-mini-avatar"
+                style={{
+                  background: '#f5f5f5',
+                  overflow: 'hidden',
+                  borderRadius: '10px',
+                }}
               >
-                <img 
-                  src={PROFILE_IMAGE_URL} 
-                  alt="SK" 
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover' 
-                  }} 
-                />
+                {!imgErrors[index] ? (
+                  <img
+                    src={card.logo}
+                    alt={card.initials}
+                    onError={() => handleImgError(index)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      padding: '4px',
+                    }}
+                  />
+                ) : (
+                  <span style={{ color: '#666', fontSize: '13px', fontWeight: 700 }}>
+                    {card.initials}
+                  </span>
+                )}
               </div>
               <div className="resume-mini-info">
-                <div className="resume-mini-name">Sankalp Sinha</div>
-                <div className="resume-mini-title">Professional Title</div>
+                <div className="resume-mini-name">{card.company}</div>
+                <div className="resume-mini-title">{card.title}</div>
               </div>
             </div>
-            {/* Always render content for all cards, not just when hasFile */}
-            {renderCardContent(layout.type)}
+
+            {/* Ranking badge */}
+            <div
+              style={{
+                display: 'inline-block',
+                padding: '3px 10px',
+                borderRadius: '20px',
+                fontSize: '11px',
+                fontWeight: 600,
+                color: card.rankingColor,
+                background: card.rankingBg,
+                marginBottom: '10px',
+                letterSpacing: '0.2px',
+              }}
+            >
+              {card.rankingLabel}
+            </div>
+
+            {/* Skeleton lines suggesting match details */}
+            <SkeletonLines />
           </div>
         );
       })}

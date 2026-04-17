@@ -8,7 +8,7 @@ import logging
 import json
 import re
 import asyncio
-from typing import List, Dict
+from typing import List, Dict, Optional, Tuple
 from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
@@ -49,6 +49,139 @@ async def call_openai_with_retry(client, messages, model, max_retries=2, timeout
                 raise e
             logger.warning(f"OpenAI attempt {attempt + 1} failed: {e}, retrying...")
             await asyncio.sleep(1)
+
+
+# ---------------------------------------------------------------------------
+# Pre-screen filter — cheap checks before the expensive LLM scoring call
+# ---------------------------------------------------------------------------
+
+# Common backend/engineering tech keywords grouped by ecosystem
+TECH_SYNONYMS = {
+    'python': {'python', 'django', 'flask', 'fastapi', 'celery', 'sqlalchemy'},
+    'go': {'go', 'golang'},
+    'java': {'java', 'spring', 'spring boot', 'springboot', 'jvm', 'maven', 'gradle'},
+    'javascript': {'javascript', 'js', 'node', 'node.js', 'nodejs', 'express', 'nestjs', 'typescript', 'ts'},
+    'ruby': {'ruby', 'rails', 'ruby on rails'},
+    'rust': {'rust'},
+    'c++': {'c++', 'cpp'},
+    'scala': {'scala'},
+    'kotlin': {'kotlin'},
+    'aws': {'aws', 'amazon web services', 'ec2', 's3', 'lambda', 'sqs', 'dynamodb', 'ecs', 'eks'},
+    'gcp': {'gcp', 'google cloud', 'bigquery', 'cloud run', 'gke'},
+    'azure': {'azure'},
+    'kubernetes': {'kubernetes', 'k8s', 'helm', 'argocd'},
+    'docker': {'docker', 'containerization', 'containers'},
+    'react': {'react', 'reactjs', 'react.js', 'next.js', 'nextjs'},
+    'postgres': {'postgres', 'postgresql', 'rdbms', 'sql'},
+    'mongodb': {'mongodb', 'mongo', 'nosql'},
+    'redis': {'redis', 'caching'},
+    'elasticsearch': {'elasticsearch', 'elastic', 'opensearch'},
+    'kafka': {'kafka', 'event streaming', 'message queue', 'rabbitmq', 'sqs'},
+}
+
+
+def _normalize_tech_tokens(text: str) -> set:
+    """Extract normalized tech keyword set from free text."""
+    text_lower = text.lower()
+    found = set()
+    for canonical, synonyms in TECH_SYNONYMS.items():
+        for syn in synonyms:
+            if syn in text_lower:
+                found.add(canonical)
+                break
+    return found
+
+
+def _extract_experience_years(text: str) -> Optional[int]:
+    """
+    Pull the minimum years-of-experience number from a JD.
+    Returns None if no clear requirement found.
+    """
+    patterns = [
+        r'(\d+)\+?\s*(?:to\s*\d+\s*)?\s*years?\s+of\s+(?:relevant|industry|professional|software|backend|full[\s-]?stack|engineering|development|hands[\s-]?on)',
+        r'(?:minimum|at\s+least|requires?)\s+(\d+)\+?\s*years?',
+        r'(\d+)\s*(?:to|-)\s*\d+\s*years?\s+of\s+(?:experience|development)',
+        r'(\d+)\+?\s*years?\s+(?:experience|of experience)',
+    ]
+    years_found = []
+    for pat in patterns:
+        for m in re.finditer(pat, text, re.IGNORECASE):
+            try:
+                years_found.append(int(m.group(1)))
+            except (ValueError, IndexError):
+                pass
+    return min(years_found) if years_found else None
+
+
+def _estimate_resume_years(parsed_resume: dict) -> Optional[int]:
+    """
+    Estimate total years of experience from parsed resume experience entries.
+    Uses duration strings like 'Jan 2020 - Dec 2022' or 'Jan 2020 - Present'.
+    Returns None if cannot estimate.
+    """
+    experience = parsed_resume.get('experience', [])
+    if not experience:
+        return None
+
+    year_pattern = re.compile(r'(20\d{2}|19\d{2})')
+    min_year = None
+    max_year = None
+
+    for exp in experience:
+        duration = exp.get('duration', '')
+        years = [int(y) for y in year_pattern.findall(duration)]
+        if years:
+            if min_year is None or min(years) < min_year:
+                min_year = min(years)
+            if max_year is None or max(years) > max_year:
+                max_year = max(years)
+        # Handle 'Present' or 'Current'
+        if re.search(r'present|current|now', duration, re.IGNORECASE):
+            max_year = 2026
+
+    if min_year and max_year:
+        return max_year - min_year
+    # Fallback: assume ~2 years per role
+    return len(experience) * 2
+
+
+def prescreen_job(parsed_resume: dict, resume_text: str, job_data: dict) -> Tuple[bool, str]:
+    """
+    Lightweight pre-screen to reject obvious mismatches before LLM call.
+
+    Returns:
+        (pass, reason) — True = send to LLM, False = skip this job.
+
+    Rules:
+        1. If JD requires N+ years and resume has less than 60 percent of N -> reject
+        2. If JD has a tech_stack list (3+ items) and resume overlaps less than 15 percent -> reject
+        3. Otherwise -> pass (let the LLM decide)
+    """
+    jd = job_data.get('jd', {})
+    raw_text = jd.get('raw_text', '')
+    tech_stack = jd.get('sections', {}).get('tech_stack', [])
+    company = job_data.get('company_name', 'Unknown')
+    title = job_data.get('job', {}).get('title', 'Unknown')
+
+    # --- Experience check ---
+    jd_years = _extract_experience_years(raw_text)
+    if jd_years and jd_years > 0:
+        resume_years = _estimate_resume_years(parsed_resume)
+        if resume_years is not None and resume_years < jd_years * 0.6:
+            return False, f"Experience gap: JD needs {jd_years}+ yrs, resume has ~{resume_years} yrs"
+
+    # --- Tech stack overlap check ---
+    if tech_stack and len(tech_stack) >= 3:
+        jd_tech = _normalize_tech_tokens(' '.join(tech_stack))
+        resume_tech = _normalize_tech_tokens(resume_text)
+        if jd_tech:
+            overlap = jd_tech & resume_tech
+            overlap_pct = len(overlap) / len(jd_tech)
+            if overlap_pct < 0.15:
+                return False, f"Tech mismatch: JD needs {jd_tech}, resume has {resume_tech}, overlap {overlap_pct:.0%}"
+
+    return True, "Passed pre-screen"
+
 
 # Scoring weights for Technology:Individual Contributor framework
 SCORING_WEIGHTS = {
@@ -220,12 +353,12 @@ RESUME SUMMARY:
 - Education: {', '.join([e.get('degree', '') for e in parsed_resume.get('education', [])])}
 
 FULL RESUME TEXT:
-{resume_text[:3000]}
+{resume_text}
 
 JOB DESCRIPTION:
 Company: {company_name}
 Title: {job_title}
-{jd_text[:4000]}
+{jd_text}
 
 Evaluate this candidate against the job using all 9 categories defined in your system prompt. Return structured JSON with category scores and reasons.
 """
@@ -299,12 +432,26 @@ Evaluate this candidate against the job using all 9 categories defined in your s
         """
         BATCH_SIZE = 10
         all_results = []
-        
-        logger.info(f"Matching resume against {len(jobs)} jobs in batches of {BATCH_SIZE}...")
-        
+
+        # --- Pre-screen: reject obvious mismatches before LLM calls ---
+        screened_jobs = []
+        rejected_count = 0
+        for job in jobs:
+            passed, reason = prescreen_job(parsed_resume, resume_text, job)
+            if passed:
+                screened_jobs.append(job)
+            else:
+                rejected_count += 1
+                company = job.get('company_name', 'Unknown')
+                title = job.get('job', {}).get('title', 'Unknown')
+                logger.info(f"  Pre-screen REJECT: {company} - {title} | {reason}")
+
+        logger.info(f"Pre-screen: {len(screened_jobs)} passed, {rejected_count} rejected out of {len(jobs)} total")
+        logger.info(f"Matching resume against {len(screened_jobs)} jobs in batches of {BATCH_SIZE}...")
+
         # Process jobs in parallel batches
-        for i in range(0, len(jobs), BATCH_SIZE):
-            batch = jobs[i:i + BATCH_SIZE]
+        for i in range(0, len(screened_jobs), BATCH_SIZE):
+            batch = screened_jobs[i:i + BATCH_SIZE]
             batch_num = (i // BATCH_SIZE) + 1
             total_batches = (len(jobs) + BATCH_SIZE - 1) // BATCH_SIZE
             
@@ -338,9 +485,9 @@ Evaluate this candidate against the job using all 9 categories defined in your s
                 else:
                     logger.info(f"  {job.get('company_name')}: {score}/5.0 (rejected - below 3.5)")
         
-        # Sort by score descending and return top 10
+        # Sort by score descending and return all matches above threshold
         all_results.sort(key=lambda x: x['score'], reverse=True)
-        top_matches = all_results[:10]
+        top_matches = all_results
         
         logger.info(f"Returning {len(top_matches)} top matches out of {len(all_results)} total matches")
         
