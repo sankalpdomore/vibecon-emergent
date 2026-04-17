@@ -48,24 +48,19 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
   const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
-  const [displayJobs, setDisplayJobs] = useState([]);
 
-  // Recompute displayed jobs whenever matchedJobs or activeFilter changes
-  useEffect(() => {
-    const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
+  // Synchronous computation at render time — no lag
+  const RANK_ORDER = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
+  const displayJobs = (() => {
     const sorted = [...matchedJobs].sort((a, b) => {
-      const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
+      const tierDiff = (RANK_ORDER[a.ranking] || 3) - (RANK_ORDER[b.ranking] || 3);
       if (tierDiff !== 0) return tierDiff;
       if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
       if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
       return 0;
     });
-    if (activeFilter === 'all') {
-      setDisplayJobs(sorted);
-    } else {
-      setDisplayJobs(sorted.filter(job => job.ranking === activeFilter));
-    }
-  }, [matchedJobs, activeFilter]);
+    return activeFilter === 'all' ? sorted : sorted.filter(job => job.ranking === activeFilter);
+  })();
 
   // Fallback mock data for demo when API fails
   const loadFallbackData = () => {
