@@ -529,6 +529,67 @@
 }
 
 
+/* Company Details Section on Job Cards */
+.job-card-company-details {
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  margin: 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.job-card-founder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.job-card-founder-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e5e5e5;
+}
+
+.job-card-founder-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card-founder-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.job-card-founder-role {
+  font-size: 11px;
+  color: #888;
+}
+
+.job-card-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.job-card-detail-row i {
+  font-size: 14px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.job-card-about {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #666;
+}
+
 .job-leads-company-link:hover .job-leads-company-link-arrow {
   color: #000;
   transform: translate(1px, -1px);

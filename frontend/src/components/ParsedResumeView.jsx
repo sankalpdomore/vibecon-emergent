@@ -115,7 +115,15 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
             departments: match.departments,
             applyUrl: match.apply_url,
             ranking: match.ranking,
-            matchInsights: match.match_insights || []
+            matchInsights: match.match_insights || [],
+            founderName: match.founder_name || '',
+            founderRole: match.founder_role || '',
+            founderImage: match.founder_image || '',
+            industry: match.industry || '',
+            about: match.about || '',
+            foundedYear: match.founded_year || '',
+            fundingStage: match.funding_stage || '',
+            totalFunding: match.total_funding || '',
           }));
           
           // Log each match
@@ -263,7 +271,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               </h2>
               <p className="matches-subtext">
                 {matchingState === 'loading' 
-                  ? 'Our agents are analyzing 50+ engineering roles...' 
+                  ? 'Looking for matches across 1,000+ engineering roles...' 
                   : `Found ${matchedJobs.length} strong matches for your profile`
                 }
               </p>
@@ -342,6 +350,51 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                           </div>
                         )}
                       </div>
+
+                      {/* Company Details */}
+                      {(job.founderName || job.about) && (
+                        <div className="job-card-company-details">
+                          {job.founderName && (
+                            <div className="job-card-founder">
+                              {job.founderImage && (
+                                <img
+                                  src={job.founderImage}
+                                  alt={job.founderName}
+                                  className="job-card-founder-img"
+                                  onError={(e) => { e.target.style.display = 'none'; }}
+                                />
+                              )}
+                              <div className="job-card-founder-info">
+                                <span className="job-card-founder-name">{job.founderName}</span>
+                                <span className="job-card-founder-role">{job.founderRole}</span>
+                              </div>
+                            </div>
+                          )}
+                          {job.industry && (
+                            <div className="job-card-detail-row">
+                              <i className="ph-bold ph-briefcase"></i>
+                              <span>{job.industry}</span>
+                            </div>
+                          )}
+                          {job.foundedYear && (
+                            <div className="job-card-detail-row">
+                              <i className="ph-bold ph-calendar-blank"></i>
+                              <span>Founded: {job.foundedYear}</span>
+                            </div>
+                          )}
+                          {job.totalFunding && (
+                            <div className="job-card-detail-row">
+                              <i className="ph-bold ph-coin"></i>
+                              <span>{job.fundingStage ? job.fundingStage.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Funded'} — {job.totalFunding}</span>
+                            </div>
+                          )}
+                          {job.about && (
+                            <div className="job-card-about">
+                              <span>{job.about}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Row 2: CTA Buttons */}
                       <div className="job-card-cta-row">

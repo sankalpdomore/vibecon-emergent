@@ -9,9 +9,20 @@ import json
 import re
 import asyncio
 from typing import List, Dict, Optional, Tuple
+from pathlib import Path
 from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
+
+# Load company details (founder, industry, about, funding) from static JSON
+COMPANY_DETAILS_PATH = Path(__file__).parent.parent.parent / "data" / "company-details.json"
+COMPANY_DETAILS = {}
+try:
+    with open(COMPANY_DETAILS_PATH, 'r') as f:
+        COMPANY_DETAILS = json.load(f)
+    logger.info(f"Loaded company details for {len(COMPANY_DETAILS)} companies")
+except Exception as e:
+    logger.warning(f"Could not load company details: {e}")
 
 
 # LLM Retry Logic Helper for OpenAI
@@ -401,9 +412,13 @@ Evaluate this candidate against the job using all 9 categories defined in your s
             # Get company initials for fallback
             company_initials = ''.join([word[0].upper() for word in company_name.split()[:2]])
             
+            # Merge company details (founder, industry, about, funding)
+            slug = job_data.get("company_slug", "")
+            details = COMPANY_DETAILS.get(slug, {})
+
             return {
                 "company_name": company_name,
-                "company_slug": job_data.get("company_slug", ""),
+                "company_slug": slug,
                 "company_logo_url": logo_url,
                 "companyInitials": company_initials,
                 "title": job_data.get("job", {}).get("title", ""),
@@ -412,7 +427,15 @@ Evaluate this candidate against the job using all 9 categories defined in your s
                 "departments": job_data.get("job", {}).get("role_department", "Engineering").title(),
                 "ranking": ranking,
                 "score": final_score,
-                "match_insights": insights
+                "match_insights": insights,
+                "founder_name": details.get("founder_name", ""),
+                "founder_role": details.get("founder_role", ""),
+                "founder_image": details.get("founder_image", ""),
+                "industry": details.get("industry", ""),
+                "about": details.get("about", ""),
+                "founded_year": details.get("founded_year", ""),
+                "funding_stage": details.get("funding_stage", ""),
+                "total_funding": details.get("total_funding", ""),
             }
             
         except Exception as e:

@@ -1,0 +1,382 @@
+{
+  "aegis-ventures": {
+    "founder_name": "John Beadle",
+    "founder_role": "Co-Founder, Managing Partner",
+    "founder_image": "https://nextdoor.company/founder-images/aegis-ventures/john-beadle.jpg",
+    "industry": "Venture Studio, Healthtech, AI, Digital Health",
+    "about": "Aegis Ventures is a next-generation startup studio based in New York City that partners with entrepreneurs, industry leaders, and health systems to originate, launch, and scale transformative companie",
+    "founded_year": 2021,
+    "funding_stage": "seed",
+    "total_funding": null
+  },
+  "apollo-io": {
+    "founder_name": "Tim Zheng",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/apollo-io/tim-zheng.jpg",
+    "industry": "AI, SaaS, Sales Intelligence, Data Enrichment",
+    "about": "AI sales platform automates prospecting",
+    "founded_year": 2015,
+    "funding_stage": "series-d+",
+    "total_funding": "$250 million"
+  },
+  "atomicwork": {
+    "founder_name": "Vijay Rayapati",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/atomicwork/vijay-rayapati.jpg",
+    "industry": "AI, SaaS, Enterprise Software",
+    "about": "Agentic service management platform automates workflows",
+    "founded_year": 2022,
+    "funding_stage": "series-a",
+    "total_funding": "$40 million"
+  },
+  "atoms": {
+    "founder_name": "Sidra Qasim",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "Footwear, Consumer Goods, Direct-to-Consumer",
+    "about": "Atoms is a privately held footwear brand based in Brooklyn, New York, that designs, develops, and sells high-quality shoes. The company started with the goal of building the best shoe, resulting in th",
+    "founded_year": 2020,
+    "funding_stage": "series-a",
+    "total_funding": "$36 million"
+  },
+  "bloomreach": {
+    "founder_name": "Raj De Datta",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "AI, E-commerce, Personalization, Digital Marketing",
+    "about": "Bloomreach is the agentic platform for personalization, powering autonomous search, conversational shopping, and autonomous marketing to deliver real-time, AI-driven customer experiences across channe",
+    "founded_year": 2009,
+    "funding_stage": "series-f",
+    "total_funding": "$452 million"
+  },
+  "celonis": {
+    "founder_name": "Alexander Rinke",
+    "founder_role": "Co-Founder & Co-CEO",
+    "founder_image": "https://nextdoor.company/founder-images/celonis/alexander-rinke.jpg",
+    "industry": "Process Mining, Process Intelligence, Enterprise Software, AI, SaaS",
+    "about": "Optimizes processes with AI mining",
+    "founded_year": 2011,
+    "funding_stage": "series-d+",
+    "total_funding": "$2.4 billion"
+  },
+  "chainguard": {
+    "founder_name": "Dan Lorenc",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "Cybersecurity, Software Supply Chain, Open Source",
+    "about": "Chainguard secures software supply chains by creating and maintaining hardened, vulnerability-free container images and tools like Chainguard Images (free Developer Images and paid Production Images) ",
+    "founded_year": 2021,
+    "funding_stage": "series-d",
+    "total_funding": "$892 million"
+  },
+  "clickhouse": {
+    "founder_name": "Aaron Katz",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "Enterprise Software, Data Analytics, Cloud Infrastructure",
+    "about": "ClickHouse is a high-performance, open-source columnar database management system (DBMS) designed for online analytical processing (OLAP) and real-time data analytics. The company offers three product",
+    "founded_year": 2016,
+    "funding_stage": "series-c",
+    "total_funding": "$650 million"
+  },
+  "coefficient": {
+    "founder_name": "Navneet Loiwal",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/coefficient/navneet-loiwal.jpg",
+    "industry": "Business Intelligence, SaaS, Data Analytics, No-Code, Spreadsheet Automation",
+    "about": "Connects spreadsheets to live data",
+    "founded_year": 2019,
+    "funding_stage": "series-a",
+    "total_funding": "$24.7 million"
+  },
+  "commerceiq": {
+    "founder_name": "Guru Hariharan",
+    "founder_role": "Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/commerceiq/guru-hariharan.jpg",
+    "industry": "AI, Retail Tech, Ecommerce, SaaS",
+    "about": "CommerceIQ provides a unified AI platform for retail ecommerce teams, integrating sales management, digital shelf analytics, and retail media optimization to drive profitable growth across 1450+ retai",
+    "founded_year": 2012,
+    "funding_stage": "series-d",
+    "total_funding": "$195.5 million"
+  },
+  "emergent": {
+    "founder_name": "Mukund Jha",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/emergent/mukund-jha.jpg",
+    "industry": "AI Infra, DevTools, Autonomous Coding",
+    "about": "AI platform builds production-ready apps",
+    "founded_year": 2024,
+    "funding_stage": "seed",
+    "total_funding": "$30 million"
+  },
+  "falconx": {
+    "founder_name": "Prabhakar Reddy",
+    "founder_role": "Co-Founder",
+    "founder_image": "https://nextdoor.company/founder-images/falconx/prabhakar-reddy.jpg",
+    "industry": "FinTech, Crypto, Digital Assets, Prime Brokerage",
+    "about": "FalconX is a leading digital asset prime brokerage providing institutional clients with deep liquidity, capital solutions, and advanced trading infrastructure for spot, derivatives, FX, and ETF produc",
+    "founded_year": 2018,
+    "funding_stage": "series-d",
+    "total_funding": "$476,999,936"
+  },
+  "federato": {
+    "founder_name": "Will Ross",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/federato/will-ross.jpg",
+    "industry": "AI, SaaS, InsurTech, FinTech",
+    "about": "AI-native underwriting platform streamlines insurance",
+    "founded_year": 2020,
+    "funding_stage": "series-c",
+    "total_funding": "$80 million"
+  },
+  "figma": {
+    "founder_name": "Dylan Field",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/figma/dylan-field.jpg",
+    "industry": "Software Development, Design, AI",
+    "about": "Creates collaborative UI design prototypes",
+    "founded_year": 2012,
+    "funding_stage": "ipo",
+    "total_funding": "$332.9 million"
+  },
+  "glean": {
+    "founder_name": "Arvind Jain",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "",
+    "industry": "AI, Enterprise Software, SaaS",
+    "about": "Glean is a Work AI platform that connects to enterprise data to enhance productivity by providing employees with AI assistants and agents that leverage company knowledge. The company offers three core",
+    "founded_year": 2019,
+    "funding_stage": "series-f",
+    "total_funding": "$770 million"
+  },
+  "gomotive": {
+    "founder_name": "Shoaib Makani",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "https://nextdoor.company/founder-images/gomotive/shoaib-makani.jpg",
+    "industry": "Fleet Management, SaaS, AI, IoT",
+    "about": "Motive (formerly KeepTruckin) provides an AI-powered integrated operations platform that combines IoT hardware and software to enhance safety, productivity, and profitability for fleet operations in t",
+    "founded_year": 2013,
+    "funding_stage": "series-f",
+    "total_funding": "$1.4 billion"
+  },
+  "grafana-labs": {
+    "founder_name": "Raj Dutt",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "https://nextdoor.company/founder-images/grafana-labs/raj-dutt.jpg",
+    "industry": "Observability, Monitoring, Open Source Software",
+    "about": "Grafana Labs develops Grafana, an open source interactive data visualization and observability platform that enables users to query, visualize, alert on, and understand metrics, logs, and traces from ",
+    "founded_year": 2017,
+    "funding_stage": "series-d+",
+    "total_funding": "$805 million"
+  },
+  "groww": {
+    "founder_name": "Lalit Keshre",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/groww/lalit-keshre.jpg",
+    "industry": "FinTech, Investment Platform, Financial Services",
+    "about": "Simplifies online stock mutual fund investing",
+    "founded_year": 2016,
+    "funding_stage": "series-f",
+    "total_funding": "$390 million"
+  },
+  "hackerrank": {
+    "founder_name": "Vivek Ravisankar",
+    "founder_role": "Co-founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/hackerrank/vivek-ravisankar.jpg",
+    "industry": "Developer Tools, Recruiting Tech, EdTech",
+    "about": "HackerRank is a technology hiring platform that provides coding challenges, skills assessments, and technical interviews to help companies source, evaluate, and hire developers. It supports a global c",
+    "founded_year": 2009,
+    "funding_stage": "series-d",
+    "total_funding": "$115 million"
+  },
+  "headout": {
+    "founder_name": "Varun Khona",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/headout/varun-khona.jpg",
+    "industry": "Travel Technology, Online Marketplace, Tours & Activities",
+    "about": "Books curated travel experiences",
+    "founded_year": 2014,
+    "funding_stage": "series-b",
+    "total_funding": "$74 million"
+  },
+  "ocrolus": {
+    "founder_name": "Sam Bobley",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/ocrolus/sam-bobley.jpg",
+    "industry": "AI, FinTech, Intelligent Document Processing, Regtech",
+    "about": "Ocrolus is an AI-powered document processing platform that automates the classification, data extraction, validation, analysis, and fraud detection of financial documents like bank statements, pay stu",
+    "founded_year": 2014,
+    "funding_stage": "series-c",
+    "total_funding": "$136.91 million"
+  },
+  "opentable": {
+    "founder_name": "Debby Soo",
+    "founder_role": "Chief Executive Officer (CEO)",
+    "founder_image": "https://nextdoor.company/founder-images/opentable/debby-soo.jpg",
+    "industry": "SaaS, Restaurant Technology, Marketplace",
+    "about": "OpenTable is a two-sided platform marketplace founded in 1998 that connects diners with restaurants, enabling real-time online reservations, reviews, and dining discovery. The platform serves over 37,",
+    "founded_year": 1998,
+    "funding_stage": "ipo",
+    "total_funding": "$100+ million"
+  },
+  "phonepe": {
+    "founder_name": "Sameer Nigam",
+    "founder_role": "Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/phonepe/sameer-nigam.jpg",
+    "industry": "FinTech, Digital Payments, Financial Services",
+    "about": "PhonePe is an Indian digital payments and financial services company that offers a mobile app-based platform leveraging UPI for money transfers, bill payments, insurance, investments, and shopping for",
+    "founded_year": 2015,
+    "funding_stage": "series-d+",
+    "total_funding": "$2.6 billion"
+  },
+  "postman": {
+    "founder_name": "Abhinav Asthana",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/postman/abhinav-asthana.jpg",
+    "industry": "API Management, Software Development, Developer Tools, Enterprise Software, SaaS, AI",
+    "about": "Builds tests and manages APIs",
+    "founded_year": 2012,
+    "funding_stage": "series-d+",
+    "total_funding": "$433 million"
+  },
+  "razorpay": {
+    "founder_name": "Harshil Mathur",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/razorpay/harshil-mathur.jpg",
+    "industry": "FinTech, SaaS, Payments, Banking",
+    "about": "Payment gateway processing for Indian businesses",
+    "founded_year": 2014,
+    "funding_stage": "series-e",
+    "total_funding": "$741.5 million"
+  },
+  "sigmoid": {
+    "founder_name": "Lokesh Anand",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "AI, Data Analytics, Consulting",
+    "about": "Sigmoid is an AI-first consulting company specializing in data engineering, generative AI, advanced analytics, and cloud solutions to help enterprises modernize data, re-engineer processes, and drive ",
+    "founded_year": 2013,
+    "funding_stage": "series-b",
+    "total_funding": "$19.3 million"
+  },
+  "skild-ai": {
+    "founder_name": "Deepak Pathak",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "",
+    "industry": "AI, Robotics, Automation",
+    "about": "Skild AI develops a general-purpose AI brain for robots, known as the Skild Brain, enabling adaptable performance across diverse tasks, environments, and hardware platforms like humanoid or quadruped ",
+    "founded_year": 2019,
+    "funding_stage": "series-c",
+    "total_funding": "$1.715 billion"
+  },
+  "snorkel-ai": {
+    "founder_name": "Alex Ratner",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "AI, Machine Learning, Enterprise Software",
+    "about": "Snorkel AI develops Snorkel Flow, an enterprise AI data platform that enables programmatic labeling and management of training data using rules and heuristics from subject matter experts, accelerating",
+    "founded_year": 2019,
+    "funding_stage": "series-d",
+    "total_funding": "$238 million"
+  },
+  "tamara": {
+    "founder_name": "Abdulmajeed Alsukhan",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/tamara/abdulmajeed-alsukhan.jpg",
+    "industry": "FinTech, Payments, E-commerce",
+    "about": "Buy now pay later fintech platform",
+    "founded_year": 2020,
+    "funding_stage": "series-c",
+    "total_funding": "$366 million"
+  },
+  "tekion": {
+    "founder_name": "Jay Vijayan",
+    "founder_role": "Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/tekion/jay-vijayan.jpg",
+    "industry": "SaaS, Automotive, Cloud DMS, Enterprise Software",
+    "about": "Provides cloud automotive retail platform",
+    "founded_year": 2016,
+    "funding_stage": "series-c",
+    "total_funding": "$355 million"
+  },
+  "temporal": {
+    "founder_name": "Samar Abbas",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "https://nextdoor.company/founder-images/temporal/samar-abbas.jpg",
+    "industry": "Software Development, Developer Tools, Cloud Infrastructure, Workflow Orchestration, Open Source, Enterprise Software",
+    "about": "Guarantees reliable execution of complex workflows",
+    "founded_year": 2019,
+    "funding_stage": "series-c",
+    "total_funding": "$426 million+"
+  },
+  "tide": {
+    "founder_name": "Oliver Prill",
+    "founder_role": "Founder",
+    "founder_image": "https://nextdoor.company/founder-images/tide/oliver-prill.jpg",
+    "industry": "FinTech, Software, Financial Services",
+    "about": "Provides SME business banking services",
+    "founded_year": 2015,
+    "funding_stage": "series-c",
+    "total_funding": "$241.4 million"
+  },
+  "tubi": {
+    "founder_name": "Anjali Sud",
+    "founder_role": "Co-Founder",
+    "founder_image": "https://nextdoor.company/founder-images/tubi/anjali-sud.jpg",
+    "industry": "Streaming, Media, Entertainment",
+    "about": "Streams free movies and TV",
+    "founded_year": 2014,
+    "funding_stage": "series-e",
+    "total_funding": "$28 million"
+  },
+  "vercel": {
+    "founder_name": "Guillermo Rauch",
+    "founder_role": "Founder and CEO",
+    "founder_image": "https://nextdoor.company/founder-images/vercel/guillermo-rauch.jpg",
+    "industry": "Cloud Infrastructure, SaaS, Web Development, AI",
+    "about": "Deploys frontend applications globally",
+    "founded_year": 2015,
+    "funding_stage": "series-e",
+    "total_funding": "$563 million"
+  },
+  "verkada": {
+    "founder_name": "Filip Kaliszan",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "Cloud Security, Enterprise Software, AI",
+    "about": "Verkada is a cloud-based physical security platform that transforms how organizations protect their people and places through an integrated, AI-powered system. The company combines security hardware (",
+    "founded_year": 2016,
+    "funding_stage": "series-e",
+    "total_funding": "$744.64 million"
+  },
+  "yugabyte": {
+    "founder_name": "Kannan Muthukkaruppan",
+    "founder_role": "CEO & Co-Founder",
+    "founder_image": "",
+    "industry": "Database, Cloud Native, Open Source Software, Enterprise",
+    "about": "Yugabyte is a cloud-native database company that develops YugabyteDB, a high-performance, distributed SQL database compatible with PostgreSQL, designed for mission-critical transactional applications ",
+    "founded_year": 2016,
+    "funding_stage": "series-c",
+    "total_funding": "$291 million"
+  },
+  "zenoti": {
+    "founder_name": "Sudheer Koneru",
+    "founder_role": "Founder & CEO",
+    "founder_image": "https://nextdoor.company/founder-images/zenoti/sudheer-koneru.jpg",
+    "industry": "Beauty, Wellness, Fitness, SaaS, AI",
+    "about": "Zenoti is a leading cloud-based, AI-powered all-in-one software platform designed for salons, spas, medspas, and fitness businesses to streamline operations, manage appointments, billing, inventory, a",
+    "founded_year": 2010,
+    "funding_stage": "series-d",
+    "total_funding": "$250 million"
+  },
+  "zscaler": {
+    "founder_name": "Jay Chaudhry",
+    "founder_role": "CEO, Chairman and Founder",
+    "founder_image": "https://nextdoor.company/founder-images/zscaler/jay-chaudhry.jpg",
+    "industry": "Cybersecurity, Cloud Security, Zero Trust, Enterprise Software, SaaS",
+    "about": "Provides zero trust cloud security",
+    "founded_year": 2007,
+    "funding_stage": "ipo",
+    "total_funding": "$170.7 million"
+  }
+}

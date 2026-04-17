@@ -1,9 +1,29 @@
 import React, { useState, useRef } from 'react';
 import { ResumeCardStack } from './ResumeCardStack';
 
+const DEMO_RESUMES = [
+  { name: 'Bejoy Mathew', file: 'Engineer_Bejoy_Mathew.pdf' },
+  { name: 'Dhinesh Kumar', file: 'Architect_Dhinesh_Kumar.pdf' },
+  { name: 'Priyesh Potdar', file: 'Architect_Priyesh_Potdar.pdf' },
+];
+
 export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCancel, error, isLoading }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [loadingDemo, setLoadingDemo] = useState(null);
   const fileInputRef = useRef(null);
+
+  const handleDemoResume = async (demo) => {
+    setLoadingDemo(demo.name);
+    try {
+      const response = await fetch(`/demo-resumes/${demo.file}`);
+      const blob = await response.blob();
+      const file = new File([blob], demo.file, { type: 'application/pdf' });
+      onFileUpload(file);
+    } catch (e) {
+      console.error('Failed to load demo resume:', e);
+    }
+    setLoadingDemo(null);
+  };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -102,6 +122,26 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                   disabled={isLoading}
                 />
               </div>
+
+              {/* Demo Resume Quick Select */}
+              {!isLoading && !uploadedFile && (
+                <div className="demo-resume-section">
+                  <span className="demo-resume-label">Or try a sample resume:</span>
+                  <div className="demo-resume-buttons">
+                    {DEMO_RESUMES.map((demo) => (
+                      <button
+                        key={demo.name}
+                        className="demo-resume-btn"
+                        onClick={() => handleDemoResume(demo)}
+                        disabled={loadingDemo !== null}
+                      >
+                        <i className="ph-bold ph-user"></i>
+                        <span>{loadingDemo === demo.name ? 'Loading...' : demo.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Feature Badges - 6 items */}
               <div className="resume-features-inline">
