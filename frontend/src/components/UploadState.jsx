@@ -167,7 +167,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>No sign-up needed</span>
+                  <span>Zero setup required</span>
                 </div>
               </div>
             </div>
