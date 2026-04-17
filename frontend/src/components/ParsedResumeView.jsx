@@ -65,18 +65,30 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
       { id: 11, company: 'Phonepe', companyInitials: 'PP', logo: 'https://nextdoor.company/company-logos/phonepe.png', title: 'Software Engineer - Core', location: 'Bengaluru, India', departments: 'Engineering', applyUrl: '#', ranking: 'good_match', matchInsights: ['You have impressive metrics including significant revenue increase and cost reduction.', 'You designed fault-tolerant notification service showing strong foundation in large-scale systems.', 'You have taken end-to-end ownership of projects reflecting well on your delivery capability.'], industry: 'FinTech, Digital Payments, Financial Services', about: 'PhonePe is India\'s leading digital payments platform.', foundedYear: 2015, fundingStage: 'series-d+', totalFunding: '$2.6 billion', founderName: '', founderRole: '', founderImage: '' },
       { id: 12, company: 'Glean', companyInitials: 'GL', logo: 'https://nextdoor.company/company-logos/glean.png', title: 'Solutions Architect', location: 'Remote', departments: 'Engineering', applyUrl: '#', ranking: 'good_match', matchInsights: ['Your work contributed to significant revenue growth providing clear metrics of business impact.', 'You have demonstrated strong technical capabilities through architecture of complex systems.', 'You have shown strong problem-solving skills by leading resolution of infrastructure bottlenecks.'], industry: 'AI, Enterprise Search, SaaS', about: 'Glean is the AI-powered work assistant that connects to all your company data.', foundedYear: 2019, fundingStage: 'series-e', totalFunding: '$800 million+', founderName: '', founderRole: '', founderImage: '' },
       // 11 Worth a Shot
-      ...['Tide', 'Celonis', 'Sigmoid', 'Headout', 'Atoms', 'Gomotive', 'Tubi', 'Chainguard', 'Skild Ai', 'Zenoti', 'Tamara'].map((company, i) => ({
-        id: 13 + i,
-        company,
-        companyInitials: company.substring(0, 2).toUpperCase(),
-        logo: `https://nextdoor.company/company-logos/${company.toLowerCase().replace(/\s+/g, '-')}.png`,
-        title: ['Engineering Manager', 'Platform Engineer', 'Data Architect', 'Account Manager', 'Hardware Engineering', 'Senior SRE', 'SRE Manager', 'VP Engineering', 'Electrical Engineer', 'Technical Support', 'Data Engineer'][i],
-        location: ['India', 'London, UK', 'Dallas, USA', 'Paris, France', 'Remote, USA', 'Remote', 'San Francisco', 'Remote, US', 'Pittsburgh, USA', 'Seattle, US', 'Riyadh, Saudi Arabia'][i],
+      ...[
+        { company: 'Tide', title: 'Engineering Manager', location: 'India, Hyderabad', industry: 'FinTech, Banking, SaaS', about: 'Tide is a business financial platform helping SMEs manage money, invoices, and accounting.', foundedYear: 2015, fundingStage: 'series-c', totalFunding: '$600 million' },
+        { company: 'Celonis', title: 'Platform Engineer', location: 'London, UK', industry: 'Process Mining, Enterprise Software, AI, SaaS', about: 'Celonis is the global leader in process mining and process intelligence.', foundedYear: 2011, fundingStage: 'series-d+', totalFunding: '$2.4 billion' },
+        { company: 'Sigmoid', title: 'Data Architect', location: 'Dallas, USA', industry: 'Data Engineering, AI, Analytics', about: 'Sigmoid is a data engineering and AI company that builds data platforms for Fortune 500 enterprises.', foundedYear: 2013, fundingStage: 'series-b', totalFunding: '$36 million' },
+        { company: 'Headout', title: 'Account Manager', location: 'Paris, France', industry: 'Travel, Marketplace, Consumer', about: 'Headout is a global marketplace for tours, experiences, and activities.', foundedYear: 2015, fundingStage: 'series-b', totalFunding: '$68 million' },
+        { company: 'Atoms', title: 'Hardware Engineering', location: 'Remote, USA', industry: 'Footwear, Consumer Goods, DTC', about: 'Atoms designs and sells high-quality shoes with a focus on comfort and fit.', foundedYear: 2020, fundingStage: 'series-a', totalFunding: '$36 million' },
+        { company: 'Gomotive', title: 'Senior SRE', location: 'Remote', industry: 'Fleet Management, Logistics, IoT', about: 'Gomotive provides fleet management solutions for commercial vehicle operators.', foundedYear: 2013, fundingStage: 'series-f', totalFunding: '$600 million+' },
+        { company: 'Tubi', title: 'SRE Manager', location: 'San Francisco', industry: 'Streaming, Media, Entertainment', about: 'Tubi is a free ad-supported streaming service with over 80,000 movies and TV shows.', foundedYear: 2014, fundingStage: 'acquired', totalFunding: '$440 million' },
+        { company: 'Chainguard', title: 'VP Engineering', location: 'Remote, US', industry: 'Cybersecurity, Software Supply Chain, Open Source', about: 'Chainguard secures software supply chains with hardened container images.', foundedYear: 2021, fundingStage: 'series-c', totalFunding: '$256 million' },
+        { company: 'Skild Ai', title: 'Electrical Engineer', location: 'Pittsburgh, USA', industry: 'AI, Robotics, Foundation Models', about: 'Skild AI is building a general-purpose AI foundation model for robotics.', foundedYear: 2023, fundingStage: 'series-a', totalFunding: '$300 million' },
+        { company: 'Zenoti', title: 'Technical Support', location: 'Seattle, US', industry: 'SaaS, Beauty, Wellness', about: 'Zenoti is a cloud platform for the beauty, wellness, and fitness industry.', foundedYear: 2010, fundingStage: 'series-d+', totalFunding: '$257 million' },
+        { company: 'Tamara', title: 'Data Engineer', location: 'Riyadh, Saudi Arabia', industry: 'FinTech, BNPL, Payments', about: 'Tamara is the leading buy-now-pay-later platform in the Middle East.', foundedYear: 2020, fundingStage: 'series-c', totalFunding: '$340 million' },
+      ].map((item, i) => ({
+        id: 12 + i,
+        company: item.company,
+        companyInitials: item.company.substring(0, 2).toUpperCase(),
+        logo: `https://nextdoor.company/company-logos/${item.company.toLowerCase().replace(/\s+/g, '-')}.png`,
+        title: item.title,
+        location: item.location,
         departments: 'Engineering',
         applyUrl: '#',
         ranking: 'worth_a_shot',
         matchInsights: ['Your technical background shows relevant experience for this role.', 'You have demonstrated project ownership and delivery capabilities.', 'Your career trajectory shows consistent growth and increasing responsibilities.'],
-        industry: '', about: '', foundedYear: '', fundingStage: '', totalFunding: '', founderName: '', founderRole: '', founderImage: '',
+        industry: item.industry, about: item.about, foundedYear: item.foundedYear, fundingStage: item.fundingStage, totalFunding: item.totalFunding, founderName: '', founderRole: '', founderImage: '',
       })),
     ];
     setMatchedJobs(mockJobs);
@@ -350,7 +362,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                 {matchingState === 'loading'
                   ? 'Looking for matches across 1,000+ engineering roles...'
                   : matchingState === 'streaming'
-                    ? 'Results appearing as they are scored...'
+                    ? 'Scanning 1,000+ Engineering roles. Results will appear as they are matched...'
                   : matchedJobs.length > 0
                     ? `Found ${matchedJobs.length} strong matches for your profile`
                     : 'This may be due to rate limits or timeouts. Try again in a minute.'
@@ -373,7 +385,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               const gmCount = matchedJobs.filter(j => j.ranking === 'good_match').length;
               const wsCount = matchedJobs.filter(j => j.ranking === 'worth_a_shot').length;
               return (
-                <div className="tabs-container tabs-container--medium" style={{ marginBottom: '16px' }}>
+                <div className="tabs-container tabs-container--medium">
                   <button
                     className={`tabs-tab ${activeFilter === 'all' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('all')}
