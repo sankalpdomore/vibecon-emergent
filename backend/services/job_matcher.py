@@ -400,7 +400,7 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
             ]
             
             # Send message with retry logic - uses response_format for guaranteed JSON
-            response = await call_openai_with_retry(self.client, messages, self.model_name, timeout=30)
+            response = await call_openai_with_retry(self.client, messages, self.model_name, max_retries=3, timeout=60)
             
             # Parse response (response_format ensures valid JSON, no regex needed)
             result = json.loads(response)
@@ -496,7 +496,7 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
         for i in range(0, len(screened_jobs), BATCH_SIZE):
             batch = screened_jobs[i:i + BATCH_SIZE]
             batch_num = (i // BATCH_SIZE) + 1
-            total_batches = (len(jobs) + BATCH_SIZE - 1) // BATCH_SIZE
+            total_batches = (len(screened_jobs) + BATCH_SIZE - 1) // BATCH_SIZE
             
             logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} jobs)...")
             
@@ -510,23 +510,28 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
             batch_results = await asyncio.gather(*tasks, return_exceptions=True)
             
             # Process results
+            failed_in_batch = 0
             for job, result in zip(batch, batch_results):
                 if isinstance(result, Exception):
-                    logger.error(f"Error matching {job.get('company_name')}: {result}")
+                    failed_in_batch += 1
+                    logger.error(f"Error matching {job.get('company_name')}: {type(result).__name__}: {result}")
                     continue
-                
+
                 if result is None:
+                    failed_in_batch += 1
                     continue
-                
+
                 score = result.get('score', 0)
                 ranking = result.get('ranking', 'reject')
-                
-                # Only include matches with score >= 3.5 (not rejected)
+
                 if ranking != 'reject':
                     all_results.append(result)
                     logger.info(f"  {result['company_name']} - {result['title']}: {score}/5.0 ({ranking})")
                 else:
-                    logger.info(f"  {job.get('company_name')}: {score}/5.0 (rejected - below 3.5)")
+                    logger.info(f"  {job.get('company_name')}: {score}/5.0 (rejected - below 3.0)")
+
+            if failed_in_batch > 0:
+                logger.warning(f"  Batch {batch_num}: {failed_in_batch}/{len(batch)} jobs failed")
         
         # Sort by score descending and return all matches above threshold
         all_results.sort(key=lambda x: x['score'], reverse=True)
