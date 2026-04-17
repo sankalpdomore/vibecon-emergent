@@ -61,10 +61,12 @@ body {
   font-weight: 600;
   padding: 1px 6px;
   font-size: 11px;
+  background: #fafafa;
 }
 
 .tabs-tab.active .tabs-count {
   color: #333;
+  background: #ededed;
 }
 
 /* Slide transition between upload and results views */

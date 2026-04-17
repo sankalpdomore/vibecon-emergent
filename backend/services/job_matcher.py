@@ -424,7 +424,11 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
             # Format company logo URL
             logo_path = job_data.get("company_logo_url", "")
             if logo_path and not logo_path.startswith("http"):
-                logo_url = f"https://nextdoor.company{logo_path}"
+                if logo_path.startswith("/company-logos/"):
+                    logo_url = f"https://nextdoor.company{logo_path}"
+                else:
+                    # Local logo (e.g. /anthropic-logo.png) — keep as-is
+                    logo_url = logo_path
             else:
                 logo_url = logo_path
             

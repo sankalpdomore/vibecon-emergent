@@ -174,7 +174,8 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
 
               if (event.type === 'info') {
                 if (addLog) addLog(`Matching against ${event.total_jobs} jobs (after pre-screen)...`);
-                // Switch to streaming state — show cards + skeletons
+                // Clear any existing data and switch to streaming state
+                setMatchedJobs([]);
                 setMatchingState('streaming');
               }
 
@@ -182,10 +183,17 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                 matchCount++;
                 const formatted = formatMatch(event.match);
                 if (addLog) addLog(`  ${formatted.ranking.toUpperCase()}: ${formatted.title} @ ${formatted.company}`);
-                // Append and sort by ranking tier
+                // Append and sort: ranking tier first, then Anthropic on top within same tier
                 setMatchedJobs(prev => {
                   const updated = [...prev, formatted];
-                  updated.sort((a, b) => (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3));
+                  updated.sort((a, b) => {
+                    const tierDiff = (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3);
+                    if (tierDiff !== 0) return tierDiff;
+                    // Anthropic first within same tier
+                    if (a.company === 'Anthropic' && b.company !== 'Anthropic') return -1;
+                    if (b.company === 'Anthropic' && a.company !== 'Anthropic') return 1;
+                    return 0;
+                  });
                   return updated;
                 });
               }
