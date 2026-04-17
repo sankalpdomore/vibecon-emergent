@@ -469,25 +469,25 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                       className={`tabs-tab ${activeFilter === 'all' ? 'active' : ''}`}
                       onClick={() => setActiveFilter('all')}
                     >
-                      All <span className="tabs-count">{matchedJobs.length}</span>
+                      All {matchedJobs.length > 0 && <span className="tabs-count">{matchedJobs.length}</span>}
                     </button>
                     <button
                       className={`tabs-tab ${activeFilter === 'strong_match' ? 'active' : ''}`}
                       onClick={() => setActiveFilter('strong_match')}
                     >
-                      Strong Match <span className="tabs-count">{smCount}</span>
+                      Strong Match {smCount > 0 && <span className="tabs-count">{smCount}</span>}
                     </button>
                     <button
                       className={`tabs-tab ${activeFilter === 'good_match' ? 'active' : ''}`}
                       onClick={() => setActiveFilter('good_match')}
                     >
-                      Good Match <span className="tabs-count">{gmCount}</span>
+                      Good Match {gmCount > 0 && <span className="tabs-count">{gmCount}</span>}
                     </button>
                     <button
                       className={`tabs-tab ${activeFilter === 'worth_a_shot' ? 'active' : ''}`}
                       onClick={() => setActiveFilter('worth_a_shot')}
                     >
-                      Worth a Shot <span className="tabs-count">{wsCount}</span>
+                      Worth a Shot {wsCount > 0 && <span className="tabs-count">{wsCount}</span>}
                     </button>
                   </div>
                 </div>
@@ -525,7 +525,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               ) : (
                 // Matched Jobs (streaming or complete) — show cards + trailing skeletons during streaming
                 <>
-                  {filteredJobs.map((job) => (
+                  {sortedJobs.filter(j => activeFilter === 'all' ? true : j.ranking === activeFilter).map((job) => (
                     <div 
                       key={job.id} 
                       className="job-leads-company-link"

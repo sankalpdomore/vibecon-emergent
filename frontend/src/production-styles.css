@@ -75,7 +75,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0px;
+  padding: 0px 4px 0px 0px;
 }
 
 /* Filters trigger button */
@@ -175,7 +176,7 @@ body {
 .filters-option-items {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0px;
 }
 
 .filters-checkbox-container {
