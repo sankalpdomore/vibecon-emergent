@@ -46,6 +46,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   const [matchingState, setMatchingState] = useState('loading');
   const [matchedJobs, setMatchedJobs] = useState([]);
   const [error, setError] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('all');
 
   useEffect(() => {
     // Call backend matching API
@@ -126,11 +127,15 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
             totalFunding: match.total_funding || '',
           }));
           
+          // Sort by ranking tier: strong_match first, good_match next, worth_a_shot last
+          const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
+          formattedMatches.sort((a, b) => (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3));
+
           // Log each match
           formattedMatches.forEach(m => {
             if (addLog) addLog(`  ${m.ranking.toUpperCase()}: ${m.title} @ ${m.company}`);
           });
-          
+
           setMatchedJobs(formattedMatches);
           setMatchingState('complete');
         } else {
@@ -290,6 +295,41 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               </p>
             </div>
 
+            {/* Filter Tabs */}
+            {matchingState === 'complete' && matchedJobs.length > 0 && (() => {
+              const smCount = matchedJobs.filter(j => j.ranking === 'strong_match').length;
+              const gmCount = matchedJobs.filter(j => j.ranking === 'good_match').length;
+              const wsCount = matchedJobs.filter(j => j.ranking === 'worth_a_shot').length;
+              return (
+                <div className="tabs-container tabs-container--medium" style={{ marginBottom: '16px' }}>
+                  <button
+                    className={`tabs-tab ${activeFilter === 'all' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('all')}
+                  >
+                    All <span className="tabs-count">{matchedJobs.length}</span>
+                  </button>
+                  <button
+                    className={`tabs-tab ${activeFilter === 'strong_match' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('strong_match')}
+                  >
+                    Strong Match <span className="tabs-count">{smCount}</span>
+                  </button>
+                  <button
+                    className={`tabs-tab ${activeFilter === 'good_match' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('good_match')}
+                  >
+                    Good Match <span className="tabs-count">{gmCount}</span>
+                  </button>
+                  <button
+                    className={`tabs-tab ${activeFilter === 'worth_a_shot' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('worth_a_shot')}
+                  >
+                    Worth a Shot <span className="tabs-count">{wsCount}</span>
+                  </button>
+                </div>
+              );
+            })()}
+
             <div className="matches-job-list">
               {matchingState === 'loading' ? (
                 // Skeleton Loading
@@ -321,7 +361,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               ) : (
                 // Matched Jobs
                 <>
-                  {matchedJobs.map((job) => (
+                  {matchedJobs.filter(job => activeFilter === 'all' || job.ranking === activeFilter).map((job) => (
                     <div 
                       key={job.id} 
                       className="job-leads-company-link"

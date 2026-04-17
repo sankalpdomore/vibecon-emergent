@@ -9,6 +9,62 @@ body {
   color: #333;
 }
 
+/* Tabs - Filter tabs for match results */
+.tabs-container {
+  display: flex;
+  width: 100%;
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+  background: #f0f0f0;
+}
+
+.tabs-container--medium {
+  width: auto;
+  padding: 3px;
+  border-radius: 10px;
+  height: 42px;
+}
+
+.tabs-tab {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  gap: 6px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-inter);
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tabs-tab:hover {
+  color: #555;
+}
+
+.tabs-tab.active {
+  background: #fff;
+  color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tabs-count {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 1px 6px;
+  font-size: 11px;
+}
+
+.tabs-tab.active .tabs-count {
+  color: #333;
+}
+
 /* Slide transition between upload and results views */
 .recommended-jobs-views-stack {
   position: relative;

@@ -3,20 +3,20 @@ import React, { useState, useEffect } from 'react';
 // Three sample job cards rotating in the stack — one per ranking tier
 const JOB_CARDS = [
   {
-    company: 'Emergent',
-    logo: 'https://nextdoor.company/company-logos/emergent.png',
-    initials: 'EM',
-    title: 'Backend Engineer',
+    company: 'Anthropic',
+    logo: 'https://nextdoor.company/company-logos/anthropic.png',
+    initials: 'AN',
+    title: 'Research Engineer, Agents',
     ranking: 'strong_match',
     rankingLabel: 'Strong Match',
     rankingColor: '#16a34a',
     rankingBg: '#dcfce7',
   },
   {
-    company: 'Anthropic',
-    logo: 'https://nextdoor.company/company-logos/anthropic.png',
-    initials: 'AN',
-    title: 'Research Engineer, Agents',
+    company: 'Emergent',
+    logo: 'https://nextdoor.company/company-logos/emergent.png',
+    initials: 'EM',
+    title: 'Backend Engineer',
     ranking: 'good_match',
     rankingLabel: 'Good Match',
     rankingColor: '#2563eb',
