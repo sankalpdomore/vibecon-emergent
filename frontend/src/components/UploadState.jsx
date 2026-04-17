@@ -107,7 +107,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
               <div className="resume-features-inline">
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Precise extraction</span>
+                  <span>AI-powered matching</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
@@ -115,11 +115,11 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>WYSIWYG Editing</span>
+                  <span>50+ companies</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Download as PDF</span>
+                  <span>Instant results</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>

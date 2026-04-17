@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { AppShell } from './AppShell';
 import { UploadState } from './UploadState';
@@ -13,6 +13,17 @@ const MODEL_OPTIONS = [
   { value: 'openai:gpt-4o', label: 'GPT-4o', provider: 'openai', model: 'gpt-4o', icon: '🤖' },
 ];
 
+// Play page transition sound effect
+const playTransitionSound = () => {
+  try {
+    const audio = new Audio('/sounds/page-transition.wav');
+    audio.volume = 0.2;
+    audio.play().catch(() => {});
+  } catch (e) {
+    // Sound playback is non-critical
+  }
+};
+
 export const RecommendedJobs = () => {
   const [state, setState] = useState('upload');
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -21,6 +32,8 @@ export const RecommendedJobs = () => {
   const [logs, setLogs] = useState([]);
   const [selectedModel, setSelectedModel] = useState('openai:gpt-4o-mini');
   const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+  // Slide direction: 'upload' shows first panel, 'parsed' slides to second panel
+  const [slideView, setSlideView] = useState('upload');
 
   const addLog = (message) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -80,6 +93,9 @@ export const RecommendedJobs = () => {
         addLog(`Parse result: ${(data.skills || []).length} skills, ${(data.experience || []).length} positions`);
         setParsedData({ ...data, _parseTime: parseSeconds });
         setState('parsed');
+        // Slide right to results view + play sound
+        setSlideView('parsed');
+        playTransitionSound();
       } else {
         throw new Error('Failed to parse resume');
       }
@@ -93,47 +109,58 @@ export const RecommendedJobs = () => {
   };
 
   const handleReset = () => {
-    setState('upload');
-    setUploadedFile(null);
-    setParsedData(null);
-    setError(null);
-    addLog('Reset - ready for new resume');
+    // Slide left back to upload view + play sound
+    setSlideView('upload');
+    playTransitionSound();
+    // Wait for slide animation to finish before resetting state
+    setTimeout(() => {
+      setState('upload');
+      setUploadedFile(null);
+      setParsedData(null);
+      setError(null);
+      addLog('Reset - ready for new resume');
+    }, 350);
   };
 
   return (
     <AppShell apiKey={apiKey} onApiKeyChange={saveApiKey}>
-      {state === 'upload' && (
-        <UploadState
-          uploadedFile={uploadedFile}
-          onFileUpload={handleFileUpload}
-          onStartMatching={handleStartMatching}
-          onCancel={() => setUploadedFile(null)}
-          error={error}
-          isLoading={false}
-        />
-      )}
-      {state === 'loading' && (
-        <UploadState
-          uploadedFile={uploadedFile}
-          onFileUpload={handleFileUpload}
-          onStartMatching={handleStartMatching}
-          onCancel={() => {
-            setUploadedFile(null);
-            setState('upload');
-          }}
-          error={error}
-          isLoading={true}
-        />
-      )}
-      {state === 'parsed' && parsedData && (
-        <ParsedResumeView
-          parsedData={parsedData}
-          onBack={handleReset}
-          addLog={addLog}
-          selectedModel={selectedModel}
-          apiKey={apiKey}
-        />
-      )}
+      <div
+        className={`recommended-jobs-views-stack ${
+          slideView === 'parsed'
+            ? 'recommended-jobs-views-stack--parsed'
+            : 'recommended-jobs-views-stack--upload'
+        }`}
+      >
+        {/* Panel 1: Upload / Loading state */}
+        <div className="recommended-jobs-view-panel">
+          {(state === 'upload' || state === 'loading') && (
+            <UploadState
+              uploadedFile={uploadedFile}
+              onFileUpload={handleFileUpload}
+              onStartMatching={handleStartMatching}
+              onCancel={() => {
+                setUploadedFile(null);
+                if (state === 'loading') setState('upload');
+              }}
+              error={error}
+              isLoading={state === 'loading'}
+            />
+          )}
+        </div>
+
+        {/* Panel 2: Parsed results view */}
+        <div className="recommended-jobs-view-panel">
+          {state === 'parsed' && parsedData && (
+            <ParsedResumeView
+              parsedData={parsedData}
+              onBack={handleReset}
+              addLog={addLog}
+              selectedModel={selectedModel}
+              apiKey={apiKey}
+            />
+          )}
+        </div>
+      </div>
     </AppShell>
   );
 };
