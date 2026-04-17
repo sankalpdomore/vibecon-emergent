@@ -258,6 +258,19 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                   ))}
                 </ul>
               </div>
+
+              {/* Download Resume Button */}
+              {parsedData._fileUrl && (
+                <a
+                  href={parsedData._fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="resume-download-btn"
+                >
+                  <i className="ph-bold ph-file-pdf"></i>
+                  <span>Download Resume</span>
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -341,6 +354,50 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                             <i className="ph-bold ph-stack"></i>
                             {job.departments}
                           </div>
+                          {/* Company Details - founder, industry, funding */}
+                          {(job.founderName || job.about) && (
+                            <div className="job-card-company-details">
+                              {job.founderName && (
+                                <div className="job-card-founder">
+                                  {job.founderImage && (
+                                    <img
+                                      src={job.founderImage}
+                                      alt={job.founderName}
+                                      className="job-card-founder-img"
+                                      onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
+                                  )}
+                                  <div className="job-card-founder-info">
+                                    <span className="job-card-founder-name">{job.founderName}</span>
+                                    <span className="job-card-founder-role">{job.founderRole}</span>
+                                  </div>
+                                </div>
+                              )}
+                              {job.industry && (
+                                <div className="job-card-detail-row">
+                                  <i className="ph-bold ph-briefcase"></i>
+                                  <span>{job.industry}</span>
+                                </div>
+                              )}
+                              {job.foundedYear && (
+                                <div className="job-card-detail-row">
+                                  <i className="ph-bold ph-calendar-blank"></i>
+                                  <span>Founded: {job.foundedYear}</span>
+                                </div>
+                              )}
+                              {job.totalFunding && (
+                                <div className="job-card-detail-row">
+                                  <i className="ph-bold ph-coin"></i>
+                                  <span>{job.fundingStage ? job.fundingStage.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Funded'} — {job.totalFunding}</span>
+                                </div>
+                              )}
+                              {job.about && (
+                                <div className="job-card-about">
+                                  <span>{job.about}</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                         {job.matchInsights && job.matchInsights.length > 0 && (
                           <div className="job-leads-match-insights">
@@ -350,51 +407,6 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                           </div>
                         )}
                       </div>
-
-                      {/* Company Details */}
-                      {(job.founderName || job.about) && (
-                        <div className="job-card-company-details">
-                          {job.founderName && (
-                            <div className="job-card-founder">
-                              {job.founderImage && (
-                                <img
-                                  src={job.founderImage}
-                                  alt={job.founderName}
-                                  className="job-card-founder-img"
-                                  onError={(e) => { e.target.style.display = 'none'; }}
-                                />
-                              )}
-                              <div className="job-card-founder-info">
-                                <span className="job-card-founder-name">{job.founderName}</span>
-                                <span className="job-card-founder-role">{job.founderRole}</span>
-                              </div>
-                            </div>
-                          )}
-                          {job.industry && (
-                            <div className="job-card-detail-row">
-                              <i className="ph-bold ph-briefcase"></i>
-                              <span>{job.industry}</span>
-                            </div>
-                          )}
-                          {job.foundedYear && (
-                            <div className="job-card-detail-row">
-                              <i className="ph-bold ph-calendar-blank"></i>
-                              <span>Founded: {job.foundedYear}</span>
-                            </div>
-                          )}
-                          {job.totalFunding && (
-                            <div className="job-card-detail-row">
-                              <i className="ph-bold ph-coin"></i>
-                              <span>{job.fundingStage ? job.fundingStage.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Funded'} — {job.totalFunding}</span>
-                            </div>
-                          )}
-                          {job.about && (
-                            <div className="job-card-about">
-                              <span>{job.about}</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
 
                       {/* Row 2: CTA Buttons */}
                       <div className="job-card-cta-row">

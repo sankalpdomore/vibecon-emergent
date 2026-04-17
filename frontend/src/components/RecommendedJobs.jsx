@@ -91,7 +91,9 @@ export const RecommendedJobs = () => {
         addLog(`Resume parsed in ${parseSeconds}s`);
         const data = response.data.data;
         addLog(`Parse result: ${(data.skills || []).length} skills, ${(data.experience || []).length} positions`);
-        setParsedData({ ...data, _parseTime: parseSeconds });
+        // Create blob URL for resume download
+        const fileUrl = URL.createObjectURL(file);
+        setParsedData({ ...data, _parseTime: parseSeconds, _fileUrl: fileUrl, _fileName: file.name });
         setState('parsed');
         // Slide right to results view + play sound
         setSlideView('parsed');

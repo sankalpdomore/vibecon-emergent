@@ -192,6 +192,37 @@
   margin-bottom: 2px;
 }
 
+/* Download Resume Button */
+.resume-download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  margin: 16px 20px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-family: var(--font-inter);
+}
+
+.resume-download-btn:hover {
+  border-color: #333;
+  color: #333;
+  background: #fafafa;
+}
+
+.resume-download-btn i {
+  font-size: 18px;
+  color: #dc2626;
+}
+
 /* Matches Heading */
 .matches-heading {
   font-family: var(--font-young-serif);
@@ -531,13 +562,13 @@
 
 /* Company Details Section on Job Cards */
 .job-card-company-details {
-  padding: 12px 16px;
-  background: #f9fafb;
-  border-radius: 12px;
-  margin: 0 14px;
+  padding: 10px 12px;
+  background: #f4f5f6;
+  border-radius: 10px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .job-card-founder {
