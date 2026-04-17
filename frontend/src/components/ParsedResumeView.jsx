@@ -351,28 +351,13 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                             {job.location}
                           </div>
                           <div className="job-leads-company-link-departments">
-                            <i className="ph-bold ph-stack"></i>
+                            <i className="ph-bold ph-code"></i>
                             {job.departments}
                           </div>
                           {/* Company Details - founder, industry, funding */}
                           {(job.founderName || job.about) && (
                             <div className="job-card-company-details">
-                              {job.founderName && (
-                                <div className="job-card-founder">
-                                  {job.founderImage && (
-                                    <img
-                                      src={job.founderImage}
-                                      alt={job.founderName}
-                                      className="job-card-founder-img"
-                                      onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-                                  )}
-                                  <div className="job-card-founder-info">
-                                    <span className="job-card-founder-name">{job.founderName}</span>
-                                    <span className="job-card-founder-role">{job.founderRole}</span>
-                                  </div>
-                                </div>
-                              )}
+                              {/* Founder row hidden for now */}
                               {job.industry && (
                                 <div className="job-card-detail-row">
                                   <i className="ph-bold ph-briefcase"></i>

@@ -219,7 +219,7 @@
 
 .resume-download-btn i {
   font-size: 18px;
-  color: #ef4444;
+  color: #fff;
 }
 
 /* Matches Heading */
@@ -480,22 +480,20 @@
 }
 
 .job-leads-company-link-departments {
-  font-size: 15px;
-  color: #999;
   display: flex;
   align-items: flex-start;
-  text-align: left;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
   text-transform: capitalize;
-  font-weight: 500;
 }
 
 .job-leads-company-link-departments i {
   font-size: 14px;
-  color: #bbb;
-  font-weight: 600;
+  color: #999;
+  flex-shrink: 0;
+  top: 2px;
   position: relative;
-  top: 5px;
-  margin-right: 8px;
 }
 
 .job-leads-company-link-arrow {
@@ -561,9 +559,9 @@
 
 /* Company Details Section on Job Cards */
 .job-card-company-details {
-  padding: 10px 12px;
-  background: #f4f5f6;
-  border-radius: 10px;
+  padding: 0px;
+  background: transparent;
+  border-radius: 0px;
   margin-top: 8px;
   display: flex;
   flex-direction: column;
@@ -602,7 +600,7 @@
 
 .job-card-detail-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
   font-size: 12px;
   color: #666;
@@ -612,12 +610,18 @@
   font-size: 14px;
   color: #999;
   flex-shrink: 0;
+  top: 2px;
+  position: relative;
 }
 
 .job-card-about {
   font-size: 12px;
   line-height: 1.4;
   color: #666;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .job-leads-company-link:hover .job-leads-company-link-arrow {
