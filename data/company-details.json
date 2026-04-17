@@ -378,5 +378,15 @@
     "founded_year": 2007,
     "funding_stage": "ipo",
     "total_funding": "$170.7 million"
+  },
+  "anthropic": {
+    "founder_name": "Dario Amodei",
+    "founder_role": "Co-Founder & CEO",
+    "founder_image": "",
+    "industry": "AI Safety, AI Research, Large Language Models, Enterprise AI",
+    "about": "Anthropic is an AI safety company building reliable, interpretable, and steerable AI systems. Makers of Claude, one of the most capable AI assistants.",
+    "founded_year": 2021,
+    "funding_stage": "series-e",
+    "total_funding": "$11.5 billion"
   }
 }
