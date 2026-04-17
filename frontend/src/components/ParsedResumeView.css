@@ -563,6 +563,14 @@
   margin-top: 1px;
 }
 
+.improvement-item {
+  color: #d97706 !important;
+}
+
+.improvement-item i {
+  color: #d97706 !important;
+}
+
 .insight-text-truncated {
   display: -webkit-box;
   -webkit-line-clamp: 3;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import './ParsedResumeView.css';
 
 // Expandable insight text — truncated to 3 lines with "Read more"
@@ -47,6 +47,12 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   const [matchedJobs, setMatchedJobs] = useState([]);
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
+
+  // Memoize filtered jobs to ensure filter always applies correctly
+  const filteredJobs = useMemo(() => {
+    if (activeFilter === 'all') return matchedJobs;
+    return matchedJobs.filter(job => job.ranking === activeFilter);
+  }, [matchedJobs, activeFilter]);
 
   // Fallback mock data for demo when API fails
   const loadFallbackData = () => {
@@ -149,6 +155,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
           applyUrl: match.apply_url,
           ranking: match.ranking,
           matchInsights: match.match_insights || [],
+          improvementSuggestions: match.improvement_suggestions || [],
           founderName: match.founder_name || '',
           founderRole: match.founder_role || '',
           founderImage: match.founder_image || '',
@@ -453,7 +460,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
               ) : (
                 // Matched Jobs (streaming or complete) — show cards + trailing skeletons during streaming
                 <>
-                  {matchedJobs.filter(job => activeFilter === 'all' || job.ranking === activeFilter).map((job) => (
+                  {filteredJobs.map((job) => (
                     <div 
                       key={job.id} 
                       className="job-leads-company-link"
@@ -521,6 +528,17 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                             {job.matchInsights.map((insight, idx) => (
                               <InsightItem key={idx} text={insight} />
                             ))}
+                            {/* Improvement suggestions for Worth a Shot */}
+                            {job.ranking === 'worth_a_shot' && job.improvementSuggestions && job.improvementSuggestions.length > 0 && (
+                              job.improvementSuggestions.map((suggestion, idx) => (
+                                <div key={`imp-${idx}`} className="job-leads-match-insight-item improvement-item">
+                                  <i className="ph-bold ph-highlighter"></i>
+                                  <div>
+                                    <span>{suggestion}</span>
+                                  </div>
+                                </div>
+                              ))
+                            )}
                           </div>
                         )}
                       </div>

@@ -317,8 +317,20 @@ class JobMatcher:
         for entry in sorted_scores[:3]:
             reason = entry['reason']
             insights.append(reason)
-        
+
         return insights
+
+    def generate_improvements(self, llm_scores: list) -> list:
+        """
+        Generate improvement suggestions from the 2 lowest-scoring categories.
+        Used for Worth a Shot matches to tell the candidate what to improve.
+        """
+        sorted_scores = sorted(llm_scores, key=lambda x: x['score'])
+        improvements = []
+        for entry in sorted_scores[:2]:
+            reason = entry['reason']
+            improvements.append(reason)
+        return improvements
     
     def score_to_ranking(self, score: float) -> str:
         """
@@ -451,6 +463,7 @@ Evaluate this candidate against the job using all 9 categories. When scoring Con
                 "ranking": ranking,
                 "score": final_score,
                 "match_insights": insights,
+                "improvement_suggestions": self.generate_improvements(llm_scores) if ranking == 'worth_a_shot' else [],
                 "founder_name": details.get("founder_name", ""),
                 "founder_role": details.get("founder_role", ""),
                 "founder_image": details.get("founder_image", ""),
