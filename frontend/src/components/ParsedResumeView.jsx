@@ -150,6 +150,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
         const decoder = new TextDecoder();
         let buffer = '';
         let matchCount = 0;
+        let hasAutoSwitched = false;
         const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
 
         const formatMatch = (match) => ({
@@ -198,8 +199,12 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                 matchCount++;
                 const formatted = formatMatch(event.match);
                 if (addLog) addLog(`  ${formatted.ranking.toUpperCase()}: ${formatted.title} @ ${formatted.company}`);
-                // Append — sorting happens at render time via sortedJobs
                 setMatchedJobs(prev => [...prev, formatted]);
+                // Auto-switch to Strong Match tab on first strong match
+                if (formatted.ranking === 'strong_match' && !hasAutoSwitched) {
+                  hasAutoSwitched = true;
+                  setActiveFilter('strong_match');
+                }
               }
 
               if (event.type === 'done') {
