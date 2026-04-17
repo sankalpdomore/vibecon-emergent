@@ -246,7 +246,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   padding-bottom: 8px;
 }
 
@@ -317,9 +317,7 @@ body {
 }
 
 .resume-mini-section-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: none;
 }
 
 .resume-mini-info {

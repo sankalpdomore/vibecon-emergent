@@ -311,19 +311,19 @@ class JobMatcher:
     def score_to_ranking(self, score: float) -> str:
         """
         Convert 0-5 score to ranking category
-        
+
         Args:
             score: Score between 0-5
-            
+
         Returns:
-            Ranking string: highly_recommended, good_fit, or needs_discussion
+            Ranking string: strong_match, good_match, or worth_a_shot
         """
-        if score >= 4.4:
-            return 'highly_recommended'
-        elif score >= 4.0:
-            return 'good_fit'
+        if score >= 3.8:
+            return 'strong_match'
         elif score >= 3.5:
-            return 'needs_discussion'
+            return 'good_match'
+        elif score >= 3.0:
+            return 'worth_a_shot'
         else:
             return 'reject'
     

@@ -411,19 +411,19 @@
   letter-spacing: -0.1px;
 }
 
-.ranking-highly_recommended {
+.ranking-strong_match {
   background: #ecfdf5;
   color: #18af53;
   border: 1px solid #18af53;
 }
 
-.ranking-good_fit {
+.ranking-good_match {
   background: #eff6ff;
   color: #2563eb;
   border: 1px solid #bfdbfe;
 }
 
-.ranking-needs_discussion {
+.ranking-worth_a_shot {
   background: #fffbeb;
   color: #d97706;
   border: 1px solid #fde68a;

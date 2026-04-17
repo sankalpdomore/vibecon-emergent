@@ -281,9 +281,9 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                             {job.title} <span className="job-leads-company-at">@ </span>{job.company}
                           </div>
                           <span className={`job-leads-ranking-badge ranking-${job.ranking}`}>
-                            {job.ranking === 'highly_recommended' && 'Highly recommended'}
-                            {job.ranking === 'good_fit' && 'Good fit'}
-                            {job.ranking === 'needs_discussion' && 'Needs discussion'}
+                            {job.ranking === 'strong_match' && 'Strong Match'}
+                            {job.ranking === 'good_match' && 'Good Match'}
+                            {job.ranking === 'worth_a_shot' && 'Worth a Shot'}
                           </span>
                           <div className="job-leads-company-link-offices">
                             <i className="ph-bold ph-map-pin"></i>
