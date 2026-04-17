@@ -240,6 +240,32 @@
   margin-bottom: 12px;
 }
 
+.fallback-data-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  margin: 8px auto 0;
+  border: none;
+  border-radius: 10px;
+  background: #1a1a1a;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-inter);
+  transition: all 0.15s ease;
+}
+
+.fallback-data-btn:hover {
+  background: #333;
+}
+
+.fallback-data-btn i {
+  font-size: 16px;
+}
+
 /* Matches Card */
 .matches-card {
   background: transparent;
