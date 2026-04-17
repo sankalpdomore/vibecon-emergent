@@ -200,12 +200,12 @@
   gap: 8px;
   padding: 10px 16px;
   margin: 16px 20px 20px;
-  border: 1px solid #e0e0e0;
+  border: none;
   border-radius: 12px;
-  background: white;
+  background: #1a1a1a;
   font-size: 14px;
   font-weight: 500;
-  color: #555;
+  color: #fff;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.15s ease;
@@ -213,14 +213,13 @@
 }
 
 .resume-download-btn:hover {
-  border-color: #333;
-  color: #333;
-  background: #fafafa;
+  background: #333;
+  color: #fff;
 }
 
 .resume-download-btn i {
   font-size: 18px;
-  color: #dc2626;
+  color: #ef4444;
 }
 
 /* Matches Heading */

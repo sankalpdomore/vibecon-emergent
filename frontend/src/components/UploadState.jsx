@@ -147,19 +147,19 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
               <div className="resume-features-inline">
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>AI-powered matching</span>
+                  <span>Skill-gap analysis</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Smart matching</span>
+                  <span>Personalized insights</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>50+ companies</span>
+                  <span>1,000+ roles</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Instant results</span>
+                  <span>Results in 60 seconds</span>
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
@@ -167,7 +167,7 @@ export const UploadState = ({ uploadedFile, onFileUpload, onStartMatching, onCan
                 </div>
                 <div className="resume-feature-item">
                   <i className="ph-bold ph-check"></i>
-                  <span>Free to use</span>
+                  <span>No sign-up needed</span>
                 </div>
               </div>
             </div>
