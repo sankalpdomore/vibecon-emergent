@@ -357,6 +357,24 @@ class JobMatcher:
             job_title = job_data.get("job", {}).get("title", "Unknown")
             company_name = job_data.get("company_name", "Unknown")
             
+            # Get company context for richer scoring
+            slug = job_data.get("company_slug", "")
+            details = COMPANY_DETAILS.get(slug, {})
+            company_context = ""
+            if details:
+                parts = []
+                if details.get("industry"):
+                    parts.append(f"Industry: {details['industry']}")
+                if details.get("about"):
+                    parts.append(f"About: {details['about']}")
+                if details.get("founded_year"):
+                    parts.append(f"Founded: {details['founded_year']}")
+                if details.get("funding_stage"):
+                    parts.append(f"Stage: {details['funding_stage'].replace('-', ' ').title()}")
+                if details.get("total_funding"):
+                    parts.append(f"Total funding: {details['total_funding']}")
+                company_context = "\n".join(parts)
+
             # Create structured scoring prompt
             user_prompt = f"""
 RESUME SUMMARY:
@@ -370,9 +388,10 @@ FULL RESUME TEXT:
 JOB DESCRIPTION:
 Company: {company_name}
 Title: {job_title}
+{f"COMPANY CONTEXT:{chr(10)}{company_context}{chr(10)}" if company_context else ""}
 {jd_text}
 
-Evaluate this candidate against the job using all 9 categories defined in your system prompt. Return structured JSON with category scores and reasons.
+Evaluate this candidate against the job using all 9 categories. When scoring Context Matching, use the company context above to assess whether the candidate has worked at similar-stage companies, in similar industries, or at similar scale. Return structured JSON with category scores and reasons.
 """
 
             messages = [
