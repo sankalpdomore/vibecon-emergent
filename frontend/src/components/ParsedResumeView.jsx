@@ -173,14 +173,22 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
             if (addLog) addLog(`  ${m.ranking.toUpperCase()}: ${m.title} @ ${m.company}`);
           });
 
-          setMatchedJobs(formattedMatches);
-          setMatchingState('complete');
+          if (formattedMatches.length > 0) {
+            setMatchedJobs(formattedMatches);
+            setMatchingState('complete');
+          } else {
+            // 0 matches returned — show fallback button
+            if (addLog) addLog('API returned 0 matches — showing fallback option');
+            setMatchedJobs([]);
+            setMatchingState('complete');
+          }
         } else {
           throw new Error('No matches found');
         }
       } catch (err) {
         const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
         if (addLog) addLog(`ERROR after ${matchSeconds}s: ${err.message}`);
+        if (addLog) addLog('Auto-loading fallback demo data...');
         console.error('Error matching jobs:', err);
         setError(err.message);
         setMatchingState('error');
@@ -332,7 +340,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                     : 'This may be due to rate limits or timeouts. Try again in a minute.'
                 }
               </p>
-              {matchingState === 'complete' && matchedJobs.length === 0 && (
+              {(matchingState === 'complete' || matchingState === 'error') && matchedJobs.length === 0 && (
                 <button
                   onClick={loadFallbackData}
                   className="fallback-data-btn"
