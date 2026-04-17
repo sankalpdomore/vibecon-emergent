@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException, Form, Request
 from fastapi.responses import JSONResponse
+from starlette.responses import StreamingResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -307,6 +308,74 @@ async def match_jobs(request: MatchJobsRequest):
     except Exception as e:
         logger.error(f"Error matching jobs: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/match-jobs-stream")
+async def match_jobs_stream(request: MatchJobsRequest):
+    """
+    Stream match results one by one as they are scored via SSE.
+    Each event is a JSON object with a single match result.
+    Final event has type 'done'.
+    """
+    api_key = request.openai_key or os.environ.get('OPENAI_API_KEY')
+    if not api_key:
+        raise HTTPException(status_code=400, detail="OpenAI API key required.")
+
+    all_jobs = load_all_jobs(only_successful=True)
+    if not all_jobs:
+        raise HTTPException(status_code=404, detail="No jobs found")
+
+    matcher = JobMatcher(
+        api_key=api_key,
+        model_provider=request.model_provider,
+        model_name=request.model_name
+    )
+
+    async def event_stream():
+        from services.job_matcher import prescreen_job, COMPANY_DETAILS
+
+        # Pre-screen
+        screened_jobs = []
+        for job in all_jobs:
+            passed, reason = prescreen_job(request.parsed_data, request.resume_text, job)
+            if passed:
+                screened_jobs.append(job)
+
+        # Send total count so frontend knows how many to expect
+        yield f"data: {json.dumps({'type': 'info', 'total_jobs': len(screened_jobs)})}\n\n"
+
+        match_count = 0
+        # Process in small batches of 5 for parallelism
+        BATCH_SIZE = 5
+        for i in range(0, len(screened_jobs), BATCH_SIZE):
+            batch = screened_jobs[i:i + BATCH_SIZE]
+            tasks = [
+                matcher.score_single_job(request.resume_text, request.parsed_data, job)
+                for job in batch
+            ]
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+
+            for job, result in zip(batch, results):
+                if isinstance(result, Exception) or result is None:
+                    continue
+                if result.get('ranking', 'reject') != 'reject':
+                    match_count += 1
+                    yield f"data: {json.dumps({'type': 'match', 'match': result})}\n\n"
+
+            # Small delay between batches
+            if i + BATCH_SIZE < len(screened_jobs):
+                await asyncio.sleep(0.5)
+
+        yield f"data: {json.dumps({'type': 'done', 'total_matches': match_count})}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        }
+    )
 
 # Include the router in the main app
 app.include_router(api_router)

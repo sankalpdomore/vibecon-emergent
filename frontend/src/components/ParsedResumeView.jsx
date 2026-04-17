@@ -86,22 +86,17 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
   };
 
   useEffect(() => {
-    // Call backend matching API
+    // Stream match results one by one via SSE
     const matchJobs = async () => {
       const matchStartTime = Date.now();
-      if (addLog) addLog('Starting job matching against 50 JDs...');
-      if (addLog) addLog('Sending to /api/match-jobs...');
-      
+      if (addLog) addLog('Starting job matching via streaming...');
+
       try {
         setMatchingState('loading');
-        
+
         const API_URL = process.env.REACT_APP_BACKEND_URL;
-        
-        // Parse model from selectedModel (format: 'provider:model-key')
         const modelProvider = selectedModel ? selectedModel.split(':')[0] : 'openai';
         const modelKey = selectedModel ? selectedModel.split(':')[1] : 'gpt-4o-mini';
-        
-        // Map model key to actual model name
         const MODEL_MAP = {
           'gpt-4o-mini': 'gpt-4o-mini',
           'gpt-4o': 'gpt-4o',
@@ -109,24 +104,14 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
           'gemini': 'gemini-2.0-flash'
         };
         const modelName = MODEL_MAP[modelKey] || modelKey;
-        
-        const response = await fetch(`${API_URL}/api/match-jobs`, {
+
+        const response = await fetch(`${API_URL}/api/match-jobs-stream`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             resume_text: raw_text || '',
             openai_key: apiKey || localStorage.getItem('openai_api_key') || '',
-            parsed_data: {
-              name,
-              email,
-              phone,
-              summary,
-              skills,
-              experience,
-              education
-            },
+            parsed_data: { name, email, phone, summary, skills, experience, education },
             model_provider: modelProvider,
             model_name: modelName
           })
@@ -136,59 +121,86 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
           throw new Error(`Failed to match jobs: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        
-        if (data.success && data.matches) {
-          const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
-          if (addLog) addLog(`Matching complete in ${matchSeconds}s — ${data.matches.length} matches found`);
-          
-          // Format matches for frontend
-          const formattedMatches = data.matches.map((match, idx) => ({
-            id: idx + 1,
-            company: match.company_name,
-            companyInitials: match.companyInitials || match.company_name.substring(0, 2).toUpperCase(),
-            logo: match.company_logo_url,
-            title: match.title,
-            location: match.location,
-            departments: match.departments,
-            applyUrl: match.apply_url,
-            ranking: match.ranking,
-            matchInsights: match.match_insights || [],
-            founderName: match.founder_name || '',
-            founderRole: match.founder_role || '',
-            founderImage: match.founder_image || '',
-            industry: match.industry || '',
-            about: match.about || '',
-            foundedYear: match.founded_year || '',
-            fundingStage: match.funding_stage || '',
-            totalFunding: match.total_funding || '',
-          }));
-          
-          // Sort by ranking tier: strong_match first, good_match next, worth_a_shot last
-          const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
-          formattedMatches.sort((a, b) => (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3));
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let matchCount = 0;
+        const rankOrder = { strong_match: 0, good_match: 1, worth_a_shot: 2 };
 
-          // Log each match
-          formattedMatches.forEach(m => {
-            if (addLog) addLog(`  ${m.ranking.toUpperCase()}: ${m.title} @ ${m.company}`);
-          });
+        const formatMatch = (match) => ({
+          id: matchCount,
+          company: match.company_name,
+          companyInitials: match.companyInitials || match.company_name.substring(0, 2).toUpperCase(),
+          logo: match.company_logo_url,
+          title: match.title,
+          location: match.location,
+          departments: match.departments,
+          applyUrl: match.apply_url,
+          ranking: match.ranking,
+          matchInsights: match.match_insights || [],
+          founderName: match.founder_name || '',
+          founderRole: match.founder_role || '',
+          founderImage: match.founder_image || '',
+          industry: match.industry || '',
+          about: match.about || '',
+          foundedYear: match.founded_year || '',
+          fundingStage: match.funding_stage || '',
+          totalFunding: match.total_funding || '',
+        });
 
-          if (formattedMatches.length > 0) {
-            setMatchedJobs(formattedMatches);
-            setMatchingState('complete');
-          } else {
-            // 0 matches returned — show fallback button
-            if (addLog) addLog('API returned 0 matches — showing fallback option');
-            setMatchedJobs([]);
-            setMatchingState('complete');
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            try {
+              const event = JSON.parse(line.slice(6));
+
+              if (event.type === 'info') {
+                if (addLog) addLog(`Matching against ${event.total_jobs} jobs (after pre-screen)...`);
+                // Switch to streaming state — show cards + skeletons
+                setMatchingState('streaming');
+              }
+
+              if (event.type === 'match') {
+                matchCount++;
+                const formatted = formatMatch(event.match);
+                if (addLog) addLog(`  ${formatted.ranking.toUpperCase()}: ${formatted.title} @ ${formatted.company}`);
+                // Append and sort by ranking tier
+                setMatchedJobs(prev => {
+                  const updated = [...prev, formatted];
+                  updated.sort((a, b) => (rankOrder[a.ranking] || 3) - (rankOrder[b.ranking] || 3));
+                  return updated;
+                });
+              }
+
+              if (event.type === 'done') {
+                const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
+                if (addLog) addLog(`Matching complete in ${matchSeconds}s — ${event.total_matches} matches found`);
+                setMatchingState('complete');
+              }
+            } catch (e) {
+              // Skip malformed events
+            }
           }
-        } else {
-          throw new Error('No matches found');
         }
+
+        // If stream ended without 'done' event
+        if (matchCount === 0) {
+          if (addLog) addLog('Stream ended with 0 matches — showing fallback option');
+          setMatchingState('complete');
+        } else {
+          setMatchingState('complete');
+        }
+
       } catch (err) {
         const matchSeconds = ((Date.now() - matchStartTime) / 1000).toFixed(1);
         if (addLog) addLog(`ERROR after ${matchSeconds}s: ${err.message}`);
-        if (addLog) addLog('Auto-loading fallback demo data...');
         console.error('Error matching jobs:', err);
         setError(err.message);
         setMatchingState('error');
@@ -330,11 +342,16 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
           <div className="matches-card">
             <div>
               <h2 className="matches-heading">
-                {matchingState === 'loading' ? 'Finding Your Matches' : matchedJobs.length > 0 ? `Your Top ${matchedJobs.length} Matches` : 'No Matches Found'}
+                {matchingState === 'loading' ? 'Finding Your Matches'
+                  : matchingState === 'streaming' ? `Finding Matches (${matchedJobs.length} found...)`
+                  : matchedJobs.length > 0 ? `Your Top ${matchedJobs.length} Matches`
+                  : 'No Matches Found'}
               </h2>
               <p className="matches-subtext">
                 {matchingState === 'loading'
                   ? 'Looking for matches across 1,000+ engineering roles...'
+                  : matchingState === 'streaming'
+                    ? 'Results appearing as they are scored...'
                   : matchedJobs.length > 0
                     ? `Found ${matchedJobs.length} strong matches for your profile`
                     : 'This may be due to rate limits or timeouts. Try again in a minute.'
@@ -352,7 +369,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
             </div>
 
             {/* Filter Tabs */}
-            {matchingState === 'complete' && matchedJobs.length > 0 && (() => {
+            {(matchingState === 'complete' || matchingState === 'streaming') && matchedJobs.length > 0 && (() => {
               const smCount = matchedJobs.filter(j => j.ranking === 'strong_match').length;
               const gmCount = matchedJobs.filter(j => j.ranking === 'good_match').length;
               const wsCount = matchedJobs.filter(j => j.ranking === 'worth_a_shot').length;
@@ -388,10 +405,10 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
 
             <div className="matches-job-list">
               {matchingState === 'loading' ? (
-                // Skeleton Loading
+                // Skeleton Loading — initial state before any results
                 <>
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="skeleton-job-card">
+                    <div key={`skel-${i}`} className="skeleton-job-card">
                       <div className="skeleton-row-1">
                         <div className="skeleton-logo"></div>
                         <div className="skeleton-info">
@@ -415,7 +432,7 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                   ))}
                 </>
               ) : (
-                // Matched Jobs
+                // Matched Jobs (streaming or complete) — show cards + trailing skeletons during streaming
                 <>
                   {matchedJobs.filter(job => activeFilter === 'all' || job.ranking === activeFilter).map((job) => (
                     <div 
@@ -514,6 +531,30 @@ export const ParsedResumeView = ({ parsedData, onBack, addLog, selectedModel, ap
                         </button>
                       </div>
                       <i className="ph-bold ph-arrow-square-out job-leads-company-link-arrow"></i>
+                    </div>
+                  ))}
+                  {/* Trailing skeletons while streaming */}
+                  {matchingState === 'streaming' && [1, 2, 3].map((i) => (
+                    <div key={`stream-skel-${i}`} className="skeleton-job-card">
+                      <div className="skeleton-row-1">
+                        <div className="skeleton-logo"></div>
+                        <div className="skeleton-info">
+                          <div className="skeleton-line" style={{ width: '70%', height: '16px' }}></div>
+                          <div className="skeleton-line" style={{ width: '40%', height: '12px' }}></div>
+                          <div className="skeleton-line" style={{ width: '50%', height: '12px', marginTop: '8px' }}></div>
+                          <div className="skeleton-line" style={{ width: '60%', height: '12px' }}></div>
+                        </div>
+                        <div className="skeleton-insights">
+                          <div className="skeleton-line" style={{ width: '90%', height: '10px' }}></div>
+                          <div className="skeleton-line" style={{ width: '80%', height: '10px' }}></div>
+                          <div className="skeleton-line" style={{ width: '85%', height: '10px' }}></div>
+                        </div>
+                      </div>
+                      <div className="skeleton-row-2">
+                        <div className="skeleton-btn"></div>
+                        <div className="skeleton-btn"></div>
+                        <div className="skeleton-btn"></div>
+                      </div>
                     </div>
                   ))}
                 </>
